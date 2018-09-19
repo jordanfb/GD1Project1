@@ -12,8 +12,9 @@ class PlayState extends FlxState {
 	var flag1:Flag;
 	var flag2:Flag;
 
+	var player:Player;
 	override public function create():Void {
-		stateInfo = new FlxText(10, 30, 100);
+		/*stateInfo = new FlxText(10, 30, 100);
         stateInfo.text = "Play State";
         stateInfo.setFormat("assets/font.ttf", 20, FlxColor.WHITE, CENTER);
         stateInfo.setBorderStyle(OUTLINE, FlxColor.BLUE, 1);
@@ -28,14 +29,17 @@ class PlayState extends FlxState {
 		flag2 = new Flag(550, 650);
 		add(flag1);
 		add(flag2);
+		*/
+		player = new Player("WASDQER", 16, 16);
+		add(player);
 		super.create();
 	}
 
 	override public function update(elapsed:Float):Void {
-		if(FlxG.keys.pressed.ESCAPE) {
+		//if(FlxG.keys.pressed.ESCAPE) {
             //create pause UI possibly
-            FlxG.switchState(new MenuState());
-		}
+          //  FlxG.switchState(new MenuState());
+		//}
 		//timer.text = "" + elapsed;
 		super.update(elapsed);
 	}
