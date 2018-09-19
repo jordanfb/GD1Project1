@@ -72,13 +72,13 @@ class Terrain {
     }
 
     public function addShape(position:FlxPoint, offsets:Array<FlxPoint>, ?types:Array<Int>) : Void {
-        for (i in 0...tiles.length) {
+        for (i in 0...offsets.length) {
             setTile(Std.int(position.x + offsets[i].x), Std.int(position.y + offsets[i].y), (types == null) ? 1 : types[i]);
         }
     }
 
     public function removeShape(position:FlxPoint, offsets:Array<FlxPoint>) : Void {
-        for (i in 0...tiles.length) {
+        for (i in 0...offsets.length) {
             setTile(Std.int(position.x + offsets[i].x), Std.int(position.y + offsets[i].y), 0);
         }
     }
@@ -94,9 +94,12 @@ class Terrain {
     	setTile(Std.int(pos.x), Std.int(pos.y), 0);
     }
 
+    /*
     public function collide(p:Player) : Void {
         // does collisions with player
+        FlxG.collide(p, _tilemap);
     }
+    */
 
     /*public function pickUp(character:Player, X:Float, Y:Float) {
         // character picks up flag at (X, Y)
