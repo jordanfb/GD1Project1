@@ -60,8 +60,8 @@ class Terrain {
 
     public function addTiles(tiles:Array<FlxPoint>, ?types:Array<Int>) : Void {
         for (i in 0...tiles.length) {
-    		setTile(Std.int(tiles[i].x), Std.int(tiles[i].y), (types == null) ? 1 : types[i]);
-    	}
+            setTile(Std.int(tiles[i].x), Std.int(tiles[i].y), (types == null) ? 1 : types[i]);
+        }
     }
 
     public function removeTiles(tiles:Array<FlxPoint>) : Void {
@@ -69,6 +69,18 @@ class Terrain {
     		// remove the tiles from these coordinates
     		removeTile(p);
     	}
+    }
+
+    public function addShape(position:FlxPoint, offsets:Array<FlxPoint>, ?types:Array<Int>) : Void {
+        for (i in 0...tiles.length) {
+            setTile(Std.int(position.x + offsets[i].x), Std.int(position.y + offsets[i].y), (types == null) ? 1 : types[i]);
+        }
+    }
+
+    public function removeShape(position:FlxPoint, offsets:Array<FlxPoint>) : Void {
+        for (i in 0...tiles.length) {
+            setTile(Std.int(position.x + offsets[i].x), Std.int(position.y + offsets[i].y), 0);
+        }
     }
 
     public function setTile(x:Int, y:Int, type:Int) : Void {
@@ -80,6 +92,10 @@ class Terrain {
 
     public function removeTile(pos:FlxPoint) : Void {
     	setTile(Std.int(pos.x), Std.int(pos.y), 0);
+    }
+
+    public function collide(p:Player) : Void {
+        // does collisions with player
     }
 
     /*public function pickUp(character:Player, X:Float, Y:Float) {
