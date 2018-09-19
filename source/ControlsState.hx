@@ -9,6 +9,8 @@ import flixel.util.FlxColor;
 class ControlsState extends FlxState {
 	var menuB:FlxButton;
 	var stateInfo:FlxText;
+	var rules:FlxText;
+	var controls:FlxText;
 
 	override public function create():Void {
 		menuB = new FlxButton(25, 675, "Back", clickBack);
@@ -24,10 +26,32 @@ class ControlsState extends FlxState {
 	}
 
 	override public function update(elapsed:Float):Void {
+		writeRules();
+		writeControls();
 		super.update(elapsed);
 	}
 
 	function clickBack():Void {
 		FlxG.switchState(new MenuState());
+	}
+
+	function writeRules():Void {
+		rules = new FlxText(60, 60, 400);
+		rules.text = "How To Play:\n\n\t1.) Earn points while holding the flag\n\t
+			2.) Steal the flag from your opponent by touching them\n\t
+			3.) Whoever has the most points when time runs out wins";
+		rules.setFormat("assets/font.ttf", 30, FlxColor.WHITE);
+		rules.setBorderStyle(OUTLINE, FlxColor.PURPLE, 1);
+		add(rules);
+	}
+
+	function writeControls():Void {
+		controls = new FlxText(560, 210, 450);
+		controls.text = "Controls:\n\n\tPlayers share the keyboard and use {WASDQE} and {IJKLUO} to play.\n\t
+			{W, I} to jump up, {A, J} to move left, {D, L} to move right\n\t
+			(map other controls once set)";
+		controls.setFormat("assets/font.ttf", 30, FlxColor.WHITE);
+		controls.setBorderStyle(OUTLINE, FlxColor.BLUE, 1);
+		add(controls);
 	}
 }
