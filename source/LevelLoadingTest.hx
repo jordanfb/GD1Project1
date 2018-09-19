@@ -29,6 +29,7 @@ class LevelLoadingTest extends FlxState {
 
 		_terrain = new Terrain("assets/data/test_level.txt");
 		_terrain.add(this);
+		// _terrain.follow();
 
 
 		// flag1 = new Flag(550, 300);
@@ -44,6 +45,17 @@ class LevelLoadingTest extends FlxState {
             FlxG.switchState(new MenuState());
 		}
 		//timer.text = "" + elapsed;
+
+
+		if (FlxG.mouse.pressed)
+		{
+			// FlxTilemaps can be manually edited at runtime as well.
+			// Setting a tile to 0 removes it, and setting it to anything else will place a tile.
+			// If auto map is on, the map will automatically update all surrounding tiles.
+			_terrain.setTile(Std.int(FlxG.mouse.x / _terrain.getTileWidth()), Std.int(FlxG.mouse.y / _terrain.getTileHeight()), FlxG.keys.pressed.SHIFT ? 0 : 1);
+		}
+
+
 		super.update(elapsed);
 	}
 }
