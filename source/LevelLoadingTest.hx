@@ -9,15 +9,10 @@ import flixel.tile.FlxTilemap;
 
 
 class LevelLoadingTest extends FlxState {
-
-	static inline var TILE_WIDTH:Int = 16;
-	static inline var TILE_HEIGHT:Int = 16;
-
-
 	var stateInfo:FlxText;
 	var timer:FlxText;
 
-	var _tilemap:FlxTilemap;
+	var _terrain:Terrain;
 
 	override public function create():Void {
 		stateInfo = new FlxText(10, 30, 100);
@@ -32,9 +27,10 @@ class LevelLoadingTest extends FlxState {
 		add(stateInfo);
 		//add(timer);
 
-		_tilemap = new FlxTilemap();
-		_tilemap.loadMapFromCSV("assets/data/test_level.txt", "assets/images/test_tiles.png", TILE_WIDTH, TILE_HEIGHT, AUTO);
-		add(_tilemap);
+		_terrain = new Terrain("assets/data/test_level.txt");
+		_terrain.add(this);
+
+
 		// flag1 = new Flag(550, 300);
 		// flag2 = new Flag(550, 650);
 		// add(flag1);
