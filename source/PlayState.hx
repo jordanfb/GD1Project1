@@ -9,8 +9,8 @@ import flixel.util.FlxColor;
 class PlayState extends FlxState {
 	var stateInfo:FlxText;
 	var timer:FlxText;
-	var flag1:Flag;
-	var flag2:Flag;
+	var flag:Flag;
+	var counter:Float = 1;
 
 	override public function create():Void {
 		stateInfo = new FlxText(10, 30, 100);
@@ -24,16 +24,13 @@ class PlayState extends FlxState {
 		add(stateInfo);
 		//add(timer);
 
-		flag1 = new Flag(550, 300);
-		flag2 = new Flag(550, 650);
-		add(flag1);
-		add(flag2);
+		flag = new Flag(550, 300);
+		add(flag);
 		super.create();
 	}
 
 	override public function update(elapsed:Float):Void {
 		if(FlxG.keys.pressed.ESCAPE) {
-            //create pause UI possibly
             FlxG.switchState(new MenuState());
 		}
 		//timer.text = "" + elapsed;
