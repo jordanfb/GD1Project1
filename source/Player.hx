@@ -2,7 +2,8 @@ package;
 
 import flixel.FlxG;
 import flixel.system.FlxAssets.FlxGraphicAsset;
-import openfl.display.FlxSprite;
+import flixel.FlxSprite;
+import flixel.util.FlxColor;
 
 //Contains all information about the player and it's functions
 class Player extends FlxSprite
@@ -20,14 +21,13 @@ class Player extends FlxSprite
 	private var left:Bool;
 	private var right:Bool;
 	private var down:Bool;
-	private var stun:Bool;
 	private var stunTime:Int;
 
 	public function new(controls:String, x:Int, y:Int)
 	{
 		//Set visible data
 		score = 0;
-		speed = 30;
+		speed = 300;
 		hasFlag = false;
 		usingCursor = false;
 		destroyOrCreate = false;
@@ -39,11 +39,10 @@ class Player extends FlxSprite
 		left = false;
 		right = false;
 		down = false;
-		stun = false;
 		stunTime = 120;
 		super(x, y);
 		makeGraphic(16, 16, FlxColor.GREEN);
-		drag.x = drag.y = 240;
+		drag.x = drag.y = 2400;
 	}
 
 	public function stun():Void
@@ -53,10 +52,10 @@ class Player extends FlxSprite
 
 	public function movement():Void
 	{
-		up = FlxG.keys.anyPressed([keys[0]])
-		left = FlxG.keys.anyPressed([keys[1]])
-		down = FlxG.keys.anyPressed([keys[2]])
-		right = FlxG.keys.anyPressed([keys[3]])
+		up = FlxG.keys.anyPressed([keys.charAt(0)]);
+		left = FlxG.keys.anyPressed([keys.charAt(1)]);
+		down = FlxG.keys.anyPressed([keys.charAt(2)]);
+		right = FlxG.keys.anyPressed([keys.charAt(3)]);
 
 		if (up && down)
 			up = down = false;
