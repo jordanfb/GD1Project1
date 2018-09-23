@@ -25,6 +25,7 @@ class Cursor extends FlxSprite
 		speed = 400;
 		//drag.x = drag.y = 3200;
 		super(xp, yp);
+		drag.x = drag.y = 3200;
 		makeGraphic(16, 16, FlxColor.BLUE);
 	}
 

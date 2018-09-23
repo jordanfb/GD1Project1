@@ -83,15 +83,18 @@ class Player extends FlxSprite
 	public function toggleCursor():Void
 	{
 		if (FlxG.keys.anyJustPressed([keys.charAt(4)]))
+		{	
 			usingCursor = !usingCursor;
-		if (usingCursor)
-		{
-			cursor.setVisible();
-		}
-		else 
-		{
-			//cursor.kill();
-			destroyOrCreate = true;
+			if (usingCursor)
+			{
+				cursor.setPosition(this.getPosition().x, this.getPosition().y);
+				cursor.revive();
+			}
+			else 
+			{
+				cursor.kill();
+				destroyOrCreate = true;
+			}
 		}
 	}
 
@@ -111,7 +114,10 @@ class Player extends FlxSprite
 	public function rotateCursor():Void
 	{
 		if (FlxG.keys.anyJustPressed([keys.charAt(6)]))
-			stun();
+			//stun(); //TESTING THIS FUNCTION WITH THIS KEYBIND
+		{
+			cursor.angle+=90;
+		}
 	}
 
 	public function placement(mode:Bool):Void
