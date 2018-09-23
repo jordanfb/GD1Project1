@@ -27,7 +27,8 @@ class LevelLoadingTest extends FlxState {
 		add(stateInfo);
 		//add(timer);
 
-		_terrain = new Terrain("assets/data/test_level.txt");
+		_terrain = new Terrain();
+		_terrain.setLevelFile("assets/data/test_level.txt");
 		_terrain.add(this);
 		// _terrain.follow();
 

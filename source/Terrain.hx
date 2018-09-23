@@ -17,37 +17,51 @@ class Terrain {
 
 	var _tilemap:FlxTilemap;
 	var _filename:String;
+    var _artFilename:String;
 
 
 	public var mapWidth : Int;
 	public var mapHeight : Int;
 
     // "?X:Float=0" means that it is optional to pass this and if its not passed then it defaults to 0s
-    public function new(filename:String, ?tile_width:Int = 16, ?tile_height:Int = 16 ) {
-    	_filename = filename;
+    public function new(?tile_width:Int = 16, ?tile_height:Int = 16 ) {
+        _tilemap = new FlxTilemap();
+    	//_filename = filename;
         _tileWidth = tile_width;
         _tileHeight = tile_height;
-        loadMapFromText(filename);
+        //loadMapFromText();
     }
 
     public function reloadLevel() : Void {
-    	loadMapFromText(_filename);
+    	loadMapFromText();
     }
 
     public function follow() : Void {
+        // this is for camera things. It may not make sense to use this, we'll see.
     	_tilemap.follow();
     }
 
-    private function loadMapFromText(filename:String) : Void{
-    	_tilemap = new FlxTilemap();
-		_tilemap.loadMapFromCSV(filename, "assets/images/test_tiles.png", _tileWidth, _tileHeight, OFF);
+    public function setLevelFile(filename:String, ?artfilename:String = "assets/images/test_tiles.png") : Void {
+        _filename = filename;
+        _artFilename = artfilename;
+        reloadLevel();
+    }
+
+    private function loadMapFromText() : Void {
+        //_filename = "assets/data/test_level.txt";
+		_tilemap.loadMapFromCSV(_filename, _artFilename, _tileWidth, _tileHeight, OFF);
 		mapWidth = _tilemap.widthInTiles;
 		mapHeight = _tilemap.heightInTiles;
     }
 
     public function add(state:FlxState) :Void {
-    	// load the tilemap into the scene
-    	state.add(_tilemap);
+        // load the tilemap into the scene
+        state.add(_tilemap);
+    }
+
+    public function remove(state:FlxState) :Void {
+        // load the tilemap into the scene
+        state.remove(_tilemap);
     }
 
     public function getTileWidth() : Float {

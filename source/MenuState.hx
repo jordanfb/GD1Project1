@@ -62,6 +62,8 @@ class MenuState extends FlxState {
     }
 
     function clickTestLevel():Void {
-        FlxG.switchState(new LevelLoadingTest());
+        var _levelState = new LevelState();
+        _levelState.initializeLevel();
+        FlxG.switchState(_levelState);
     }
 }
