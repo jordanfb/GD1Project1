@@ -19,8 +19,8 @@ class LevelState extends FlxState {
 	var _terrain:Terrain;
 
 	override public function create():Void {
-		stateInfo = new FlxText(10, 30, 100);
-        stateInfo.text = "Level/Gameplay State";
+		stateInfo = new FlxText(10, 30, 150);
+        stateInfo.text = "Level/Gameplay\nState";
         stateInfo.setFormat("assets/font.ttf", 20, FlxColor.WHITE, CENTER);
         stateInfo.setBorderStyle(OUTLINE, FlxColor.BLUE, 1);
 		timer = new FlxText(475, 30, 200);

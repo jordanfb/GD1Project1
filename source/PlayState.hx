@@ -8,34 +8,30 @@ import flixel.util.FlxColor;
 
 class PlayState extends FlxState {
 	var stateInfo:FlxText;
-	var timer:FlxText;
-	var flag:Flag;
-	var counter:Float = 1;
+	var selectB:FlxButton;
 
 	override public function create():Void {
-		stateInfo = new FlxText(10, 30, 100);
-        stateInfo.text = "Play State";
+		stateInfo = new FlxText(10, 30, 150);
+        stateInfo.text = "Level Select\nState";
         stateInfo.setFormat("assets/font.ttf", 20, FlxColor.WHITE, CENTER);
-        stateInfo.setBorderStyle(OUTLINE, FlxColor.BLUE, 1);
-		timer = new FlxText(475, 30, 200);
-		timer.text = "";
-		timer.setFormat("assets/font.ttf", 20, FlxColor.WHITE, CENTER);
-		timer.setBorderStyle(OUTLINE, FlxColor.WHITE, 1);
-		add(stateInfo);
-		//add(timer);
+		stateInfo.setBorderStyle(OUTLINE, FlxColor.ORANGE, 1);
 
-		flag = new Flag(550, 300);
-		add(flag);
-		super.create();
+		selectB = new FlxButton(500, 620, "Select", clickSelect); // (x, y, text, function call on button click)
+        selectB.label.setFormat("assets/font.ttf", 10, FlxColor.WHITE, CENTER);
+        selectB.label.setBorderStyle(OUTLINE, FlxColor.BLUE, 1);
+
+		add(selectB);
+		add(stateInfo);
 	}
 
 	override public function update(elapsed:Float):Void {
 		if(FlxG.keys.pressed.ESCAPE) {
             FlxG.switchState(new MenuState());
 		}
-		//var test = new LevelParser();
-		//test.parse();
-		//timer.text = "" + elapsed;
 		super.update(elapsed);
+	}
+
+	function clickSelect():Void {
+		FlxG.switchState(new LevelState());
 	}
 }
