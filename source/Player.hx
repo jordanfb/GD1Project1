@@ -10,19 +10,23 @@ class Player extends FlxSprite
 {
 	public var score:Int;
 	public var speed:Int;
-	var hasFlag:Bool;
-	var usingCursor:Bool;
-	var destroyOrCreate:Bool;
-	var keys:String;
-	var xpos:Int;
-	var ypos:Int;
-	
+	public var hasFlag:Bool;
+	public var usingCursor:Bool; //True = Cursor on False = Cursor off
+	public var destroyOrCreate:Bool; //True = Create mode False = Destroy modes
+	public var keys:String;
+	public var xpos:Int;
+	public var ypos:Int;
+
 	private var up:Bool;
 	private var left:Bool;
 	private var right:Bool;
 	private var down:Bool;
 	private var stunTime:Int;
+	private var inStun:Bool;
+	private var stunnedAtTime:Float;
+	public var cursor:Cursor;
 
+	//Controls should be configured as: Up, Left, Down, Right, TCursor, TCursorMode, Rotate, PlaceBlock
 	public function new(controls:String, x:Int, y:Int)
 	{
 		//Set visible data
@@ -30,7 +34,7 @@ class Player extends FlxSprite
 		speed = 300;
 		hasFlag = false;
 		usingCursor = false;
-		destroyOrCreate = false;
+		destroyOrCreate = true;
 		keys = controls;
 		xpos = x;
 		ypos = y;
@@ -39,15 +43,18 @@ class Player extends FlxSprite
 		left = false;
 		right = false;
 		down = false;
-		stunTime = 120;
+		inStun = false;
+		stunTime = 2;
 		super(x, y);
 		makeGraphic(16, 16, FlxColor.GREEN);
 		drag.x = drag.y = 2400;
 	}
 
+	//Stun function that when called will stun the player
 	public function stun():Void
 	{
-
+		this.inStun = true;
+		this.stunnedAtTime = 0;
 	}
 
 	public function movement():Void
@@ -75,12 +82,51 @@ class Player extends FlxSprite
 
 	public function toggleCursor():Void
 	{
-		usingCursor = !usingCursor;
+		if (FlxG.keys.anyJustPressed([keys.charAt(4)]))
+			usingCursor = !usingCursor;
+		if (usingCursor)
+		{
+			cursor.setVisible();
+		}
+		else 
+		{
+			//cursor.kill();
+			destroyOrCreate = true;
+		}
 	}
 
 	public function toggleCreate():Void
 	{
-		destroyOrCreate = !destroyOrCreate;
+		if (FlxG.keys.anyJustPressed([keys.charAt(5)]))
+		{
+			destroyOrCreate = !destroyOrCreate;
+			if (destroyOrCreate)
+				cursor.replaceColor(FlxColor.RED, FlxColor.BLUE);
+			else
+				cursor.replaceColor(FlxColor.BLUE, FlxColor.RED);
+		}
+	}
+
+	//Using this function to test stun atm
+	public function rotateCursor():Void
+	{
+		if (FlxG.keys.anyJustPressed([keys.charAt(6)]))
+			stun();
+	}
+
+	public function placement(mode:Bool):Void
+	{
+		if (FlxG.keys.anyJustPressed([keys.charAt(7)]))
+		{
+			if (mode)	//Create on button press
+			{
+
+			}
+			else //Destroy on button press
+			{
+
+			}
+		}
 	}
 
 	public function toggleFlag():Void
@@ -90,9 +136,26 @@ class Player extends FlxSprite
 
 	override public function update(elapsed:Float):Void
 	{
-		movement();
+		if (inStun)
+		{
+			stunnedAtTime+=elapsed;
+			if (stunnedAtTime >= stunTime)
+				inStun = false;
+		}	//Individual player controls
+		else 
+		{
+			toggleCursor();
+			if (usingCursor)
+			{
+				toggleCreate();
+				rotateCursor();
+				cursor.cursorMovement(keys);
+				placement(destroyOrCreate);
+			}
+			else
+				movement();
+		}
+
 		super.update(elapsed);
 	}
-
-
 }

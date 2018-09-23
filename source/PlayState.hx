@@ -30,8 +30,10 @@ class PlayState extends FlxState {
 		add(flag1);
 		add(flag2);
 		
-		player = new Player("WASDQER", 16, 16);
+		player = new Player("WASDQERF", 16, 16);
+		player.cursor = new Cursor(player.xpos, player.ypos, FlxColor.BLUE);
 		add(player);
+		add(player.cursor);
 		super.create();
 	}
 
