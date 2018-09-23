@@ -33,7 +33,7 @@ class PlayState extends FlxState {
 		if(FlxG.keys.pressed.ESCAPE) {
             FlxG.switchState(new MenuState());
 		}
-		//var test = new LevelManager();
+		//var test = new LevelParser();
 		//test.parse();
 		//timer.text = "" + elapsed;
 		super.update(elapsed);

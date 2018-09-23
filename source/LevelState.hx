@@ -9,7 +9,7 @@ import flixel.util.FlxColor;
 class LevelState extends FlxState {
 
 	var _levelDataFilename:String;
-	var _levelData:LevelManager;
+	var _levelData:LevelParser;
 
 
 	var stateInfo:FlxText;
@@ -40,10 +40,10 @@ class LevelState extends FlxState {
 	}
 
 	public function initializeLevel( ?levelDataFilename:String = "assets/data/testLevelSelect.txt" ): Void {
-		_levelData = new LevelManager();
+		_levelData = new LevelParser();
 		// this is called the first time this scene loads. It sets the _terrain up, and does a bunch of other things too.
 		_levelDataFilename = levelDataFilename;
-		// then load the level data using the levelManager
+		// then load the level data using the LevelParser
 		_levelData.parse(_levelDataFilename);
 		_terrain = new Terrain(); // pass in tile width and tile height
 		_terrain.add(this);

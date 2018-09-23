@@ -18,7 +18,7 @@ enum Label {
     art;
 }
 
-class LevelManager {
+class LevelParser {
 	public var levelName:String;
     public var player1_x:Float;
     public var player1_y:Float;
