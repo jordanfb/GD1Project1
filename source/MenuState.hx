@@ -36,10 +36,6 @@ class MenuState extends FlxState {
 	}
 
 	override public function update(elapsed:Float):Void {
-        if(FlxG.keys.pressed.ESCAPE) {
-            //create pause UI possibly
-            stateInfo.destroy();
-        }
 		super.update(elapsed);
 	}
 

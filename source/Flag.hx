@@ -22,7 +22,7 @@ class Flag extends FlxSprite {
     public function flagSteal(player1:Player, other:Player) {
         // player who had flag gets stunned and flag goes to opponent
         player1.hasFlag = false;
-        player1.stun();
+        player1.stun(); // or player1.respawn();
         other.hasFlag = true;
     }*/
 }
