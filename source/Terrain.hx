@@ -64,11 +64,11 @@ class Terrain {
         state.remove(_tilemap);
     }
 
-    public function getTileWidth() : Float {
+    public function getTileWidth() : Int {
         return _tileWidth;
     }
 
-    public function getTileHeight() : Float {
+    public function getTileHeight() : Int {
         return _tileHeight;
     }
 

@@ -16,6 +16,7 @@ enum Label {
     screenshot;
     music;
     art;
+    tileArt;
 }
 
 class LevelParser {
@@ -30,6 +31,7 @@ class LevelParser {
     public var levelScreenshot:String;
     public var levelMusicTrack:String;
     public var levelBackgroundArt:String;
+    public var levelTileArt:String;
 
     public function new() {}
 
@@ -37,7 +39,7 @@ class LevelParser {
         var caseMap:Map<String, Label> = 
         ["LevelName:" => name, "Player1Spawn:" => player1, "Player2Spawn:" => player2,
         "GameMode:" => mode, "TileMap:" => tileMap, "TerrainMap:" => terrainMap,
-        "LevelScreenshot:" => screenshot, "Music:" => music, "BackgroundArt:" => art];
+        "LevelScreenshot:" => screenshot, "Music:" => music, "BackgroundArt:" => art, "TileArt:" => tileArt];
         var _file:String = Assets.getText(filename);
         var lines = _file.split("\n");
         var i:Int = 0;
@@ -72,6 +74,8 @@ class LevelParser {
                         levelMusicTrack = lines[i];
                     case art:
                         levelBackgroundArt = lines[i];
+                    case tileArt:
+                        levelTileArt = lines[i];
                 }
             }
             i = i + 1;
