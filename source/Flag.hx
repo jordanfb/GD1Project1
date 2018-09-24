@@ -10,16 +10,21 @@ import flixel.util.FlxColor;
 
 class Flag extends FlxSprite {
 
-    // "?X:Float=0" means that it is optional to pass this and if its not passed then it defaults to 0s
     public function new(X:Float, Y:Float, ?SimpleGraphic:FlxGraphicAsset) {
-        super(X, Y, SimpleGraphic);
+        super(X, Y, SimpleGraphic); // add in flag image when complete
     }
 
-    /*public function pickUp(character:Player, X:Float, Y:Float) {
+    public function pickUp(player:Player, X:Float, Y:Float) {
         // character picks up flag at (X, Y)
+        player.hasFlag = true;
+        //player.toggleFlag();
     }
 
-    public function captured(character:Player) {
-        // end game, the player who captured the flag first won
-    }*/
+    public function flagSteal(player1:Player, other:Player) {
+        // player who had flag gets stunned and flag goes to opponent
+        player1.hasFlag = false;
+        player1.stun();
+        other.hasFlag = true;
+        //other.toggleFlag();
+    }
 }

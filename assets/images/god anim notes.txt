@@ -1,0 +1,10 @@
+god character animations 
+I think 8 fps
+
+idle:1
+walk:2-5
+jump up:6-8
+falling:9-14
+landing 15
+
+for jumping and falling loop the last frame until starting fall or landing respectivle

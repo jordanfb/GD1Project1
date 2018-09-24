@@ -93,7 +93,11 @@ class Player extends FlxSprite
 			else 
 			{
 				cursor.kill();
-				destroyOrCreate = true;
+				if (!destroyOrCreate)
+				{
+					destroyOrCreate = true;
+					cursor.replaceColor(FlxColor.RED, FlxColor.BLUE);
+				}
 			}
 		}
 	}
