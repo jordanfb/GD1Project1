@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
+import openfl.Assets;
 
 //Contains all information about the player and it's functions
 class Player extends FlxSprite
@@ -24,10 +25,12 @@ class Player extends FlxSprite
 	private var stunTime:Int;
 	private var inStun:Bool;
 	private var stunnedAtTime:Float;
+	private var filepath:String;
+	private var sprite:FlxGraphicAsset;
 	public var cursor:Cursor;
 
 	//Controls should be configured as: Up, Left, Down, Right, TCursor, TCursorMode, Rotate, PlaceBlock
-	public function new(controls:String, x:Int, y:Int)
+	public function new(controls:String, artpath:String, x:Int, y:Int)
 	{
 		//Set visible data
 		score = 0;
@@ -45,8 +48,15 @@ class Player extends FlxSprite
 		down = false;
 		inStun = false;
 		stunTime = 2;
+		filepath = artpath;
 		super(x, y);
-		makeGraphic(16, 16, FlxColor.GREEN);
+		loadGraphic(artpath, true, 200, 400);
+		if (artpath == "assets/images/human.png")
+		{
+			animation.add("walk", [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24], 13, false);
+		}
+
+		//makeGraphic(16, 16, FlxColor.GREEN);
 		drag.x = drag.y = 2400;
 	}
 
@@ -78,6 +88,10 @@ class Player extends FlxSprite
 		if (down)
 			velocity.y = speed;
 
+		if (filepath == "assets/images/human.png")
+		{
+			animation.play("walk");
+		}
 	}
 
 	public function toggleCursor():Void
@@ -163,7 +177,9 @@ class Player extends FlxSprite
 				placement(destroyOrCreate);
 			}
 			else
+			{
 				movement();
+			}
 		}
 
 		super.update(elapsed);

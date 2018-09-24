@@ -14,7 +14,8 @@ class PlayState extends FlxState {
 	var parser:LevelParser = new LevelParser();
 	var levelScreenshots:Array<String> = new Array<String>();
 
-	var player:Player;
+	var player1:Player;
+	var player2:Player;
 	override public function create():Void {
 		var screenshot1:String = parser.getScreenshot("assets/data/testLevelSelect.txt");
 		var screenshot2:String = parser.getScreenshot("assets/data/testScreenshot2.txt");
@@ -43,10 +44,17 @@ class PlayState extends FlxState {
 		add(level3);
 		add(stateInfo);
 		
-		player = new Player("WASDQERF", 16, 16);
-		player.cursor = new Cursor(player.xpos, player.ypos, FlxColor.BLUE);
-		add(player);
-		add(player.cursor);
+		player1 = new Player("WASDQERF", "assets/images/godsprite.png", 16, 16);
+		player1.cursor = new Cursor(player1.xpos, player1.ypos, FlxColor.BLUE);
+		player2 = new Player("IJKLUOP;", "assets/images/human.png", 16, 16);
+		player2.cursor = new Cursor(player2.xpos, player2.ypos, FlxColor.PURPLE);
+
+		add(player1);
+		add(player1.cursor);
+		player1.cursor.kill();
+		add(player2);
+		add(player2.cursor);
+		player2.cursor.kill();
 	}
 
 	override public function update(elapsed:Float):Void {
