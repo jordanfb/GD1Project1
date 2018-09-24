@@ -15,6 +15,7 @@ class PlayState extends FlxState {
 	var levelScreenshots:Array<String> = new Array<String>();
 
 	override public function create():Void {
+		// get screenshot images from each file and push to array
 		var screenshot1:String = parser.getScreenshot("assets/data/testLevelSelect.txt");
 		var screenshot2:String = parser.getScreenshot("assets/data/testScreenshot2.txt");
 		var screenshot3:String = parser.getScreenshot("assets/data/testScreenshot3.txt");
@@ -22,6 +23,7 @@ class PlayState extends FlxState {
 		levelScreenshots.push(screenshot2);
 		levelScreenshots.push(screenshot3);
 
+		// current state information
 		stateInfo = new FlxText(10, 30, 150);
         stateInfo.text = "Level Select\nState";
         stateInfo.setFormat("assets/font.ttf", 20, FlxColor.WHITE, CENTER);
@@ -50,6 +52,7 @@ class PlayState extends FlxState {
 		super.update(elapsed);
 	}
 
+	// all create a cutscene state with the specific level data file that was selected
 	function click1():Void {
 		FlxG.switchState(new CutsceneState("assets/data/testLevelSelect.txt"));
 	}
