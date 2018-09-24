@@ -9,7 +9,7 @@ Player2Spawn:
 GameMode:
 Hold the Flag
 TileMap:
-assets/data/test_level.txt
+tilemap.file
 TerrainMap:
 terrain.file
 LevelScreenshot:
