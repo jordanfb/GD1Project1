@@ -33,22 +33,17 @@ class LevelParser {
 
     public function new() {}
 
-    public function parse(filename:String) {
+    public function parse(filename:String):Void {
         var caseMap:Map<String, Label> = 
         ["LevelName:" => name, "Player1Spawn:" => player1, "Player2Spawn:" => player2,
         "GameMode:" => mode, "TileMap:" => tileMap, "TerrainMap:" => terrainMap,
         "LevelScreenshot:" => screenshot, "Music:" => music, "BackgroundArt:" => art];
-        //var _file = sys.io.File.read("C:/Users/smithn10/HaxeFlixel/GD1Project1/source/testLevelSelect.txt", false);
         var _file:String = Assets.getText(filename);
-        trace(_file);
         var lines = _file.split("\n");
         var i:Int = 0;
         while(i < lines.length) {
-            //trace(caseMap.get("LevelName:"));
             lines[i] = lines[i].replace("\r", "").replace("\n", "").trim();
-            //trace("Line: "+lines[i]);
             var type:Label = caseMap.get(lines[i]);
-            //trace("Type: "+type);
             if(type != null) {
                 i = i + 1;
                 lines[i] = lines[i].replace("\r", "").replace("\n", "").trim();
@@ -81,10 +76,18 @@ class LevelParser {
             }
             i = i + 1;
         }
-    trace(levelName);
-    trace(player1_x);
-    trace(player1_y);
-    trace(gameMode);
-    trace(tileMapFile);
+    }
+
+    public function getScreenshot(filename:String):String {
+        var _file:String = Assets.getText(filename);
+        var lines = _file.split("\n");
+        var i:Int = 0;
+        for(i in 0...lines.length) {
+            lines[i] = lines[i].replace("\r", "").replace("\n", "").trim();
+            if(lines[i] == "LevelScreenshot:") {
+                return lines[i+1].replace("\r", "").replace("\n", "").trim();
+            }
+        }
+        return "";
     }
 }

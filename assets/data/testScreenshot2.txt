@@ -13,7 +13,7 @@ assets/data/test_level.txt
 TerrainMap:
 terrain.file
 LevelScreenshot:
-assets/images/red_box.png
+assets/images/blue_box.png
 Music:
 music.file
 BackgroundArt:
