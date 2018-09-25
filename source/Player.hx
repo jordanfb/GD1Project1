@@ -53,7 +53,27 @@ class Player extends FlxSprite
 		loadGraphic(artpath, true, 200, 400);
 		if (artpath == "assets/images/human.png")
 		{
-			animation.add("walk", [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24], 13, false);
+			animation.add("walk", [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24], 12, false);
+			animation.add("jump", [24, 25, 26, 27], 12, false);
+			animation.add("jump end", [27], 12, true);
+			animation.add("falling", [28, 29, 30, 31, 32, 33, 34], 12, false);
+			animation.add("falling end", [34], 12, true);
+			animation.add("idle", [1], 12, true);
+			animation.add("placing", [2, 3, 4, 5, 6, 7, 8, 9, 10], 12, false);
+			animation.add("placing loop", [9, 10], 12, true);
+
+		}
+		else
+		{
+			animation.add("walk", [2, 3, 4, 5], 8, false);
+			animation.add("falling", [9, 10, 11, 12, 13, 14], 8, false);
+			animation.add("falling end", [14], 8, true);
+			animation.add("jump", [6, 7, 8], 8, false);
+			animation.add("jump end", [8], 8, true);
+			animation.add("idle", [1], 8, true);
+			animation.add("placing", [15], 8, false);
+			animation.add("placing loop", [15], 8, true);
+
 		}
 
 		//makeGraphic(16, 16, FlxColor.GREEN);
@@ -88,10 +108,15 @@ class Player extends FlxSprite
 		if (down)
 			velocity.y = speed;
 
-		if (filepath == "assets/images/human.png")
-		{
+
+		if (velocity.x != 0 && velocity.y == 0)
 			animation.play("walk");
-		}
+		else if (velocity.y > 0)
+			animation.play("jump");
+		else if (velocity.y < 0)
+			animation.play("falling");
+		else
+			animation.play("idle");
 	}
 
 	public function toggleCursor():Void
@@ -101,12 +126,15 @@ class Player extends FlxSprite
 			usingCursor = !usingCursor;
 			if (usingCursor)
 			{
+				animation.play("placing");
+				animation.play("placing loop");
 				cursor.setPosition(this.getPosition().x, this.getPosition().y);
 				cursor.revive();
 			}
 			else 
 			{
 				cursor.kill();
+				animation.play("idle");
 				if (!destroyOrCreate)
 				{
 					destroyOrCreate = true;
