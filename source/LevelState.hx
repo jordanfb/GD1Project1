@@ -40,10 +40,19 @@ class LevelState extends FlxState {
 	}
 
 	private function initializeCamera() : Void {
+		/*
 		// _terrain.follow();
-		// FlxG.camera.setSize(FlxG.camera.width, _terrain.mapHeight * _terrain.getTileHeight());
-		FlxG.camera.setScale(FlxG.camera.scaleX, FlxG.height/(_terrain.mapHeight * _terrain.getTileHeight()));
-		trace(FlxG.camera.height);
+		// FlxG.camera.setSize(_terrain.mapWidth * _terrain.getTileWidth(), _terrain.mapHeight * _terrain.getTileHeight());
+		// _terrain.updateBuffers();
+		// FlxG.camera.setScale(FlxG.camera.scaleX, FlxG.height/(_terrain.mapHeight * _terrain.getTileHeight()));
+		FlxG.camera.setScale(FlxG.width / (_terrain.mapWidth * _terrain.getTileWidth()), FlxG.height/(_terrain.mapHeight * _terrain.getTileHeight()));
+		_terrain.follow();
+		FlxG.camera.x = -425;
+		FlxG.camera.y = -285;
+		trace(FlxG.camera.x);
+		//FlxG.camera.x = -_terrain.mapWidth * _terrain.getTileWidth() / 2;
+		trace(FlxG.camera.height);*/
+		_terrain.scaleToScreen(FlxG.width, FlxG.height);
 	}
 
 	public function initializeLevel( ?levelDataFilename:String = "assets/data/testLevelSelect.txt" ): Void {
@@ -80,6 +89,22 @@ class LevelState extends FlxState {
 		timer.text = "" + elapsed;
 		super.update(elapsed);
 		//trace(FlxG.camera.height);
+		if (FlxG.keys.pressed.L) {
+			FlxG.camera.x = FlxG.camera.x - 1;
+		}
+		if (FlxG.keys.pressed.J) {
+			FlxG.camera.x = FlxG.camera.x + 1;
+		}
+		if (FlxG.keys.pressed.K) {
+			FlxG.camera.y = FlxG.camera.y - 1;
+		}
+		if (FlxG.keys.pressed.I) {
+			FlxG.camera.y = FlxG.camera.y + 1;
+		}
+		if (FlxG.keys.pressed.P) {
+			trace(FlxG.camera.x + " : " + FlxG.camera.y);
+		}
+		_terrain.updateBuffers();
 	}
 }
 
