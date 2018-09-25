@@ -16,6 +16,7 @@ enum Label {
     screenshot;
     music;
     art;
+    tileArt;
 }
 
 class LevelParser {
@@ -30,29 +31,30 @@ class LevelParser {
     public var levelScreenshot:String;
     public var levelMusicTrack:String;
     public var levelBackgroundArt:String;
+    public var levelTileArt:String;
 
+    // constructor
     public function new() {}
 
-    public function parse(filename:String) {
+    // function to parse a text file and extract information to level information
+    public function parse(filename:String):Void {
+        // map of Strings and Labels to be used for enum switch
         var caseMap:Map<String, Label> = 
         ["LevelName:" => name, "Player1Spawn:" => player1, "Player2Spawn:" => player2,
         "GameMode:" => mode, "TileMap:" => tileMap, "TerrainMap:" => terrainMap,
-        "LevelScreenshot:" => screenshot, "Music:" => music, "BackgroundArt:" => art];
-        //var _file = sys.io.File.read("C:/Users/smithn10/HaxeFlixel/GD1Project1/source/testLevelSelect.txt", false);
+        "LevelScreenshot:" => screenshot, "Music:" => music, "BackgroundArt:" => art, "TileArt:" => tileArt];
         var _file:String = Assets.getText(filename);
-        trace(_file);
         var lines = _file.split("\n");
         var i:Int = 0;
+        // loop to go through every line in the text file
         while(i < lines.length) {
-            //trace(caseMap.get("LevelName:"));
+            // strip line for perfect comparisons
             lines[i] = lines[i].replace("\r", "").replace("\n", "").trim();
-            //trace("Line: "+lines[i]);
             var type:Label = caseMap.get(lines[i]);
-            //trace("Type: "+type);
-            if(type != null) {
+            if(type != null) { // the type is in the map
                 i = i + 1;
                 lines[i] = lines[i].replace("\r", "").replace("\n", "").trim();
-                switch(type){
+                switch(type){ // using enum to check for each case
                     case name:
                         levelName = lines[i];
                     case player1:
@@ -77,14 +79,26 @@ class LevelParser {
                         levelMusicTrack = lines[i];
                     case art:
                         levelBackgroundArt = lines[i];
+                    case tileArt:
+                        levelTileArt = lines[i];
                 }
             }
-            i = i + 1;
+            i = i + 1; // increment i for a cycle of the while loop
         }
-    trace(levelName);
-    trace(player1_x);
-    trace(player1_y);
-    trace(gameMode);
-    trace(tileMapFile);
+    }
+
+    // function to just extract the screenshot image from a text file
+    public function getScreenshot(filename:String):String {
+        var _file:String = Assets.getText(filename);
+        var lines = _file.split("\n");
+        var i:Int = 0;
+        for(i in 0...lines.length) {
+            // strip line for perfect comparisons
+            lines[i] = lines[i].replace("\r", "").replace("\n", "").trim();
+            if(lines[i] == "LevelScreenshot:") {
+                return lines[i+1].replace("\r", "").replace("\n", "").trim();
+            }
+        }
+        return ""; // return an empty string if there was no image there
     }
 }

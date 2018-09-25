@@ -19,6 +19,8 @@ class Terrain {
 	var _filename:String;
     var _artFilename:String;
 
+    var scale:Float; // this is the tile scale
+    var cameraOffset:FlxPoint; // this is the camera offset when it's scaled so that we can correctly align tiles etc to the correct positions.
 
 	public var mapWidth : Int;
 	public var mapHeight : Int;
@@ -26,6 +28,7 @@ class Terrain {
     // "?X:Float=0" means that it is optional to pass this and if its not passed then it defaults to 0s
     public function new(?tile_width:Int = 16, ?tile_height:Int = 16 ) {
         _tilemap = new FlxTilemap();
+        _tilemap.useScaleHack = true;
     	//_filename = filename;
         _tileWidth = tile_width;
         _tileHeight = tile_height;
@@ -34,6 +37,10 @@ class Terrain {
 
     public function reloadLevel() : Void {
     	loadMapFromText();
+    }
+
+    public function updateBuffers() : Void {
+        _tilemap.updateBuffers();
     }
 
     public function follow() : Void {
@@ -64,11 +71,39 @@ class Terrain {
         state.remove(_tilemap);
     }
 
-    public function getTileWidth() : Float {
+    public function scaleToScreen(x:Int, y:Int) : FlxPoint {
+        return this.scaleTilemap(x / (mapWidth * getTileWidth()), y / (mapHeight * getTileHeight()));
+    }
+
+    public function scaleTilemap(x:Float, y:Float) : FlxPoint {
+        scale = Math.max(x, y);
+        _tilemap.scale.x = scale;
+        _tilemap.scale.y = scale;
+        //trace("Tilemap scale " + _tilemap.scale);
+        // it returns the camera offset to get the bottom left nicely centered I guess
+        if (scale != x) {
+            // we have to center the offset because the x is incorrect
+            var pixelWidth = mapWidth * getTileWidth() * scale;
+            cameraOffset = new FlxPoint(FlxG.width - pixelWidth/2, 0);
+        } else if (scale != y) {
+            // we have to allign to the bottom of the map because the y is incorrect
+            // get the pixel height of the world using scale
+            var pixelHeight = mapHeight * getTileHeight() * scale;
+            cameraOffset = new FlxPoint(0, FlxG.height - pixelHeight);
+        } else {
+            cameraOffset = new FlxPoint(0, 0);
+        }
+        // _tilemap.updateHitbox();
+        _tilemap.offset.x = -cameraOffset.x;
+        _tilemap.offset.y = -cameraOffset.y;
+        return cameraOffset;
+    }
+
+    public function getTileWidth() : Int {
         return _tileWidth;
     }
 
-    public function getTileHeight() : Float {
+    public function getTileHeight() : Int {
         return _tileHeight;
     }
 
