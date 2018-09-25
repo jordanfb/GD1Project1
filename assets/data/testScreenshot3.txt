@@ -18,3 +18,5 @@ Music:
 music.file
 BackgroundArt:
 art.file
+TileArt:
+assets/images/jungle1.png
