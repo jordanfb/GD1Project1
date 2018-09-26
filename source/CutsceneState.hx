@@ -14,6 +14,7 @@ class CutsceneState extends FlxState {
     var stateInfo:FlxText;
     var levelInfo:String;
     var clock:FlxTimer = new FlxTimer();
+    var clock2:FlxTimer = new FlxTimer();
     var currentText:FlxText;
     var i:Int = 0;
     var j:Int = 0;
@@ -31,15 +32,13 @@ class CutsceneState extends FlxState {
     }
 
     override public function create():Void {
-        // set up background animation
-        bg.loadGraphic("assets/images/faceoff.png");
-        bg.setGraphicSize(540, 720);
-        bg.updateHitbox();
-        bg2.loadGraphic("assets/images/faceoff.png");
-        bg2.setGraphicSize(540, 720);
-        bg2.updateHitbox();
-        bg2.flipX = true;
+        for(j in 0...10) { images.push("assets/images/cutscene/cutscene000"+ j +".png"); }
+        for(j in 10...82) { images.push("assets/images/cutscene/cutscene00"+ j +".png"); }
 
+        // set up background animation
+        bg.loadGraphic("assets/images/ruins.png");
+        bg.setGraphicSize(1080, 750);
+        bg.updateHitbox();
 
         // information for players to skip cutscene or play after cutscene ends
         stateInfo = new FlxText(10, 30, 250); // x, y, width
@@ -55,13 +54,14 @@ class CutsceneState extends FlxState {
         textParts.push("So he challenged the strange traveler to a game of wits and wizardry.");
 
         // changing text for the cutscene
-        currentText = new FlxText(350, 200, 400);
+        currentText = new FlxText(340, 275, 400);
         currentText.text = textParts[i];
         currentText.setFormat("assets/fonts/Adventure.otf", 28, FlxColor.WHITE, CENTER);
         currentText.setBorderStyle(OUTLINE, FlxColor.BLACK, 1);
 
         // run the clock and call cutscene function
-        clock.start(5, cutsceneText, 5);
+        clock.start(4, cutsceneText, 5);
+        // clock2.start(15, stopPanning, 1);
 
         add(bg);
         add(bg2);
@@ -78,6 +78,17 @@ class CutsceneState extends FlxState {
             _levelState.initializeLevel(levelInfo);
             FlxG.switchState(_levelState);
 		}
+        if((i >= 3) && (!check)) {
+            if(j < images.length) {
+                bg.loadGraphic(images[j]);
+                bg.setGraphicSize(1080, 720);
+                bg.updateHitbox();
+                j = j + 1;
+            } else {
+                finalScene();
+                check = true;
+            }
+        }
 		super.update(elapsed);
 	}
 
@@ -92,5 +103,16 @@ class CutsceneState extends FlxState {
             _levelState.initializeLevel(levelInfo);
             FlxG.switchState(_levelState);
         }
+    }
+
+    public function finalScene():Void {
+        bg.loadGraphic("assets/images/faceoff.png");
+        bg.setGraphicSize(550, 720);
+        bg.updateHitbox();
+        bg2.loadGraphic("assets/images/faceoff.png");
+        bg2.setGraphicSize(550, 720);
+        bg2.flipX = true;
+        bg2.x = 550;
+        bg2.updateHitbox();
     }
 }

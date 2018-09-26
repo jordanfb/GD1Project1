@@ -59,13 +59,13 @@ class ControlsState extends FlxState {
 
 		// writes text and UI for controls for god player
 		controlsG = new FlxText(50, 280, 450);
-		controlsG.text = "Xochipilli:\nWalk Left with [A], Right with [D]\n[W] to Jump\nToggle Walking/Sculpting with [ ]\nMove Sculpting Cursor with [W], [A], [S], [D]\nRotate Sculpting Cursor with [ ]\nToggle Placing/Destroying with [ ]";
+		controlsG.text = "Xochipilli:\nWalk Left with [A], Right with [D]\n[W] to Jump\nToggle Walking/Sculpting with [Q]\nMove Sculpting Cursor with [W], [A], [S], [D]\nToggle Placing/Destroying with [E]\nPlace/Destroy with [R]";
 		controlsG.setFormat("assets/font.ttf", 30, FlxColor.RED, CENTER);
 		controlsG.setBorderStyle(OUTLINE, FlxColor.WHITE, 1);
 
 		// writes text and UI for controls for human player
-		controlsH = new FlxText(550, 280, 425);
-		controlsH.text =  "Traveler:\nWalk Left with [J], Right with [L]\n[I] to Jump\nToggle Walking/Sculpting with [ ]\nMove Sculpting Cursor with [I], [J], [K], [L]\nRotate Sculpting Cursor with [ ]\nToggle Placing/Destroying with [ ]";
+		controlsH = new FlxText(540, 280, 450);
+		controlsH.text =  "Traveler:\nWalk Left with [J], Right with [L]\n[I] to Jump\nToggle Walking/Sculpting with [U]\nMove Sculpting Cursor with [I], [J], [K], [L]\nToggle Placing/Destroying with [O]\nPlace/Destroy with [P]";
 		controlsH.setFormat("assets/font.ttf", 30, FlxColor.PURPLE, CENTER);
 		controlsH.setBorderStyle(OUTLINE, FlxColor.WHITE, 1);
 
