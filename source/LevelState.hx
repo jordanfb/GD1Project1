@@ -31,8 +31,9 @@ class LevelState extends FlxState {
 		timer.setBorderStyle(OUTLINE, FlxColor.WHITE, 1);
 		add(stateInfo);
 		add(timer);
-		initializeCamera();
 		super.create();
+		loadLevel();
+		_terrain.add(this);
 	}
 
 	private function createFlxText(x:Float, y:Float, width:Float, ?startingText:String = "") : FlxText {
@@ -66,20 +67,20 @@ class LevelState extends FlxState {
 		_levelDataFilename = levelDataFilename;
 		// then load the level data using the LevelParser
 		_levelData.parse(_levelDataFilename);
-		_terrain = new Terrain(200, 200); // pass in tile width and tile height
-		_terrain.add(this);
+		 // pass in tile width and tile height
 		//_terrain.follow();
-
-		loadLevel();
 	}
 
 	public function loadLevel() : Void {
 		// this resets/loads a level
+		_terrain = new Terrain(200, 200);
 		_terrain.setLevelFile(_levelData.tileMapFile, _levelData.levelTileArt); // also set art file with this function
 		_terrain.reloadLevel();
-		player1 = new Player("WASDQERF", "assets/images/godsprite.png", _levelData.player1_x, _levelData.player1_y);
+		initializeCamera();
+
+		player1 = new Player("WASDQERF", "assets/images/godsprite.png", _levelData.player1_x, _levelData.player1_y, _terrain.scale);
 		player1.cursor = new Cursor(player1.xpos, player1.ypos, FlxColor.BLUE);
-		player2 = new Player("IJKLUOP;", "assets/images/human.png", _levelData.player2_x, _levelData.player2_y);
+		player2 = new Player("IJKLUOP;", "assets/images/human.png", _levelData.player2_x, _levelData.player2_y, _terrain.scale);
 		player2.cursor = new Cursor(player2.xpos, player2.ypos, FlxColor.PURPLE);
 
 		add(player1);

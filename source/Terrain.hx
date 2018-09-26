@@ -19,7 +19,7 @@ class Terrain {
 	var _filename:String;
     var _artFilename:String;
 
-    var scale:Float; // this is the tile scale
+    public var scale:Float; // this is the tile scale
     var cameraOffset:FlxPoint; // this is the camera offset when it's scaled so that we can correctly align tiles etc to the correct positions.
 
 	public var mapWidth : Int;

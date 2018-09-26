@@ -32,7 +32,7 @@ class Player extends FlxSprite
 	public var cursor:Cursor;
 
 	//Controls should be configured as: Up, Left, Down, Right, TCursor, TCursorMode, Rotate, PlaceBlock
-	public function new(controls:String, artpath:String, x:Int, y:Int)
+	public function new(controls:String, artpath:String, x:Int, y:Int, scale:Float)
 	{
 		//Set visible data
 		score = 0;
@@ -80,8 +80,12 @@ class Player extends FlxSprite
 			animation.add("placing loop", [15], 8, true);
 
 		}
-
-		makeGraphic(16, 16, FlxColor.GREEN);
+		// this.scale.x = scale;
+		trace("SCALE: " + scale);
+		this.scale.set(scale, scale);
+		this.updateHitbox();
+		// this.scale.y = scale;
+		//makeGraphic(16, 16, FlxColor.GREEN);
 		drag.x = 880;
 		acceleration.y = 175;
 		maxVelocity.y = 250;
