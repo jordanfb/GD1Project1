@@ -81,7 +81,9 @@ class Player extends FlxSprite
 
 		}
 		// this.scale.x = scale;
-		trace("SCALE: " + scale);
+		// trace("SCALE: " + scale);
+		setFacingFlip(FlxObject.LEFT, false, false);
+		setFacingFlip(FlxObject.RIGHT, true, false);
 		this.scale.set(scale, scale);
 		this.updateHitbox();
 		// this.scale.y = scale;
@@ -110,10 +112,14 @@ class Player extends FlxSprite
 		if (left && right)
 			left = right = false;
 
-		if (left)
+		if (left) {
 			velocity.x = speed*-1;
-		if (right)
+			facing = FlxObject.LEFT;
+		}
+		if (right){
 			velocity.x = speed;
+			facing = FlxObject.RIGHT;
+		}
 		if (up && hasJump)
 		{
 			hasJump = false;
