@@ -364,13 +364,13 @@ class LevelState extends FlxState {
 
 	private function endGame() : Void {
 		// someone should win. The person with the highest score
-		if (_p1Score >= _p2Score) {
+		if (_p1Score > _p2Score) {
 			// god wins
 			leaveState(new GodWinState());
 		} else if (_p1Score < _p2Score) {
 			// traveller win
 			leaveState(new HumanWinState());
-		} else if (_p1Score == _p2Score && _p1Score == 0) {
+		} else if (_p2Score == 0 && _p1Score == 0) {
 			// god wins because the traveller has flaunted the game
 			leaveState(new TieStateGod());
 		} else if (_p1Score == _p2Score && _p1Score > 0) {
