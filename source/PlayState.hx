@@ -66,7 +66,7 @@ class PlayState extends FlxState {
         name3.setBorderStyle(OUTLINE, FlxColor.WHITE, 1);
 
         bg = new FlxSprite();
-        bg.makeGraphic(1080, 720, FlxColor.RGB(178, 219, 240));
+        bg.makeGraphic(1080, 720, FlxColor.fromRGB(178, 219, 240));
         bg.updateHitbox();
 
 		add(bg);

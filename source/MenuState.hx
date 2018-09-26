@@ -94,10 +94,10 @@ class MenuState extends FlxState {
         startText.setBorderStyle(OUTLINE, FlxColor.RED, 1);
 
         // game title
-        title = new FlxText(50, 100, 800); // x, y, width
+        title = new FlxText(35, 100, 1000); // x, y, width
         title.text = "Xochipilli's Showdown";
-        title.setFormat("assets/fonts/Adventure.otf", 70, FlxColor.ORANGE, CENTER);
-        title.setBorderStyle(OUTLINE, FlxColor.WHITE, 1);
+        title.setFormat("assets/fonts/Adventure.otf", 90, FlxColor.ORANGE, CENTER);
+        title.setBorderStyle(OUTLINE, FlxColor.BLACK, 1);
 
         // run the clock and call cutscene function
         clock.start(.04, nextImage, 0);
