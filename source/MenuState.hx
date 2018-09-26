@@ -28,8 +28,8 @@ class MenuState extends FlxState {
     var i:Int = 0;
 
     override public function create():Void {
-        //var snd = new WaudSound("assets/music/menu_music.mp3", { autoplay: true, loop: true, volume: 0.5, onload: playBgSound });
-        //snd.play();
+        FlxG.sound.playMusic("assets/music/tribal.wav");
+        FlxG.sound.changeVolume(1);
 
         // add all images to array
         images.push("assets/images/fancy button/1.png");
@@ -80,31 +80,6 @@ class MenuState extends FlxState {
         quitB.updateHitbox();
         quitB.label.setFormat("assets/fonts/Adventure.otf", 37, FlxColor.WHITE, LEFT);
 
-        // level button setup
-        levelLoading = new FlxButton(10, 500, "     TestLevel", clickTestLevel);
-        levelLoading.loadGraphic("assets/images/button.png", true, 616, 198);
-        levelLoading.setGraphicSize(200, 60);
-        levelLoading.updateHitbox();
-        levelLoading.label.setFormat("assets/fonts/Adventure.otf", 30, FlxColor.WHITE, LEFT);
-        levelLoading.label.setBorderStyle(OUTLINE, FlxColor.BLUE, 1);
-
-        /*
-        // god win button setup
-        godWin = new FlxButton(700, 600, "         God Win", clickGod);
-        godWin.loadGraphic("assets/images/button.png", true, 616, 198);
-        godWin.setGraphicSize(250, 60);
-        godWin.updateHitbox();
-        godWin.label.setFormat("assets/fonts/Adventure.otf", 30, FlxColor.WHITE, LEFT);
-        godWin.label.setBorderStyle(OUTLINE, FlxColor.ORANGE, 1);
-
-        // human win button setup
-        humanWin = new FlxButton(700, 500, "      Human Win", clickHuman);
-        humanWin.loadGraphic("assets/images/button.png", true, 616, 198);
-        humanWin.setGraphicSize(250, 60);
-        humanWin.updateHitbox();
-        humanWin.label.setFormat("assets/fonts/Adventure.otf", 30, FlxColor.WHITE, LEFT);
-        humanWin.label.setBorderStyle(OUTLINE, FlxColor.PURPLE, 1);*/
-
         // credits button setup
         creditB = new FlxButton(675, 650, "      Credits", clickCredits);
         creditB.loadGraphic("assets/images/button.png", true, 616, 198);
@@ -131,55 +106,47 @@ class MenuState extends FlxState {
 		add(playB);
         add(controlsB);
         add(quitB);
-        add(levelLoading);
         add(stateInfo);
         add(creditB);
-        //add(humanWin);
-        //add(godWin);
         add(startText);
 		super.create();
 	}
 
 	override public function update(elapsed:Float):Void {
-        FlxG.sound.playMusic("assets/music/menu_music.mp3");
 		super.update(elapsed);
 	}
 
     // creates new play state on button click
 	function clickPlay():Void {
+        FlxG.sound.play("assets/sounds/button press.wav");
         closeSubState();
 		FlxG.switchState(new PlayState());
 	}
 
     // creates new control state on button click
     function clickControls():Void {
+        FlxG.sound.play("assets/sounds/button press.wav");
         closeSubState();
         FlxG.switchState(new ControlsState());
     }
 
     // creates new credits state on button click
     function clickCredits():Void {
+        FlxG.sound.play("assets/sounds/button press.wav");
+        FlxG.sound.changeVolume(1);
         closeSubState();
         FlxG.switchState(new CreditsState());
     }
 
-    /*// creates new god win state on button click
-    function clickGod():Void {
-        FlxG.switchState(new GodWinState());
-    }
-
-    // creates new human win state on button click
-    function clickHuman():Void {
-        FlxG.switchState(new HumanWinState());
-    }*/ 
-
     // quits game on button click
     function clickQuit():Void {
+        FlxG.sound.play("assets/sounds/button press.wav");
         System.exit(0);
     }
 
     // creates new level state on button click
     function clickTestLevel():Void {
+        FlxG.sound.play("assets/sounds/button press.wav");
         closeSubState();
         var _levelState = new LevelState();
         _levelState.initializeLevel();

@@ -20,6 +20,7 @@ class CutsceneState extends FlxState {
     var k:Int = 0;
     var check:Bool = false;
     var bg:FlxSprite = new FlxSprite();
+    var bg2:FlxSprite = new FlxSprite(550, 0);
 	var textParts:Array<String> = new Array<String>();
     var images:Array<String> = new Array<String>();
 
@@ -30,19 +31,15 @@ class CutsceneState extends FlxState {
     }
 
     override public function create():Void {
-        /*// add images for animation
-        for(j in 0...10) {
-            images.push("assets/images/cutscene000" + j + ".png");
-        }
-        for(j in 10...82) {
-            images.push("assets/images/cutscene/cutscene00" + j + ".png");
-        }
-        j = 0;*/
-
         // set up background animation
-        bg.loadGraphic("assets/images/temp background.png");
-        bg.setGraphicSize(1080, 720);
+        bg.loadGraphic("assets/images/faceoff.png");
+        bg.setGraphicSize(540, 720);
         bg.updateHitbox();
+        bg2.loadGraphic("assets/images/faceoff.png");
+        bg2.setGraphicSize(540, 720);
+        bg2.updateHitbox();
+        bg2.flipX = true;
+
 
         // information for players to skip cutscene or play after cutscene ends
         stateInfo = new FlxText(10, 30, 250); // x, y, width
@@ -58,7 +55,7 @@ class CutsceneState extends FlxState {
         textParts.push("So he challenged the strange traveler to a game of wits and wizardry.");
 
         // changing text for the cutscene
-        currentText = new FlxText(350, 260, 400);
+        currentText = new FlxText(350, 200, 400);
         currentText.text = textParts[i];
         currentText.setFormat("assets/fonts/Adventure.otf", 28, FlxColor.WHITE, CENTER);
         currentText.setBorderStyle(OUTLINE, FlxColor.BLACK, 1);
@@ -67,6 +64,7 @@ class CutsceneState extends FlxState {
         clock.start(5, cutsceneText, 5);
 
         add(bg);
+        add(bg2);
         add(currentText);
         add(stateInfo);
 		super.create();
@@ -80,12 +78,6 @@ class CutsceneState extends FlxState {
             _levelState.initializeLevel(levelInfo);
             FlxG.switchState(_levelState);
 		}
-        /*if(j < images.length) {
-            bg.loadGraphic(images[j]);
-            bg.setGraphicSize(1080, 720);
-            bg.updateHitbox();
-            j = j + 1;
-        }*/
 		super.update(elapsed);
 	}
 
