@@ -21,10 +21,10 @@ enum Label {
 
 class LevelParser {
 	public var levelName:String;
-    public var player1_x:Float;
-    public var player1_y:Float;
-    public var player2_x:Float;
-    public var player2_y:Float;
+    public var player1_x:Int;
+    public var player1_y:Int;
+    public var player2_x:Int;
+    public var player2_y:Int;
     public var gameMode:String;
     public var tileMapFile:String;
     public var terrainMapFile:String;
@@ -58,15 +58,15 @@ class LevelParser {
                     case name:
                         levelName = lines[i];
                     case player1:
-                        player1_x = Std.parseFloat(lines[i]);
+                        player1_x = Std.parseInt(lines[i]);
                         i = i + 1;
                         lines[i] = lines[i].replace("\r", "").replace("\n", "").trim();
-                        player1_y = Std.parseFloat(lines[i]);
+                        player1_y = Std.parseInt(lines[i]);
                     case player2:
-                        player2_x = Std.parseFloat(lines[i]);
+                        player2_x = Std.parseInt(lines[i]);
                         i = i + 1;
                         lines[i] = lines[i].replace("\r", "").replace("\n", "").trim();
-                        player2_y = Std.parseFloat(lines[i]);
+                        player2_y = Std.parseInt(lines[i]);
                     case mode:
                         gameMode = lines[i];
                     case tileMap:

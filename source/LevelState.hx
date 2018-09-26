@@ -16,6 +16,8 @@ class LevelState extends FlxState {
 	var stateInfo:FlxText;
 	var timer:FlxText;
 	var flag:Flag;
+	var player1:Player;
+	var player2:Player;
 	var counter:Float = 1;
 	var _terrain:Terrain;
 	var _backgroundArt:Array<FlxSprite>;
@@ -42,9 +44,10 @@ class LevelState extends FlxState {
 		timer.setBorderStyle(OUTLINE, FlxColor.WHITE, 1);
 		add(stateInfo);
 		add(timer);
-		initializeCamera();
 		loadGraphics();
 		super.create();
+		loadLevel();
+		_terrain.add(this);
 	}
 
 	private function createFlxText(x:Float, y:Float, width:Float, ?startingText:String = "") : FlxText {
@@ -114,19 +117,30 @@ class LevelState extends FlxState {
 		_levelDataFilename = levelDataFilename;
 		// then load the level data using the LevelParser
 		_levelData.parse(_levelDataFilename);
-		_terrain = new Terrain(200, 200); // pass in tile width and tile height
-		// _terrain.add(this);
 		//_terrain.follow();
-
-		loadLevel();
 	}
 
 	public function loadLevel() : Void {
 		// this resets/loads a level
+		_terrain = new Terrain(200, 200);
 		_terrain.setLevelFile(_levelData.tileMapFile, _levelData.levelTileArt); // also set art file with this function
 		_terrain.reloadLevel();
-		// addBackgroundGraphics();
+
+		addBackgroundGraphics();
 		_terrain.add(this);
+		initializeCamera();
+
+		player1 = new Player("WASDQERF", "assets/images/godsprite.png", _levelData.player1_x, _levelData.player1_y, _terrain.scale);
+		player1.cursor = new Cursor(player1.xpos, player1.ypos, FlxColor.BLUE);
+		player2 = new Player("IJKLUOP;", "assets/images/human.png", _levelData.player2_x, _levelData.player2_y, _terrain.scale);
+		player2.cursor = new Cursor(player2.xpos, player2.ypos, FlxColor.PURPLE);
+
+		add(player1);
+		add(player1.cursor);
+		player1.cursor.kill();
+		add(player2);
+		add(player2.cursor);
+		player2.cursor.kill();
 		/*trace(_terrain.mapHeight * _terrain.getTileHeight());
 		FlxG.camera.setSize(FlxG.camera.width, _terrain.mapHeight * _terrain.getTileHeight());
 		trace("Width " + FlxG.camera.scaleY);
@@ -143,11 +157,12 @@ class LevelState extends FlxState {
 		}
 		timer.text = "" + elapsed;
 		super.update(elapsed);
+		_terrain.collide(player1);
+		_terrain.collide(player2);
 		//trace(FlxG.camera.height);
-		if (FlxG.keys.justPressed.L) {
-			for (bg in _backgroundArt) {
-				bg.x = bg.x - 1;
-			}
+
+		/*if (FlxG.keys.pressed.L) {
+			FlxG.camera.x = FlxG.camera.x - 1;
 		}
 		if (FlxG.keys.justPressed.J) {
 			for (bg in _backgroundArt) {
@@ -166,7 +181,7 @@ class LevelState extends FlxState {
 		}
 		if (FlxG.keys.pressed.P) {
 			trace(FlxG.camera.x + " : " + FlxG.camera.y);
-		}
+		}*/
 		_terrain.updateBuffers();
 		updateBackgroundArt(elapsed);
 	}
