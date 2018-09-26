@@ -111,7 +111,7 @@ class Player extends FlxSprite
 		// this.scale.y = scale;
 		//makeGraphic(16, 16, FlxColor.GREEN);
 		drag.x = 880;
-		acceleration.y = 0;
+		acceleration.y = 300;
 		maxVelocity.y = 500;
 		prevVelocity = new FlxPoint(0, 0);
 	}
