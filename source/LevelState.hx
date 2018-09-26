@@ -233,6 +233,7 @@ class LevelState extends FlxState {
 		super.update(elapsed);
 		_terrain.collide(player1);
 		_terrain.collide(player2);
+		_terrain.collide(flag1);
 		FlxG.collide(screenBoarderWalls, player1);
 		FlxG.collide(screenBoarderWalls, player2);
 		//trace(FlxG.camera.height);
