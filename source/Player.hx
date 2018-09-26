@@ -176,7 +176,7 @@ class Player extends FlxSprite
 			if (usingCursor)
 			{
 				animation.play("placing");
-				cursor.setPosition(this.getPosition().x, this.getPosition().y);
+				cursor.setTotalPosition(this.getPosition().x, this.getPosition().y);
 				cursor.revive();
 			}
 			else 

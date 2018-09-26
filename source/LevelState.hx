@@ -12,7 +12,6 @@ class LevelState extends FlxState {
 	var _levelDataFilename:String;
 	var _levelData:LevelParser;
 
-
 	var stateInfo:FlxText;
 	var timer:FlxText;
 	var flag1:Flag;
@@ -140,9 +139,9 @@ class LevelState extends FlxState {
 
 		// initialize the players
 		player1 = new Player("WASDQERF", "assets/images/godsprite.png", _levelData.player1_x, _levelData.player1_y, _terrain.scale);
-		player1.cursor = new Cursor(player1.xpos, player1.ypos, FlxColor.BLUE);
+		player1.cursor = new Cursor(player1.xpos, player1.ypos, FlxColor.BLUE, _terrain);
 		player2 = new Player("IJKLUOP;", "assets/images/human.png", _levelData.player2_x, _levelData.player2_y, _terrain.scale);
-		player2.cursor = new Cursor(player2.xpos, player2.ypos, FlxColor.PURPLE);
+		player2.cursor = new Cursor(player2.xpos, player2.ypos, FlxColor.PURPLE, _terrain);
 
 		add(player1);
 		add(player1.cursor);

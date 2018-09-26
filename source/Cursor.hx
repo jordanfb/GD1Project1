@@ -32,11 +32,12 @@ class Cursor extends FlxSprite
 		drag.x = drag.y = 3200;
 		makeGraphic(16, 16, newcolor);
 		terrainRef = tiles;
+		blockList = new Array<Int>();
 		for (i in 1 ... 9) 
 		{
 			blockList.push(i);	
 		}
-		blockType = blockList[cast(Math.random()*8, Int)];
+		blockType = blockList[Std.int(Math.random()*8)];
 		cursorPoint = new FlxPoint(0, 0);
 
 		//Do scale math to convert to points here
@@ -52,7 +53,7 @@ class Cursor extends FlxSprite
 
 	public function generateShape(code:Int):Array<FlxPoint>
 	{
-		offsetList = new Array();
+		offsetList = new Array<FlxPoint>();
 		if (code == 1)		//L
 		{
 			offsetList.push(new FlxPoint(0, 0));
@@ -212,7 +213,14 @@ class Cursor extends FlxSprite
 			cursorPoint.y--;
 		if (down)
 			cursorPoint.y++;
-		setPosition(cursorPoint.x, cursorPoint.y);
+		cursorPoint.set(Math.max(0, Math.min(cursorPoint.x, terrainRef.mapWidth-1)), Math.max(0, Math.min(cursorPoint.y, terrainRef.mapHeight-1)));
+		setPosition(cursorPoint.x * terrainRef.scaledTileSize, cursorPoint.y * terrainRef.scaledTileSize);
+	}
+
+	public function setTotalPosition(x:Float, y:Float) {
+		x = Std.int(x / terrainRef.scaledTileSize);
+		y = Std.int(y / terrainRef.scaledTileSize);
+		cursorPoint.set(x, y);
 	}
 
 	public function createBlock():Void
