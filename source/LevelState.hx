@@ -15,7 +15,8 @@ class LevelState extends FlxState {
 
 	var stateInfo:FlxText;
 	var timer:FlxText;
-	var flag:Flag;
+	var flag1:Flag;
+	var flag2:Flag;
 	var player1:Player;
 	var player2:Player;
 	var counter:Float = 1;
@@ -32,6 +33,10 @@ class LevelState extends FlxState {
 	var _backgroundArtFrame = 0;
 	var _backgroundArtFrameTimer = 0.0;
 	var _backgroundArtFrameTime = .1;
+	// Count-down timer
+	var _countdownTimer:FlxText;
+	var _countdownTime:Float;
+	var _levelPlayTime = 60; // the time to play the game
 
 	override public function create():Void {
 		stateInfo = new FlxText(10, 30, 150);
@@ -58,7 +63,7 @@ class LevelState extends FlxState {
 
 	private function loadGraphics() : Void {
 		// this loads the background art
-		var numFrames = 9;
+		var numFrames = _levelData.levelBackgroundArtFrameCount;
 		_backgroundArt = new Array<FlxSprite>();
 		for (i in 0...numFrames) {
 			_backgroundArt.insert(0, new FlxSprite());
@@ -133,6 +138,7 @@ class LevelState extends FlxState {
 		_terrain.add(this);
 		initializeCamera();
 
+		// initialize the players
 		player1 = new Player("WASDQERF", "assets/images/godsprite.png", _levelData.player1_x, _levelData.player1_y, _terrain.scale);
 		player1.cursor = new Cursor(player1.xpos, player1.ypos, FlxColor.BLUE);
 		player2 = new Player("IJKLUOP;", "assets/images/human.png", _levelData.player2_x, _levelData.player2_y, _terrain.scale);
@@ -151,7 +157,17 @@ class LevelState extends FlxState {
 		trace("Width2 " + FlxG.camera.scaleY);
 		trace(FlxG.cameras.list.length);
 		trace(FlxG.camera.height);*/
+
 		// then also set up the flags depending on the game mode and the level spawn information
+		if (_levelData.gameMode == "Hold the Flag") {
+			// our firstt and likely only game mode
+			flag1 = new Flag(_levelData.flag1X, _levelData.flag1Y);
+			add(flag1);
+			// flag2 = new Flag(_levelData.flag2X, _levelData.flag2Y);
+			// then do whatever else we need to
+		} else {
+			trace("LOADED A LEVEL BUT DIDN'T FIND A VALID GAME MODE ERROR");
+		}
 	}
 
 	override public function update(elapsed:Float):Void {
