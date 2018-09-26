@@ -39,6 +39,7 @@ class Flag extends FlxSprite {
     }
 
     public function drop(player:Player, X:Float, Y:Float) {
+        player.setHasFlag(false);
         setPosition(X, Y);
         beenDropped();
     }
@@ -60,7 +61,7 @@ class Flag extends FlxSprite {
 
     public function flagSteal(player1:Player, other:Player) {
         // player who had flag gets stunned and flag goes to other
-        player1.hasFlag = false;
+        player1.setHasFlag(false);
         player1.stun();
         other.hasFlag = true;
     }

@@ -59,7 +59,7 @@ class Player extends FlxSprite
 		hasJump = true;
 		justUsed = false;
 		fallingToggle = false;
-		stunTime = 2;
+		stunTime = 3;
 		coolDown = 1;
 		coolDownTime = 0;
 		filepath = artpath;
@@ -239,10 +239,19 @@ class Player extends FlxSprite
 	public function toggleFlag():Void
 	{
 		hasFlag = !hasFlag;
-		if (hasFlag)
+		setHasFlag(hasFlag);
+	}
+
+	public function setHasFlag(has:Bool) : Void {
+		hasFlag = has;
+		if (hasFlag) {
 			speed = speed*.7;
-		else 
+			coolDown = 2;
+		}
+		else {
 			speed = 10*speed/7;
+			coolDown = 1;
+		}
 	}
 
 	override public function update(elapsed:Float):Void
