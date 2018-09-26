@@ -65,6 +65,11 @@ class Terrain {
         }
         _tilemap.setTileProperties(24, FlxObject.NONE);
         _tilemap.setTileProperties(31, FlxObject.NONE);
+		
+		_tilemap.setTileProperties(44, FlxObject.NONE);
+        _tilemap.setTileProperties(51, FlxObject.NONE);
+		_tilemap.setTileProperties(64, FlxObject.NONE);
+        _tilemap.setTileProperties(71, FlxObject.NONE);
     }
 
     public function add(state:FlxState) :Void {
