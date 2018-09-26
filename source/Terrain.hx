@@ -5,6 +5,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.FlxState;
 import flixel.ui.FlxButton;
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.tile.FlxTilemap;
@@ -59,6 +60,11 @@ class Terrain {
 		_tilemap.loadMapFromCSV(_filename, _artFilename, _tileWidth, _tileHeight, OFF);
 		mapWidth = _tilemap.widthInTiles;
 		mapHeight = _tilemap.heightInTiles;
+        for (i in 4...13) {
+            _tilemap.setTileProperties(i, FlxObject.NONE);
+        }
+        _tilemap.setTileProperties(24, FlxObject.NONE);
+        _tilemap.setTileProperties(31, FlxObject.NONE);
     }
 
     public function add(state:FlxState) :Void {

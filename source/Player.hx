@@ -6,6 +6,8 @@ import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import openfl.Assets;
 import flixel.FlxObject;
+import flixel.math.FlxPoint;
+
 
 //Contains all information about the player and it's functions
 class Player extends FlxSprite
@@ -31,6 +33,10 @@ class Player extends FlxSprite
 	private var hasJump:Bool;
 	public var cursor:Cursor;
 
+	private var prevVelocity:FlxPoint;
+
+	private var fallingToggle:Bool; // this is for the falling animation just deal with the hack because it's terrible
+
 	//Controls should be configured as: Up, Left, Down, Right, TCursor, TCursorMode, Rotate, PlaceBlock
 	public function new(controls:String, artpath:String, x:Int, y:Int, scale:Float)
 	{
@@ -50,6 +56,7 @@ class Player extends FlxSprite
 		down = false;
 		inStun = false;
 		hasJump = true;
+		fallingToggle = false;
 		stunTime = 2;
 		filepath = artpath;
 		super(x, y);
@@ -59,29 +66,32 @@ class Player extends FlxSprite
 			loadGraphic(artpath, true, 336, 400);
 			animation.add("walk", [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24], 12, false);
 			animation.add("jump", [24, 25, 26, 27], 12, false);
-			animation.add("jump end", [27], 12, true);
+			animation.add("jump loop", [27], 12, true);
 			animation.add("falling", [28, 29, 30, 31, 32, 33, 34], 12, false);
-			animation.add("falling end", [34], 12, true);
+			animation.add("falling loop", [34], 12, true);
 			animation.add("idle", [1], 12, true);
-			animation.add("placing", [2, 3, 4, 5, 6, 7, 8, 9, 10], 12, false);
-			animation.add("placing loop", [9, 10], 12, true);
+			animation.add("placing", [2, 3, 4, 5, 6, 7, 8, 9], 12, false);
+			animation.add("placing loop", [8, 9], 12, true);
 
 		}
 		else
 		{
 			loadGraphic(artpath, true, 310, 400);
 			animation.add("walk", [2, 3, 4, 5], 8, false);
-			animation.add("falling", [9, 10, 11, 12, 13, 14], 8, false);
-			animation.add("falling end", [14], 8, true);
+			animation.add("falling", [9, 10, 11, 12, 13], 8, false);
+			animation.add("falling loop", [13], 8, true);
 			animation.add("jump", [6, 7, 8], 8, false);
-			animation.add("jump end", [8], 8, true);
-			animation.add("idle", [1], 8, true);
-			animation.add("placing", [15], 8, false);
-			animation.add("placing loop", [15], 8, true);
+			animation.add("jump loop", [8], 8, true);
+			animation.add("idle", [14], 8, true);
+			animation.add("placing", [14, 11, 12, 13], 8, false);
+			animation.add("placing loop", [12, 13], 8, true);
 
 		}
 		// this.scale.x = scale;
-		trace("SCALE: " + scale);
+		// trace("SCALE: " + scale);
+		setFacingFlip(FlxObject.LEFT, false, false);
+		setFacingFlip(FlxObject.RIGHT, true, false);
+		animation.finishCallback = handleNextAnimation;
 		this.scale.set(scale, scale);
 		this.updateHitbox();
 		// this.scale.y = scale;
@@ -89,6 +99,13 @@ class Player extends FlxSprite
 		drag.x = 880;
 		acceleration.y = 175;
 		maxVelocity.y = 250;
+		prevVelocity = new FlxPoint(0, 0);
+	}
+
+	private function handleNextAnimation(v:String):Void {
+		// trace(v);
+		animation.play(v + " loop");
+		// trace(animation.curAnim.name);
 	}
 
 	//Stun function that when called will stun the player
@@ -110,10 +127,14 @@ class Player extends FlxSprite
 		if (left && right)
 			left = right = false;
 
-		if (left)
+		if (left) {
 			velocity.x = speed*-1;
-		if (right)
+			facing = FlxObject.LEFT;
+		}
+		if (right){
 			velocity.x = speed;
+			facing = FlxObject.RIGHT;
+		}
 		if (up && hasJump)
 		{
 			hasJump = false;
@@ -128,15 +149,24 @@ class Player extends FlxSprite
 		if (isTouching(FlxObject.DOWN))
 			acceleration.y = 175;
 
-
-		if (velocity.x != 0 && velocity.y == 0)
+		if (velocity.x != 0 && velocity.y == 0){
+			// trace("walking");
 			animation.play("walk");
-		else if (velocity.y < 0)
+			fallingToggle = false;
+		}else if (velocity.y < 0 && prevVelocity.y >= 0) {
+			// trace("umping");
 			animation.play("jump");
-		else if (velocity.y > 0)
+			fallingToggle = false;
+		}else if (velocity.y > 0 && !fallingToggle) {
+			// trace("OH MY GOOLLY GEEE WE FELL");
 			animation.play("falling");
-		else
+			fallingToggle = true;
+		}
+		else if (velocity.x == 0 && velocity.y == 0 && !usingCursor) {
+			// trace("idle");
 			animation.play("idle");
+			fallingToggle = false;
+		}
 	}
 
 	public function toggleCursor():Void
@@ -147,7 +177,6 @@ class Player extends FlxSprite
 			if (usingCursor)
 			{
 				animation.play("placing");
-				animation.play("placing loop");
 				cursor.setPosition(this.getPosition().x, this.getPosition().y);
 				cursor.revive();
 			}
@@ -231,5 +260,6 @@ class Player extends FlxSprite
 		}
 
 		super.update(elapsed);
+		prevVelocity.set(velocity.x, velocity.y);
 	}
 }
