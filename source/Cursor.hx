@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
+import flixel.FlxState;
 import flixel.math.FlxPoint;
 import Math;
 
@@ -12,6 +13,7 @@ class Cursor extends FlxSprite
 	public var xpos:Int;
 	public var ypos:Int;
 	public var cursorColor:FlxColor;
+	public var destroyColor:FlxColor;
 	public var blockType:Int;
 	public var cursorPoint:FlxPoint;
 
@@ -24,14 +26,16 @@ class Cursor extends FlxSprite
 	private var spriteList:Array<FlxSprite>;
 	private var terrainRef:Terrain;
 
-	public function new(xp:Int, yp:Int, newcolor:FlxColor, tiles:Terrain)
+	public function new(xp:Int, yp:Int, newcolor:FlxColor, descolor:FlxColor, tiles:Terrain, file:String)
 	{
 		xpos = xp;
 		ypos = yp;
-		color = newcolor;
+		cursorColor = new FlxColor(newcolor);
+		destroyColor = new FlxColor(descolor);
+		// color = newColor;
 		super(xp, yp);
 		drag.x = drag.y = 3200;
-		makeGraphic(16, 16, newcolor);
+		makeGraphic(1, 1, newcolor);
 		terrainRef = tiles;
 		blockList = new Array<Int>();
 		for (i in 1 ... 9) 
@@ -44,6 +48,8 @@ class Cursor extends FlxSprite
 		//Do scale math to convert to points here
 		cursorPoint.x = xp/(200*tiles.scale);
 		cursorPoint.y = yp/(200*tiles.scale);
+
+		setSpriteList(file);
 	}
 
 	//public function setVisible()
@@ -51,15 +57,73 @@ class Cursor extends FlxSprite
 	//	makeGraphic(16, 16, cursorColor);
 	//}
 
-	public function setSpriteList()
+	public function swapColor(mode:Bool, filename:String)
+	{
+		for (s in spriteList)
+		{
+			if (filename == "assets/images/godsprite.png")
+			{if (!mode)
+							s.replaceColor(FlxColor.BLUE, FlxColor.ORANGE);
+						else
+							s.replaceColor(FlxColor.ORANGE, FlxColor.BLUE);}
+			else
+			{
+				if (!mode)
+							s.replaceColor(FlxColor.PURPLE, FlxColor.RED);
+						else
+							s.replaceColor(FlxColor.RED, FlxColor.PURPLE);	
+			}
+		}
+	}
+
+	public function setSpriteList(filepath:String)
 	{
 		spriteList = new Array<FlxSprite>();
+		for (i in 0...16)
+		{
+			// spriteList[i] = new FlxSprite(cursorPoint.x+offsetList[i].x, cursorPoint.y+offsetList[i].y);
+			spriteList[i] = new FlxSprite(0, 0);
+
+			// var tempCoord = new FlxPoint(Math.max(0, Math.min(spriteList[i].x, terrainRef.mapWidth-1)), Math.max(0, Math.min(spriteList[i].y, terrainRef.mapHeight-1)));
+			// spriteList[i].setPosition(tempCoord.x*terrainRef.scaledTileSize, tempCoord.y*terrainRef.scaledTileSize);
+			//spriteList[i].makeGraphic(16, 16, cursorColor);
+			spriteList[i].loadGraphic(filepath, false, 200, 200);
+			spriteList[i].replaceColor(FlxColor.WHITE, cursorColor);
+			spriteList[i].scale.set(terrainRef.scale, terrainRef.scale);
+			var xPos = (1-terrainRef.scale)*200/2;
+			spriteList[i].offset.set(xPos, xPos);
+		}
+	}
+
+	public function updateCoords() : Void {
 		for (i in 0...offsetList.length)
 		{
-			spriteList[i] = new FlxSprite(cursorPoint.x+offsetList[i].x, cursorPoint.y+offsetList[i].y);
-			var tempCoord = new FlxPoint(Math.max(0, Math.min(spriteList[i].x, terrainRef.mapWidth-1)), Math.max(0, Math.min(spriteList[i].y, terrainRef.mapHeight-1)));
+			// var tempCoord = new FlxPoint(Math.max(0, Math.min(spriteList[i].x, terrainRef.mapWidth-1)), Math.max(0, Math.min(spriteList[i].y, terrainRef.mapHeight-1)));
+			var tempCoord = new FlxPoint((cursorPoint.x+offsetList[i].x), (cursorPoint.y+offsetList[i].y));
 			spriteList[i].setPosition(tempCoord.x*terrainRef.scaledTileSize, tempCoord.y*terrainRef.scaledTileSize);
-			spriteList[i].makeGraphic(16, 16, cursorColor);
+			spriteList[i].alpha = 1;
+		}
+		for (i in offsetList.length...spriteList.length) {
+			spriteList[i].alpha = 0;
+		}
+	}
+
+	public function addSpriteList(state:FlxState) {
+		for (s in spriteList) {
+			state.add(s);
+		}
+	}
+
+	public function killSpriteList() {
+		for (s in spriteList) {
+			s.kill();
+		}
+	}
+
+	public function reviveSpriteList(	)
+	{
+		for (s in spriteList) {
+			s.revive();
 		}
 	}
 
@@ -255,6 +319,7 @@ class Cursor extends FlxSprite
 		}
 		cursorPoint.set(Math.max(0, Math.min(cursorPoint.x, terrainRef.mapWidth-1)), Math.max(0, Math.min(cursorPoint.y, terrainRef.mapHeight-1)));
 		setPosition(cursorPoint.x * terrainRef.scaledTileSize, cursorPoint.y * terrainRef.scaledTileSize);
+		updateCoords();
 	}
 
 	public function setTotalPosition(x:Float, y:Float) {
