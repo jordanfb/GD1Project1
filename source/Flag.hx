@@ -22,6 +22,7 @@ class Flag extends FlxSprite {
         // "name", [frame path], at what fps, should it loop?
         animation.add("flagWave", [0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5,6,7,8,9], 10, true);
         scale.set(.25, .25);
+        updateHitbox();
         animation.play("flagWave");
         canBePickedUp = true;
     }
@@ -43,7 +44,7 @@ class Flag extends FlxSprite {
         beenDropped();
     }
 
-    public function reset() {
+    public function resetFlag() {
         // go back to the starting pos
         setPosition(startingPos.x, startingPos.y);
     }

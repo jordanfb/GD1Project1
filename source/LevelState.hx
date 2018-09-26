@@ -8,6 +8,7 @@ import flixel.util.FlxColor;
 import flixel.util.FlxCollision;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
+import flixel.FlxObject;
 
 class LevelState extends FlxState {
 
@@ -40,15 +41,15 @@ class LevelState extends FlxState {
 	var _backgroundArtFrameTime = .1;
 	// Count-down timer
 	var _countdownTimer:FlxText;
-	var _countdownTime:Float;
+	var _countdownTime:Float = 0;
 	var _levelPlayTime = 60; // the time to play the game
-	var scoreMultiplier = 1;
+	var scoreMultiplier:Float = 1;
 
 	var _p1ScoreDisplay:FlxText;
-	var _p1Score:Float;
+	var _p1Score:Float = 0;
 
 	var _p2ScoreDisplay:FlxText;
-	var _p2Score:Float;
+	var _p2Score:Float = 0;
 
 	override public function create():Void {
 		stateInfo = new FlxText(10, 30, 150);
@@ -149,6 +150,8 @@ class LevelState extends FlxState {
 		} else if (_levelData.gameMode == "Capture Single") {
 			// hold the flag custom, whoever reaches the score cap first wins
 			gameMode = GameMode.captureTheSingleFlag;
+		} else {
+			gameMode = GameMode.holdFlag;
 		}
 		//_terrain.follow();
 	}
@@ -198,7 +201,8 @@ class LevelState extends FlxState {
 		}
 
 		// then load the UI
-		_countdownTimer = new FlxText(1080/2, 50, 200, "" + Std.int(_countdownTime));
+		var x = Std.int(_countdownTime);
+		_countdownTimer = new FlxText(1080/2, 50, 200, "" + x);
 		_countdownTimer.setFormat("assets/fonts/Adventure.otf", 20, FlxColor.WHITE, CENTER);
         _countdownTimer.setBorderStyle(OUTLINE, FlxColor.BLACK, 1);
 
@@ -217,6 +221,7 @@ class LevelState extends FlxState {
 
 	override public function update(elapsed:Float):Void {
 		if(FlxG.keys.pressed.ESCAPE) {
+			closeSubState();
             FlxG.switchState(new MenuState());
 		}
 		timer.text = "" + elapsed;
@@ -250,7 +255,7 @@ class LevelState extends FlxState {
 		}*/
 		_terrain.updateBuffers();
 		updateBackgroundArt(elapsed);
-		updateFlag():
+		updateFlag();
 		updateScore(elapsed);
 	}
 
@@ -275,6 +280,8 @@ class LevelState extends FlxState {
 					// add some screen shake man!
 					FlxG.overlap(player1, player2, playersCollideSwapFlag1);
 				}
+			default:
+					// do nothing
 		}
 	}
 
@@ -309,13 +316,13 @@ class LevelState extends FlxState {
 		switch(gameMode) {
 			case GameMode.holdFlag:
 				// whoever is holding the flag gets elapsed*scoremultiplier score
-				_countdownTime -= elapsed;
+				_countdownTime = _countdownTime - elapsed;
 				if (player1.hasFlag) {
-					_p1Score += elapsed * scoreMultiplier;
+					_p1Score = _p1Score + elapsed * scoreMultiplier;
 					_p1ScoreDisplay.text = "" + Std.int(_p1Score);
 				}
 				if (player2.hasFlag) {
-					_p2Score += elapsed * scoreMultiplier;
+					_p2Score = _p2Score + elapsed * scoreMultiplier;
 					_p2ScoreDisplay.text = "" + Std.int(_p2Score);
 				}
 				_countdownTimer.text = "" + Std.int(_countdownTime);
