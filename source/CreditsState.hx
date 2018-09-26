@@ -29,14 +29,14 @@ class CreditsState extends FlxState {
 		creditText.setBorderStyle(OUTLINE, FlxColor.WHITE, 1);
 
         // back to menu button setup
-        menuB = new FlxButton(20, 620, "        Back", clickBack);
+        menuB = new FlxButton(20, 620, "       Back ", clickBack);
         menuB.loadGraphic("assets/images/button.png", true, 616, 198);
         menuB.setGraphicSize(250, 60);
         menuB.updateHitbox();
         menuB.label.setFormat("assets/fonts/Adventure.otf", 36, FlxColor.WHITE, LEFT);
 
         // quit button setup
-        quitB = new FlxButton(800, 620, "        Quit", clickQuit);
+        quitB = new FlxButton(800, 620, "       Quit ", clickQuit);
         quitB.loadGraphic("assets/images/button.png", true, 616, 198);
         quitB.setGraphicSize(250, 60);
         quitB.updateHitbox();
