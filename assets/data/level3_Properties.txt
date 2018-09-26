@@ -13,7 +13,7 @@ assets/data/level3.txt
 TerrainMap:
 terrain.file
 LevelScreenshot:
-assets/images/level3.png
+assets/images/level3.PNG
 Music:
 music.file
 BackgroundArt:
