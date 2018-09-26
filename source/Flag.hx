@@ -11,7 +11,12 @@ import flixel.util.FlxColor;
 class Flag extends FlxSprite {
 
     public function new(X:Float, Y:Float, ?SimpleGraphic:FlxGraphicAsset) {
-        super(X, Y, SimpleGraphic); // add in flag image when complete
+        super(X, Y, SimpleGraphic);
+        // "true" is for if it should be animated and the (x, y) are for where each animation is sliced
+        loadGraphic("assets/images/flag.png", true, 200, 200);
+        // "name", [frame path], at what fps, should it loop?
+        animation.add("flagWave", [0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5,6,7,8,9], 10, true);
+        animation.play("flagWave");
     }
 
     /*public function pickUp(player:Player, X:Float, Y:Float) {

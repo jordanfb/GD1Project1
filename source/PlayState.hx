@@ -11,6 +11,7 @@ class PlayState extends FlxState {
 	var level1:FlxButton;
 	var level2:FlxButton;
 	var level3:FlxButton;
+	var flag:Flag;
 	var parser:LevelParser = new LevelParser();
 	var levelScreenshots:Array<String> = new Array<String>();
 
