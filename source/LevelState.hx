@@ -26,6 +26,7 @@ class LevelState extends FlxState {
 	var counter:Float = 1;
 	var _terrain:Terrain;
 	var _backgroundArt:Array<FlxSprite>;
+	var _drawBackgroundArt:Bool;
 
 	// UI needed for game state
 	// Count down timer,
@@ -61,6 +62,7 @@ class LevelState extends FlxState {
 		timer.setFormat("assets/fonts/Adventure.otf", 20, FlxColor.WHITE, CENTER);
 		timer.setBorderStyle(OUTLINE, FlxColor.WHITE, 1);
 		add(stateInfo);
+		_drawBackgroundArt = true;
 		add(timer);
 		loadGraphics();
 		super.create();
@@ -222,7 +224,7 @@ class LevelState extends FlxState {
 	override public function update(elapsed:Float):Void {
 		if(FlxG.keys.pressed.ESCAPE) {
 			closeSubState();
-            FlxG.switchState(new MenuState());
+			leaveState(new MenuState());
 		}
 		timer.text = "" + elapsed;
 		super.update(elapsed);
@@ -347,18 +349,30 @@ class LevelState extends FlxState {
 			_backgroundArt[_backgroundArtFrame].alpha = 1;
 		}
 	}
+	
+	private function leaveState(otherState:FlxState) : Void {
+		/*for (bg in _backgroundArt) {
+			remove(bg);
+			bg.graphic.destroy();
+		}*/
+		//_drawBackgroundArt = false;
+		FlxG.switchState(otherState);
+	}
 
 	private function endGame() : Void {
 		// someone should win. The person with the highest score
 		if (_p1Score >= _p2Score) {
 			// god wins
-			FlxG.switchState(new GodWinState());
+			leaveState(new GodWinState());
 		} else if (_p1Score < _p2Score) {
 			// traveller win
-			FlxG.switchState(new HumanWinState());
+			leaveState(new HumanWinState());
 		} else if (_p1Score == _p2Score && _p1Score == 0) {
 			// god wins because the traveller has flaunted the game
-			FlxG.switchState(new GodWinState());
+			leaveState(new TieStateGod());
+		} else if (_p1Score == _p2Score && _p1Score > 0) {
+			// human wins because everyone tried so yay!
+			leaveState(new TieStateHuman());
 		}
 	}
 }
