@@ -21,6 +21,7 @@ class Cursor extends FlxSprite
 	private var right:Bool;
 	private var down:Bool;
 	private var offsetList:Array<FlxPoint>;
+	private var spriteList:Array<FlxSprite>;
 	private var terrainRef:Terrain;
 
 	public function new(xp:Int, yp:Int, newcolor:FlxColor, tiles:Terrain)
@@ -39,7 +40,7 @@ class Cursor extends FlxSprite
 		}
 		blockType = blockList[Std.int(Math.random()*8)];
 		cursorPoint = new FlxPoint(0, 0);
-
+		generateShape();
 		//Do scale math to convert to points here
 		cursorPoint.x = xp/(200*tiles.scale);
 		cursorPoint.y = yp/(200*tiles.scale);
@@ -51,10 +52,11 @@ class Cursor extends FlxSprite
 	//}
 
 
-	public function generateShape(code:Int):Array<FlxPoint>
+	public function generateShape():Array<FlxPoint>
 	{
+		blockType = blockList[cast(Math.random()*8, Int)];
 		offsetList = new Array<FlxPoint>();
-		if (code == 1)		//L
+		if (blockType == 1)		//L
 		{
 			offsetList.push(new FlxPoint(0, 0));
 			offsetList.push(new FlxPoint(0, 1));
@@ -73,7 +75,7 @@ class Cursor extends FlxSprite
 			offsetList.push(new FlxPoint(3, 4));
 			offsetList.push(new FlxPoint(3, 5));
 		}
-		else if (code == 2)	//Backwards L
+		else if (blockType == 2)	//Backwards L
 		{
 			offsetList.push(new FlxPoint(0, 0));
 			offsetList.push(new FlxPoint(0, 1));
@@ -92,7 +94,7 @@ class Cursor extends FlxSprite
 			offsetList.push(new FlxPoint(-1, 4));
 			offsetList.push(new FlxPoint(-1, 5));
 		}
-		else if (code == 3) //Z
+		else if (blockType == 3) //Z
 		{
 			offsetList.push(new FlxPoint(0, 0));
 			offsetList.push(new FlxPoint(0, 1));
@@ -111,7 +113,7 @@ class Cursor extends FlxSprite
 			offsetList.push(new FlxPoint(3, 4));
 			offsetList.push(new FlxPoint(3, 5));
 		}
-		else if (code == 4) //Backwards Z
+		else if (blockType == 4) //Backwards Z
 		{
 			offsetList.push(new FlxPoint(0, 0));
 			offsetList.push(new FlxPoint(0, 1));
@@ -130,7 +132,7 @@ class Cursor extends FlxSprite
 			offsetList.push(new FlxPoint(-2, 4));
 			offsetList.push(new FlxPoint(-2, 5));
 		}
-		else if (code == 5) //T
+		else if (blockType == 5) //T
 		{
 			offsetList.push(new FlxPoint(0, 0));
 			offsetList.push(new FlxPoint(0, 1));
@@ -149,7 +151,7 @@ class Cursor extends FlxSprite
 			offsetList.push(new FlxPoint(3, 0));
 			offsetList.push(new FlxPoint(3, 1));
 		}
-		else if (code == 6) //Line
+		else if (blockType == 6) //Line
 		{
 			offsetList.push(new FlxPoint(0, 0));
 			offsetList.push(new FlxPoint(0, 1));
@@ -168,7 +170,7 @@ class Cursor extends FlxSprite
 			offsetList.push(new FlxPoint(1, 6));
 			offsetList.push(new FlxPoint(1, 7));
 		}
-		else if (code == 7) //Big Box
+		else if (blockType == 7) //Big Box
 		{
 			offsetList.push(new FlxPoint(0, 0));
 			offsetList.push(new FlxPoint(0, 1));
@@ -194,7 +196,6 @@ class Cursor extends FlxSprite
 			offsetList.push(new FlxPoint(1, 1));
 			offsetList.push(new FlxPoint(1, 0));
 		}
-		blockType = blockList[cast(Math.random()*8, Int)];
 		return offsetList;
 	}
 
@@ -206,13 +207,41 @@ class Cursor extends FlxSprite
 		right = FlxG.keys.anyJustPressed([keys.charAt(3)]);
 
 		if (left)
+		{
 			cursorPoint.x--;
+			if (cursorPoint.x >= 0)
+				for (i in 0...offsetList.length)
+				{
+					offsetList[i].x--;
+				}
+		}
 		if (right)
+		{
 			cursorPoint.x++;
+			if (cursorPoint.x <= terrainRef.mapWidth-1)
+				for (i in 0...offsetList.length)
+				{
+					offsetList[i].x++;
+				}
+		}
 		if (up)
+		{
 			cursorPoint.y--;
+			if (cursorPoint.y >= 0)
+				for (i in 0...offsetList.length)
+				{
+					offsetList[i].y--;
+				}
+		}
 		if (down)
+		{
 			cursorPoint.y++;
+			if (cursorPoint.y <= terrainRef.mapHeight-1)
+				for (i in 0...offsetList.length)
+				{
+					offsetList[i].y++;
+				}
+		}
 		cursorPoint.set(Math.max(0, Math.min(cursorPoint.x, terrainRef.mapWidth-1)), Math.max(0, Math.min(cursorPoint.y, terrainRef.mapHeight-1)));
 		setPosition(cursorPoint.x * terrainRef.scaledTileSize, cursorPoint.y * terrainRef.scaledTileSize);
 	}
@@ -225,11 +254,13 @@ class Cursor extends FlxSprite
 
 	public function createBlock():Void
 	{
-		terrainRef.addShape(cursorPoint, generateShape(blockType));
+		terrainRef.addShape(cursorPoint, offsetList);
+		generateShape();
 	}
 
 	public function destroyBlock():Void
 	{
-		terrainRef.removeShape(cursorPoint, generateShape(blockType));
+		terrainRef.removeShape(cursorPoint, offsetList);
+		generateShape();
 	}
 }
