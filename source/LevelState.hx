@@ -13,6 +13,7 @@ class LevelState extends FlxState {
 
 	var _levelDataFilename:String;
 	var _levelData:LevelParser;
+	var gameMode:GameMode;
 
 
 	var stateInfo:FlxText;
@@ -29,6 +30,7 @@ class LevelState extends FlxState {
 	// Count down timer,
 	// possesion indicator -- big screen flash -- BLAH HAS THE STATUE
 	// background art. Lets do that now
+	// countdown to start the game
 
 	var screenBoarderWalls:FlxGroup;
 	// UI Art:
@@ -40,6 +42,7 @@ class LevelState extends FlxState {
 	var _countdownTimer:FlxText;
 	var _countdownTime:Float;
 	var _levelPlayTime = 60; // the time to play the game
+	var scoreMultiplier = 1;
 
 	var _p1ScoreDisplay:FlxText;
 	var _p1Score:Float;
@@ -134,6 +137,18 @@ class LevelState extends FlxState {
 		_levelDataFilename = levelDataFilename;
 		// then load the level data using the LevelParser
 		_levelData.parse(_levelDataFilename);
+		if (_levelData.gameMode == "Hold The Flag") {
+			gameMode = GameMode.holdFlag; // default hold the flag -- the person with more points at the end of the game wins
+		} else if (_levelData.gameMode == "Hold The Flag Limit") {
+			// hold the flag custom, whoever reaches the score cap first wins
+			gameMode = GameMode.holdFlagScoreLimit;
+		} else if (_levelData.gameMode == "Capture") {
+			// hold the flag custom, whoever reaches the score cap first wins
+			gameMode = GameMode.captureTheFlag;
+		} else if (_levelData.gameMode == "Capture Single") {
+			// hold the flag custom, whoever reaches the score cap first wins
+			gameMode = GameMode.captureTheSingleFlag;
+		}
 		//_terrain.follow();
 	}
 
@@ -170,18 +185,19 @@ class LevelState extends FlxState {
 		trace(FlxG.camera.height);*/
 
 		// then also set up the flags depending on the game mode and the level spawn information
-		if (_levelData.gameMode == "Hold the Flag") {
+		if (gamemode == GameMode.holdFlag) {
 			// our firstt and likely only game mode
 			flag1 = new Flag(_levelData.flag1X, _levelData.flag1Y);
 			add(flag1);
 			// flag2 = new Flag(_levelData.flag2X, _levelData.flag2Y);
 			// then do whatever else we need to
+			_countdownTime = _levelPlayTime;
 		} else {
 			trace("LOADED A LEVEL BUT DIDN'T FIND A VALID GAME MODE ERROR");
 		}
 
 		// then load the UI
-		_countdownTimer = new FlxText(1080/2, 50, 200, "Timer");
+		_countdownTimer = new FlxText(1080/2, 50, 200, "" + Std.int(_countdownTime));
 		_countdownTimer.setFormat("assets/fonts/Adventure.otf", 20, FlxColor.WHITE, CENTER);
         _countdownTimer.setBorderStyle(OUTLINE, FlxColor.BLACK, 1);
 
@@ -233,6 +249,32 @@ class LevelState extends FlxState {
 		}*/
 		_terrain.updateBuffers();
 		updateBackgroundArt(elapsed);
+		updateScore(elapsed);
+	}
+
+	private function updateScore(elapsed:Float) {
+		// updates the score and the score UI;
+		switch(gameMode) {
+			case GameMode.holdFlag:
+				// whoever is holding the flag gets elapsed*scoremultiplier score
+				_countdownTime -= elapsed;
+				if (player1.hasFlag) {
+					_p1Score += elapsed * scoreMultiplier;
+					_p1ScoreDisplay.text = Std.int(_p1Score);
+				}
+				if (player2.hasFlag) {
+					_p2Score += elapsed * scoreMultiplier;
+					_p2ScoreDisplay.text = Std.int(_p2Score);
+				}
+				_countdownTimer.text = Std.int(_countdownTime);
+				if (_countdownTime <= 0) {
+					// then see who wins!
+					endGame();
+					return;
+				}
+			default:
+				trace("OH GOD WE DON'T SUPPORT SCORING THIS GAME MODE");
+		}
 	}
 
 	private function updateBackgroundArt(elapsed:Float) {
@@ -246,9 +288,23 @@ class LevelState extends FlxState {
 			_backgroundArt[_backgroundArtFrame].alpha = 1;
 		}
 	}
+
+	private function endGame() : Void {
+		// someone should win. The person with the highest score
+		if (_p1Score >= _p2Score) {
+			// god wins
+			FlxG.switchState(new GodWinState());
+		} else if (_p1Score < _p2Score) {
+			// traveller win
+			FlxG.switchState(new HumanWinState());
+		} else if (_p1Score == _p2Score && _p1Score == 0) {
+			// god wins because the traveller has flaunted the game
+			FlxG.switchState(new GodWinState());
+		}
+	}
 }
 
 enum GameMode {
 		// what game mode the game is in
-		holdFlag; captureTheFlag; captureTheSingleFlag;
+		holdFlag; captureTheFlag; captureTheSingleFlag; holdFlagScoreLimit;
 	}
