@@ -7,7 +7,7 @@ Player2Spawn:
 925
 500
 GameMode:
-Hold the Flag
+Hold The Flag
 TileMap:
 assets/data/level1.txt
 TerrainMap:

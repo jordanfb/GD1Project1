@@ -75,6 +75,7 @@ class CutsceneState extends FlxState {
 	override public function update(elapsed:Float):Void {
         // on key press skips cutscene and creates new level state
         if(FlxG.keys.pressed.ESCAPE) {
+            closeSubState();
             var _levelState = new LevelState();
             _levelState.initializeLevel(levelInfo);
             FlxG.switchState(_levelState);
@@ -94,6 +95,7 @@ class CutsceneState extends FlxState {
         if(i < textParts.length) {
             currentText.text = textParts[i];
         } else {
+            closeSubState();
             var _levelState = new LevelState();
             _levelState.initializeLevel(levelInfo);
             FlxG.switchState(_levelState);

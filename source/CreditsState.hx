@@ -57,6 +57,7 @@ class CreditsState extends FlxState {
 
     // creates new menu state on button click
 	function clickBack():Void {
+        closeSubState();
 		FlxG.switchState(new MenuState());
 	}
 

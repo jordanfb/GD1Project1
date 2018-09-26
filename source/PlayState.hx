@@ -70,14 +70,17 @@ class PlayState extends FlxState {
 
 	// all create a cutscene state with the specific level data file that was selected
 	function click1():Void {
+		closeSubState();
 		FlxG.switchState(new CutsceneState("assets/data/level1_Properties.txt"));
 	}
 
 	function click2():Void {
+		closeSubState();
 		FlxG.switchState(new CutsceneState("assets/data/level2_Properties.txt"));
 	}
 
 	function click3():Void {
+		closeSubState();
 		FlxG.switchState(new CutsceneState("assets/data/level3_Properties.txt"));
 	}
 }
