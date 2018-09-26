@@ -25,3 +25,5 @@ BackgroundFrames:
 Flag1:
 440
 269
+BackgroundFrameTime:
+.1

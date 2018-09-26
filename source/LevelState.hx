@@ -137,6 +137,7 @@ class LevelState extends FlxState {
 		_levelDataFilename = levelDataFilename;
 		// then load the level data using the LevelParser
 		_levelData.parse(_levelDataFilename);
+		_backgroundArtFrameTime = _levelData.levelBackgroundArtFrameTime;
 		if (_levelData.gameMode == "Hold The Flag") {
 			gameMode = GameMode.holdFlag; // default hold the flag -- the person with more points at the end of the game wins
 		} else if (_levelData.gameMode == "Hold The Flag Limit") {
