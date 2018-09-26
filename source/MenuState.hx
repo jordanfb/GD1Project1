@@ -171,7 +171,7 @@ class MenuState extends FlxState {
     // creates new human win state on button click
     function clickHuman():Void {
         FlxG.switchState(new HumanWinState());
-    }*/
+    }*/ 
 
     // quits game on button click
     function clickQuit():Void {
