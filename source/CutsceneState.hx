@@ -71,18 +71,3 @@ class CutsceneState extends FlxState {
         }
     }
 }
-/*
-For cutscene text, use Timer.start method
-    specify seconds to display each part
-    create a function to call that will write the next part
-        create a list that at each index has the format of the text for each part
-        then have the callback function be a function that sets the text to an index of the text
-        so when it is called it increases the index by one, therefore moving on to the next text part
-            myFunction(i + 1)
-                myFunction(i:Int) {
-                    if(i < arr.length) {
-                        myText = arr[i];
-                    }
-                }
-    loop for the number of parts
-*/
