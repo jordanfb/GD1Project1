@@ -13,7 +13,7 @@ import flixel.math.FlxPoint;
 class Player extends FlxSprite
 {
 	public var score:Int;
-	public var speed:Int;
+	public var speed:Float;
 	public var hasFlag:Bool;
 	public var usingCursor:Bool; //True = Cursor on False = Cursor off
 	public var destroyOrCreate:Bool; //True = Create mode False = Destroy modes
@@ -32,9 +32,7 @@ class Player extends FlxSprite
 	private var sprite:FlxGraphicAsset;
 	private var hasJump:Bool;
 	public var cursor:Cursor;
-
 	private var prevVelocity:FlxPoint;
-
 	private var fallingToggle:Bool; // this is for the falling animation just deal with the hack because it's terrible
 
 	//Controls should be configured as: Up, Left, Down, Right, TCursor, TCursorMode, Rotate, PlaceBlock
@@ -233,6 +231,10 @@ class Player extends FlxSprite
 	public function toggleFlag():Void
 	{
 		hasFlag = !hasFlag;
+		if (hasFlag)
+			speed = speed*.7;
+		else 
+			speed = 10*speed/7;
 	}
 
 	override public function update(elapsed:Float):Void
