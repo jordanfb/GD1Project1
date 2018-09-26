@@ -1,6 +1,8 @@
 package;
 
 import flixel.FlxState;
+import flixel.FlxSprite;
+import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.ui.FlxButton;
 import flixel.FlxG;
 import flixel.text.FlxText;
@@ -10,7 +12,11 @@ class ControlsState extends FlxState {
 	var menuB:FlxButton;
 	var stateInfo:FlxText;
 	var rules:FlxText;
-	var controls:FlxText;
+	var controlsG:FlxText;
+	var controlsH:FlxText;
+	var flag:FlxSprite;
+	var god:FlxSprite;
+	var human:FlxSprite;
 
 	override public function create():Void {
 		// back to menu button setup
@@ -24,6 +30,20 @@ class ControlsState extends FlxState {
         stateInfo.setFormat("assets/font.ttf", 20, FlxColor.WHITE, CENTER);
         stateInfo.setBorderStyle(OUTLINE, FlxColor.GREEN, 1);
 
+		// create flag sprite, god sprite, and human sprite
+		flag = new FlxSprite(425, 0);
+		god = new FlxSprite(120, 410);
+		human = new FlxSprite(600, 410);
+		flag.loadGraphic("assets/images/flag.png", true, 200, 200);
+		god.loadGraphic("assets/images/godsprite.png", true, 310, 400);
+		human.loadGraphic("assets/images/human.png", true, 336, 400);
+		flag.setGraphicSize(50, 50);
+		god.setGraphicSize(100, 100);
+		human.setGraphicSize(100, 100);
+
+		add(flag);
+		add(god);
+		add(human);
 		add(stateInfo);
 		add(menuB);
 		super.create();
@@ -31,7 +51,8 @@ class ControlsState extends FlxState {
 
 	override public function update(elapsed:Float):Void {
 		writeRules();
-		writeControls();
+		writeControlsGod();
+		writeControlsHuman();
 		super.update(elapsed);
 	}
 
@@ -42,23 +63,28 @@ class ControlsState extends FlxState {
 
 	// writes text and UI for rules
 	function writeRules():Void {
-		rules = new FlxText(60, 60, 400);
-		rules.text = "How To Play:\n\n\t1.) Earn points while holding the flag\n\t
-			2.) Steal the flag from your opponent by touching them\n\t
-			3.) Whoever has the most points when time runs out wins";
-		rules.setFormat("assets/font.ttf", 30, FlxColor.WHITE);
-		rules.setBorderStyle(OUTLINE, FlxColor.PURPLE, 1);
+		rules = new FlxText(100, 125, 850);
+		rules.text = "Objective:\nPick up and keep hold of the statue longer than your opponent.\nTouching the statue picks it up.\nTouching your opponent when they have the statue takes it from them.";
+		rules.setFormat("assets/font.ttf", 30, FlxColor.WHITE, CENTER);
+		rules.setBorderStyle(OUTLINE, FlxColor.GREEN, 1);
 		add(rules);
 	}
 
-	// writes text and UI for controls
-	function writeControls():Void {
-		controls = new FlxText(560, 210, 450);
-		controls.text = "Controls:\n\n\tPlayers share the keyboard and use {WASDQE} and {IJKLUO} to play.\n\t
-			{W, I} to jump up, {A, J} to move left, {D, L} to move right\n\t
-			(map other controls once set)";
-		controls.setFormat("assets/font.ttf", 30, FlxColor.WHITE);
-		controls.setBorderStyle(OUTLINE, FlxColor.BLUE, 1);
-		add(controls);
+	// writes text and UI for controls for god player
+	function writeControlsGod():Void {
+		controlsG = new FlxText(50, 300, 425);
+		controlsG.text = "Xochipilli:\nWalk Left with [A], Right with [D]\n[W] to Jump\nToggle Walking/Sculpting with [ ]\nMove Sculpting Cursor with [W], [A], [S], [D]\nRotate Sculpting Cursor with [ ]\nToggle Placing/Destroying with [ ]";
+		controlsG.setFormat("assets/font.ttf", 28, FlxColor.WHITE, CENTER);
+		controlsG.setBorderStyle(OUTLINE, FlxColor.RED, 1);
+		add(controlsG);
+	}
+
+	// writes text and UI for controls for human player
+	function writeControlsHuman():Void {
+		controlsH = new FlxText(550, 300, 425);
+		controlsH.text =  "Traveler:\nWalk Left with [J], Right with [L]\n[I] to Jump\nToggle Walking/Sculpting with [ ]\nMove Sculpting Cursor with [I], [J], [K], [L]\nRotate Sculpting Cursor with [ ]\nToggle Placing/Destroying with [ ]";
+		controlsH.setFormat("assets/font.ttf", 28, FlxColor.WHITE, CENTER);
+		controlsH.setBorderStyle(OUTLINE, FlxColor.PURPLE, 1);
+		add(controlsH);
 	}
 }
