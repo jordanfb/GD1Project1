@@ -186,7 +186,7 @@ class LevelState extends FlxState {
 		trace(FlxG.camera.height);*/
 
 		// then also set up the flags depending on the game mode and the level spawn information
-		if (gamemode == GameMode.holdFlag) {
+		if (gameMode == GameMode.holdFlag) {
 			// our firstt and likely only game mode
 			flag1 = new Flag(_levelData.flag1X, _levelData.flag1Y);
 			add(flag1);
@@ -250,7 +250,58 @@ class LevelState extends FlxState {
 		}*/
 		_terrain.updateBuffers();
 		updateBackgroundArt(elapsed);
+		updateFlag():
 		updateScore(elapsed);
+	}
+
+	private function updateFlag() {
+		// this handles the flag/player interactions
+		switch(gameMode) {
+			case GameMode.holdFlag:
+				// this is the default game mode. One person picks it up then it never goes down again, people only swap the flag
+				// only one flag
+				if (!flag1.isBeingHeld()) {
+					// then check collisions to pick up off the ground. If you can't pick it up it's being held
+					if (!player1.inStun) {
+						// then check if you see the flag
+						FlxG.overlap(player1, flag1, player1GetsFlag1);
+					}
+					if (!player2.inStun) {
+						// then check if you see the flag
+						FlxG.overlap(player2, flag1, player2GetsFlag1);
+					}
+				} else {
+					// then check for swapping the flag
+					// add some screen shake man!
+					FlxG.overlap(player1, player2, playersCollideSwapFlag1);
+				}
+		}
+	}
+
+	private function playersCollideSwapFlag1(object1:FlxObject, object2:FlxObject) : Void {
+		if (player1.hasFlag) {
+			// then give it to p2
+			flag1.flagSteal(player1, player2);
+		} else if (player2.hasFlag) {
+			// then give it to p1
+			flag1.flagSteal(player2, player1);
+		}
+	}
+
+	private function player1GetsFlag1(object1:FlxObject, object2:FlxObject) : Void {
+		flag1.pickUp(player1, player1.x, player1.y);
+	}
+
+	private function player2GetsFlag1(object1:FlxObject, object2:FlxObject) : Void {
+		flag1.pickUp(player2, player2.x, player2.y);
+	}
+
+	private function player1GetsFlag2(object1:FlxObject, object2:FlxObject) : Void {
+		flag2.pickUp(player1, player1.x, player1.y);
+	}
+
+	private function player2GetsFlag2(object1:FlxObject, object2:FlxObject) : Void {
+		flag2.pickUp(player2, player2.x, player2.y);
 	}
 
 	private function updateScore(elapsed:Float) {
@@ -261,13 +312,13 @@ class LevelState extends FlxState {
 				_countdownTime -= elapsed;
 				if (player1.hasFlag) {
 					_p1Score += elapsed * scoreMultiplier;
-					_p1ScoreDisplay.text = Std.int(_p1Score);
+					_p1ScoreDisplay.text = "" + Std.int(_p1Score);
 				}
 				if (player2.hasFlag) {
 					_p2Score += elapsed * scoreMultiplier;
-					_p2ScoreDisplay.text = Std.int(_p2Score);
+					_p2ScoreDisplay.text = "" + Std.int(_p2Score);
 				}
-				_countdownTimer.text = Std.int(_countdownTime);
+				_countdownTimer.text = "" + Std.int(_countdownTime);
 				if (_countdownTime <= 0) {
 					// then see who wins!
 					endGame();
