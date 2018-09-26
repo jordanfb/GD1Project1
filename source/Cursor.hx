@@ -59,21 +59,20 @@ class Cursor extends FlxSprite
 
 	public function swapColor(mode:Bool, filename:String)
 	{
-		for (s in spriteList)
-		{
-			if (filename == "assets/images/godsprite.png")
-			{if (!mode)
-							s.replaceColor(FlxColor.BLUE, FlxColor.ORANGE);
-						else
-							s.replaceColor(FlxColor.ORANGE, FlxColor.BLUE);}
+		if (filename == "assets/images/godsprite.png")
+		{		
+			if (!mode)
+				spriteList[0].replaceColor(FlxColor.BLUE, FlxColor.ORANGE);
 			else
-			{
-				if (!mode)
-							s.replaceColor(FlxColor.PURPLE, FlxColor.RED);
-						else
-							s.replaceColor(FlxColor.RED, FlxColor.PURPLE);	
-			}
+				spriteList[0].replaceColor(FlxColor.ORANGE, FlxColor.BLUE);
 		}
+		else
+		{
+			if (!mode)
+				spriteList[0].replaceColor(FlxColor.PURPLE, FlxColor.RED);
+			else
+				spriteList[0].replaceColor(FlxColor.RED, FlxColor.PURPLE);	
+		}	
 	}
 
 	public function setSpriteList(filepath:String)

@@ -92,6 +92,9 @@ class Player extends FlxSprite
 		animation.finishCallback = handleNextAnimation;
 		this.scale.set(scale, scale);
 		this.updateHitbox();
+		if (artpath == "assets/images/human.png"){
+			this.offset.set(0, .1);
+		}
 		// this.scale.y = scale;
 		//makeGraphic(16, 16, FlxColor.GREEN);
 		drag.x = 880;
