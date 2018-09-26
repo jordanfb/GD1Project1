@@ -1,10 +1,10 @@
-LevelName:
+LevelName:test_level
 Aztec Test
 Player1Spawn:
 100
 500
 Player2Spawn:
-600
+925
 500
 GameMode:
 Hold the Flag
@@ -20,3 +20,8 @@ BackgroundArt:
 assets/images/background animation/aztec background000
 TileArt:
 assets/images/jungle1.png
+BackgroundFrames:
+9
+Flag1:
+100
+100

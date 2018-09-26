@@ -2,6 +2,8 @@ package;
 
 import flixel.FlxState;
 import flixel.ui.FlxButton;
+import flixel.FlxSprite;
+import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.FlxG;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
@@ -14,6 +16,9 @@ class CutsceneState extends FlxState {
     var clock:FlxTimer = new FlxTimer();
     var currentText:FlxText;
     var i:Int = 0;
+    var bg1:FlxSprite = new FlxSprite();
+    var bg2:FlxSprite = new FlxSprite();
+    var bg3:FlxSprite = new FlxSprite();
 	var textParts:Array<String> = new Array<String>();
 
     // constructor for cutscene state when a data file is passed in
@@ -23,10 +28,21 @@ class CutsceneState extends FlxState {
     }
 
     override public function create():Void {
+        // set up background animation
+        bg1.loadGraphic("assets/images/scene1back.png");
+        bg1.setGraphicSize(1080, 720);
+        bg1.updateHitbox();
+        //bg2.loadGraphic("assets/images/scene1next.png");
+        //bg2.setGraphicSize(1080, 720);
+        //bg2.updateHitbox();
+        //bg3.loadGraphic("assets/images/scene1top.png");
+        //bg3.setGraphicSize(1080, 720);
+        //bg3.updateHitbox();
+
         // information for players to skip cutscene or play after cutscene ends
         stateInfo = new FlxText(10, 30, 250); // x, y, width
         stateInfo.text = "Press 'ESC' to skip and play";
-        stateInfo.setFormat("assets/font.ttf", 18, FlxColor.WHITE, CENTER);
+        stateInfo.setFormat("assets/fonts/Adventure.otf", 18, FlxColor.WHITE, CENTER);
         stateInfo.setBorderStyle(OUTLINE, FlxColor.GREEN, 1);
 
         // add texts to textParts array
@@ -37,13 +53,16 @@ class CutsceneState extends FlxState {
         textParts.push("So he challenged the strange traveler to a game of wits and wizardry.");
 
         // changing text for the cutscene
-        currentText = new FlxText(360, 260, 400);
+        currentText = new FlxText(350, 260, 400);
         currentText.text = textParts[i];
-        currentText.setFormat("assets/font.ttf", 32, FlxColor.WHITE, CENTER);
+        currentText.setFormat("assets/fonts/Adventure.otf", 32, FlxColor.WHITE, CENTER);
 
         // run the clock and call cutscene function
-        clock.start(8.5, cutsceneText, 5);
+        clock.start(8, cutsceneText, 5);
 
+        add(bg1);
+        //add(bg2);
+        //add(bg3);
         add(currentText);
         add(stateInfo);
 		super.create();
