@@ -5,6 +5,7 @@ import flixel.ui.FlxButton;
 import flixel.FlxG;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import flixel.FlxSprite;
 
 class LevelState extends FlxState {
 
@@ -17,6 +18,18 @@ class LevelState extends FlxState {
 	var flag:Flag;
 	var counter:Float = 1;
 	var _terrain:Terrain;
+	var _backgroundArt:Array<FlxSprite>;
+
+	// UI needed for game state
+	// Count down timer,
+	// possesion indicator -- big screen flash -- BLAH HAS THE STATUE
+	// background art. Lets do that now
+
+	// UI Art:
+	// Background art variables:
+	var _backgroundArtFrame = 0;
+	var _backgroundArtFrameTimer = 0.0;
+	var _backgroundArtFrameTime = .1;
 
 	override public function create():Void {
 		stateInfo = new FlxText(10, 30, 150);
@@ -30,6 +43,7 @@ class LevelState extends FlxState {
 		add(stateInfo);
 		add(timer);
 		initializeCamera();
+		loadGraphics();
 		super.create();
 	}
 
@@ -37,6 +51,42 @@ class LevelState extends FlxState {
 		var tempTxt = new FlxText(x, y, width, startingText);
 		add(tempTxt);
 		return tempTxt;
+	}
+
+	private function loadGraphics() : Void {
+		// this loads the background art
+		var numFrames = 9;
+		_backgroundArt = new Array<FlxSprite>();
+		for (i in 0...numFrames) {
+			_backgroundArt.insert(0, new FlxSprite());
+		}
+		for (i in 0...numFrames) {
+			_backgroundArt[i].loadGraphic(_levelData.levelBackgroundArt + i + ".png");
+			if (i != _backgroundArtFrame) {
+				_backgroundArt[i].alpha = 0;
+			}
+			var scale = Math.max(FlxG.width/_backgroundArt[i].width, FlxG.height/_backgroundArt[i].height);
+			var xPos = -(1-scale)*_backgroundArt[0].width/2;
+			var yPos = -(1-scale)*_backgroundArt[0].height/2;
+
+			_backgroundArt[i].scale.x = scale;
+			_backgroundArt[i].scale.y = scale;
+			// _backgroundArt[i].x = 0;
+			// _backgroundArt[i].y = 0;
+			// _backgroundArt[i].offset.x = 0;
+			// _backgroundArt[i].offset.y = 0;
+			//_backgroundArt[i].centerOffsets(false);
+			_backgroundArt[i].x = xPos;
+			_backgroundArt[i].x = yPos;
+		}
+		// _backgroundArt.loadGraphics
+		addBackgroundGraphics();
+	}
+
+	private function addBackgroundGraphics() : Void {
+		for (bg in _backgroundArt) {
+			add(bg);
+		}
 	}
 
 	private function initializeCamera() : Void {
@@ -65,7 +115,7 @@ class LevelState extends FlxState {
 		// then load the level data using the LevelParser
 		_levelData.parse(_levelDataFilename);
 		_terrain = new Terrain(200, 200); // pass in tile width and tile height
-		_terrain.add(this);
+		// _terrain.add(this);
 		//_terrain.follow();
 
 		loadLevel();
@@ -75,6 +125,8 @@ class LevelState extends FlxState {
 		// this resets/loads a level
 		_terrain.setLevelFile(_levelData.tileMapFile, _levelData.levelTileArt); // also set art file with this function
 		_terrain.reloadLevel();
+		// addBackgroundGraphics();
+		_terrain.add(this);
 		/*trace(_terrain.mapHeight * _terrain.getTileHeight());
 		FlxG.camera.setSize(FlxG.camera.width, _terrain.mapHeight * _terrain.getTileHeight());
 		trace("Width " + FlxG.camera.scaleY);
@@ -92,22 +144,43 @@ class LevelState extends FlxState {
 		timer.text = "" + elapsed;
 		super.update(elapsed);
 		//trace(FlxG.camera.height);
-		if (FlxG.keys.pressed.L) {
-			FlxG.camera.x = FlxG.camera.x - 1;
+		if (FlxG.keys.justPressed.L) {
+			for (bg in _backgroundArt) {
+				bg.x = bg.x - 1;
+			}
 		}
-		if (FlxG.keys.pressed.J) {
-			FlxG.camera.x = FlxG.camera.x + 1;
+		if (FlxG.keys.justPressed.J) {
+			for (bg in _backgroundArt) {
+				bg.x = bg.x + 1;
+			}
 		}
-		if (FlxG.keys.pressed.K) {
-			FlxG.camera.y = FlxG.camera.y - 1;
+		if (FlxG.keys.justPressed.K) {
+			for (bg in _backgroundArt) {
+				bg.y = bg.y - 1;
+			}
 		}
-		if (FlxG.keys.pressed.I) {
-			FlxG.camera.y = FlxG.camera.y + 1;
+		if (FlxG.keys.justPressed.I) {
+			for (bg in _backgroundArt) {
+				bg.y = bg.y + 1;
+			}
 		}
 		if (FlxG.keys.pressed.P) {
 			trace(FlxG.camera.x + " : " + FlxG.camera.y);
 		}
 		_terrain.updateBuffers();
+		updateBackgroundArt(elapsed);
+	}
+
+	private function updateBackgroundArt(elapsed:Float) {
+		_backgroundArtFrameTimer += elapsed;
+		if (_backgroundArtFrameTimer > _backgroundArtFrameTime) {
+			// then increase the frame index
+			_backgroundArtFrameTimer -= _backgroundArtFrameTime;
+			_backgroundArt[_backgroundArtFrame].alpha = 0;
+			_backgroundArtFrame++;
+			_backgroundArtFrame %= _backgroundArt.length;
+			_backgroundArt[_backgroundArtFrame].alpha = 1;
+		}
 	}
 }
 

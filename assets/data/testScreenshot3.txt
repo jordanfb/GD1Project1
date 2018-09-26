@@ -17,6 +17,6 @@ assets/images/green_box.png
 Music:
 music.file
 BackgroundArt:
-art.file
+assets/images/background animation/aztec background000
 TileArt:
 assets/images/jungle1.png
