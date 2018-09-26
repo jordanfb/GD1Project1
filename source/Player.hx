@@ -108,8 +108,8 @@ class Player extends FlxSprite
 		
 		if (isHuman) {
 			// update the hitbox so it's not weird.
-			this.height = this.height -100;
-			this.offset.set(this.offset.x, this.offset.y - 12); // test
+			// this.height = this.height -100;
+			this.offset.set(this.offset.x, this.offset.y - 10); // test -12
 			// updateHitbox();
 		}
 		// this.scale.y = scale;

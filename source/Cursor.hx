@@ -23,11 +23,14 @@ class Cursor extends FlxSprite
 	private var right:Bool;
 	private var down:Bool;
 	private var offsetList:Array<FlxPoint>;
+	private var tileIndexList:Array<Int>;
 	private var spriteList:Array<FlxSprite>;
 	private var terrainRef:Terrain;
+	private var isHuman:Bool;
 
-	public function new(xp:Int, yp:Int, newcolor:FlxColor, descolor:FlxColor, tiles:Terrain, file:String)
+	public function new(xp:Int, yp:Int, newcolor:FlxColor, descolor:FlxColor, tiles:Terrain, file:String, useHumanTiles:Bool)
 	{
+		isHuman = useHumanTiles;
 		xpos = xp;
 		ypos = yp;
 		cursorColor = new FlxColor(newcolor);
@@ -130,6 +133,7 @@ class Cursor extends FlxSprite
 	{
 		blockType = blockList[Std.int(Math.random()*8)];
 		offsetList = new Array<FlxPoint>();
+		tileIndexList = new Array<Int>();
 		if (blockType == 1)		//L
 		{
 			offsetList.push(new FlxPoint(0, 0));
@@ -148,6 +152,11 @@ class Cursor extends FlxSprite
 			offsetList.push(new FlxPoint(2, 5));
 			offsetList.push(new FlxPoint(3, 4));
 			offsetList.push(new FlxPoint(3, 5));
+			if (isHuman) {
+				tileIndexList = [204, 224, 225, 205, 162, 182, 163, 183, 176, 196, 177, 197, 16, 36, 17, 37];
+			} else {
+				tileIndexList = [92, 112, 113, 93, 86, 106, 87, 107, 136, 156, 137, 157, 126, 146, 127, 147];
+			}
 		}
 		else if (blockType == 2)	//Backwards L
 		{
@@ -167,6 +176,11 @@ class Cursor extends FlxSprite
 			offsetList.push(new FlxPoint(-2, 5));
 			offsetList.push(new FlxPoint(-1, 4));
 			offsetList.push(new FlxPoint(-1, 5));
+			if (isHuman) {
+				tileIndexList = [204, 224, 225, 205, 162, 182, 163, 183, 178, 198, 179, 199, 12, 32, 13, 33];
+			} else {
+				tileIndexList = [92, 112, 113, 93, 86, 106, 87, 107, 138, 158, 139, 159, 126, 146, 127, 147];
+			}
 		}
 		else if (blockType == 3) //Z
 		{
@@ -186,6 +200,11 @@ class Cursor extends FlxSprite
 			offsetList.push(new FlxPoint(2, 5));
 			offsetList.push(new FlxPoint(3, 4));
 			offsetList.push(new FlxPoint(3, 5));
+			if (isHuman) {
+				tileIndexList = [204, 224, 225, 205, 176, 196, 177, 197, 58, 78, 59, 79, 200, 220, 201, 221];
+			} else {
+				tileIndexList = [87, 107, 108, 88, 126, 146, 127, 147, 88, 108, 89, 109, 92, 112, 93, 113];
+			}
 		}
 		else if (blockType == 4) //Backwards Z
 		{
@@ -205,6 +224,11 @@ class Cursor extends FlxSprite
 			offsetList.push(new FlxPoint(-1, 5));
 			offsetList.push(new FlxPoint(-2, 4));
 			offsetList.push(new FlxPoint(-2, 5));
+			if (isHuman) {
+				tileIndexList = [204, 224, 225, 205, 178, 198, 179, 199, 57, 77, 56, 76, 201, 221, 200, 220];
+			} else {
+				tileIndexList = [132, 152, 153, 133, 128, 148, 129, 149, 97, 107, 96, 106, 87, 107, 86, 106];
+			}
 		}
 		else if (blockType == 5) //T
 		{
@@ -224,6 +248,11 @@ class Cursor extends FlxSprite
 			offsetList.push(new FlxPoint(2, 1));
 			offsetList.push(new FlxPoint(3, 0));
 			offsetList.push(new FlxPoint(3, 1));
+			if (isHuman) {
+				tileIndexList = [14, 34, 35, 15, 54, 74, 55, 75, 33, 13, 32, 12, 16, 36, 17, 37];
+			} else {
+				tileIndexList = [88, 108, 109, 89, 82, 102, 83, 103, 175, 155, 174, 154, 91, 111, 92, 112];
+			}
 		}
 		else if (blockType == 6) //Line
 		{
@@ -243,6 +272,11 @@ class Cursor extends FlxSprite
 			offsetList.push(new FlxPoint(0, 7));
 			offsetList.push(new FlxPoint(1, 6));
 			offsetList.push(new FlxPoint(1, 7));
+			if (isHuman) {
+				tileIndexList = [204, 224, 225, 205, 12, 182, 163, 183, 162, 182, 163, 183, 200, 220, 201, 221];
+			} else {
+				tileIndexList = [86, 106, 107, 87, 86, 106, 87, 107, 86, 106, 87, 107, 93, 113, 94, 114];
+			}
 		}
 		else if (blockType == 7) //Big Box
 		{
@@ -262,6 +296,11 @@ class Cursor extends FlxSprite
 			offsetList.push(new FlxPoint(2, 1));
 			offsetList.push(new FlxPoint(3, 0));
 			offsetList.push(new FlxPoint(3, 1));
+			if (isHuman) {
+				tileIndexList = [56, 76, 77, 57, 176, 196, 177, 197, 178, 198, 179, 199, 58, 78, 59, 79];
+			} else {
+				tileIndexList = [96, 116, 117, 97, 136, 156, 137, 157, 138, 158, 139, 159, 98, 118, 99, 119];
+			}
 		}
 		else 				//Single box
 		{
@@ -269,6 +308,12 @@ class Cursor extends FlxSprite
 			offsetList.push(new FlxPoint(0, 1));
 			offsetList.push(new FlxPoint(1, 1));
 			offsetList.push(new FlxPoint(1, 0));
+			if (isHuman) {
+				tileIndexList = [200, 220, 221, 201];
+			} else {
+				// is god
+				tileIndexList = [80, 100, 101, 81];
+			}
 		}
 		return offsetList;
 	}
@@ -329,7 +374,7 @@ class Cursor extends FlxSprite
 
 	public function createBlock():Void
 	{
-		terrainRef.addShape(cursorPoint, offsetList);
+		terrainRef.addShape(cursorPoint, offsetList, tileIndexList);
 		generateShape();
 	}
 
