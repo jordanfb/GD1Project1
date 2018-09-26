@@ -40,7 +40,7 @@ class CutsceneState extends FlxState {
         j = 0;*/
 
         // set up background animation
-        bg.loadGraphic("assets/images/temp background");
+        bg.loadGraphic("assets/images/temp background.png");
         bg.setGraphicSize(1080, 720);
         bg.updateHitbox();
 
