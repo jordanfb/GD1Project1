@@ -38,8 +38,8 @@ class HumanWinState extends FlxState {
         // sets up win text
         winText = new FlxText(75, 40, 900);
 		winText.text = "With their victory, the magical Traveller stole away into the night.\nThey would return home with a decoration for their mantle and a story for their grandchildren.";
-		winText.setFormat("assets/fonts/Adventure.otf", 32, FlxColor.ORANGE, CENTER);
-		//winText.setBorderStyle(OUTLINE, FlxColor.PURPLE, 1);
+		winText.setFormat("assets/fonts/Adventure.otf", 32, FlxColor.WHITE, CENTER);
+		winText.setBorderStyle(OUTLINE, FlxColor.PURPLE, 1);
 
         // back to menu button setup
         menuB = new FlxButton(20, 620, "        Back", clickBack);

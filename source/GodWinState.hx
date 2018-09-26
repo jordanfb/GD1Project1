@@ -38,8 +38,8 @@ class GodWinState extends FlxState {
         // sets up win text
         winText = new FlxText(75, 25, 900);
 		winText.text = "With his victory, Xochipilli ascended to the top of his ancient temple.\nHe looked out over the lands he once oversaw and sighed.";
-		winText.setFormat("assets/fonts/Adventure.otf", 32, FlxColor.ORANGE, CENTER);
-		//winText.setBorderStyle(OUTLINE, FlxColor.RED, 1);
+		winText.setFormat("assets/fonts/Adventure.otf", 32, FlxColor.WHITE, CENTER);
+		winText.setBorderStyle(OUTLINE, FlxColor.RED, 1);
 
         // back to menu button setup
         menuB = new FlxButton(20, 620, "        Back", clickBack);

@@ -28,16 +28,16 @@ class CutsceneState extends FlxState {
     }
 
     override public function create():Void {
-        /*// set up background animation
+        // set up background animation
         bg1.loadGraphic("assets/images/scene1back.png");
         bg1.setGraphicSize(1080, 720);
         bg1.updateHitbox();
-        bg2.loadGraphic("assets/images/scene1next.png");
-        bg2.setGraphicSize(1080, 720);
-        bg2.updateHitbox();
-        bg3.loadGraphic("assets/images/scene1top.png");
-        bg3.setGraphicSize(1080, 720);
-        bg3.updateHitbox();*/
+        //bg2.loadGraphic("assets/images/scene1next.png");
+        //bg2.setGraphicSize(1080, 720);
+        //bg2.updateHitbox();
+        //bg3.loadGraphic("assets/images/scene1top.png");
+        //bg3.setGraphicSize(1080, 720);
+        //bg3.updateHitbox();
 
         // information for players to skip cutscene or play after cutscene ends
         stateInfo = new FlxText(10, 30, 250); // x, y, width
@@ -61,8 +61,8 @@ class CutsceneState extends FlxState {
         clock.start(8, cutsceneText, 5);
 
         add(bg1);
-        add(bg2);
-        add(bg3);
+        //add(bg2);
+        //add(bg3);
         add(currentText);
         add(stateInfo);
 		super.create();
