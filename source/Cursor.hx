@@ -26,13 +26,14 @@ class Cursor extends FlxSprite
 		//drag.x = drag.y = 3200;
 		super(xp, yp);
 		drag.x = drag.y = 3200;
-		makeGraphic(16, 16, FlxColor.BLUE);
+		makeGraphic(16, 16, newcolor);
 	}
 
-	public function setVisible()
-	{
-		makeGraphic(16, 16, cursorColor);
-	}
+	//public function setVisible()
+	//{
+	//	makeGraphic(16, 16, cursorColor);
+	//}
+	
 
 	public function cursorMovement(keys:String):Void
 	{
@@ -62,11 +63,6 @@ class Cursor extends FlxSprite
 	}
 
 	public function destroyBlock():Void
-	{
-
-	}
-	
-	public function rotateBlock():Void
 	{
 
 	}

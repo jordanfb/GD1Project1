@@ -46,7 +46,7 @@ class PlayState extends FlxState {
 		add(level3);
 		add(stateInfo);
 		
-		player1 = new Player("WASDQERF", "assets/images/godsprite.png", 16, 16);
+		/*player1 = new Player("WASDQERF", "assets/images/godsprite.png", 16, 16);
 		player1.cursor = new Cursor(player1.xpos, player1.ypos, FlxColor.BLUE);
 		player2 = new Player("IJKLUOP;", "assets/images/human.png", 16, 16);
 		player2.cursor = new Cursor(player2.xpos, player2.ypos, FlxColor.PURPLE);
@@ -56,7 +56,7 @@ class PlayState extends FlxState {
 		player1.cursor.kill();
 		add(player2);
 		add(player2.cursor);
-		player2.cursor.kill();
+		player2.cursor.kill();*/
 	}
 
 	override public function update(elapsed:Float):Void {

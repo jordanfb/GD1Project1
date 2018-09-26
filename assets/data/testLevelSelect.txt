@@ -2,10 +2,10 @@ LevelName:
 Aztec Test
 Player1Spawn:
 100
-600
+500
 Player2Spawn:
 600
-600
+500
 GameMode:
 Hold the Flag
 TileMap:

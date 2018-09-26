@@ -94,8 +94,8 @@ class Terrain {
             cameraOffset = new FlxPoint(0, 0);
         }
         // _tilemap.updateHitbox();
-        _tilemap.offset.x = -cameraOffset.x;
-        _tilemap.offset.y = -cameraOffset.y;
+        //_tilemap.offset.x = -cameraOffset.x;
+        //_tilemap.offset.y = -cameraOffset.y;
         return cameraOffset;
     }
 
@@ -143,12 +143,12 @@ class Terrain {
     	setTile(Std.int(pos.x), Std.int(pos.y), 0);
     }
 
-    /*
+    
     public function collide(p:Player) : Void {
         // does collisions with player
         FlxG.collide(p, _tilemap);
     }
-    */
+    
 
     /*public function pickUp(character:Player, X:Float, Y:Float) {
         // character picks up flag at (X, Y)

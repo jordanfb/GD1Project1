@@ -5,6 +5,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import openfl.Assets;
+import flixel.FlxObject;
 
 //Contains all information about the player and it's functions
 class Player extends FlxSprite
@@ -27,6 +28,7 @@ class Player extends FlxSprite
 	private var stunnedAtTime:Float;
 	private var filepath:String;
 	private var sprite:FlxGraphicAsset;
+	private var hasJump:Bool;
 	public var cursor:Cursor;
 
 	//Controls should be configured as: Up, Left, Down, Right, TCursor, TCursorMode, Rotate, PlaceBlock
@@ -34,7 +36,7 @@ class Player extends FlxSprite
 	{
 		//Set visible data
 		score = 0;
-		speed = 300;
+		speed = 110;
 		hasFlag = false;
 		usingCursor = false;
 		destroyOrCreate = true;
@@ -47,12 +49,14 @@ class Player extends FlxSprite
 		right = false;
 		down = false;
 		inStun = false;
+		hasJump = true;
 		stunTime = 2;
 		filepath = artpath;
 		super(x, y);
-		loadGraphic(artpath, true, 200, 400);
+		
 		if (artpath == "assets/images/human.png")
 		{
+			loadGraphic(artpath, true, 336, 400);
 			animation.add("walk", [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24], 12, false);
 			animation.add("jump", [24, 25, 26, 27], 12, false);
 			animation.add("jump end", [27], 12, true);
@@ -65,6 +69,7 @@ class Player extends FlxSprite
 		}
 		else
 		{
+			loadGraphic(artpath, true, 310, 400);
 			animation.add("walk", [2, 3, 4, 5], 8, false);
 			animation.add("falling", [9, 10, 11, 12, 13, 14], 8, false);
 			animation.add("falling end", [14], 8, true);
@@ -76,8 +81,10 @@ class Player extends FlxSprite
 
 		}
 
-		//makeGraphic(16, 16, FlxColor.GREEN);
-		drag.x = drag.y = 2400;
+		makeGraphic(16, 16, FlxColor.GREEN);
+		drag.x = 880;
+		acceleration.y = 175;
+		maxVelocity.y = 250;
 	}
 
 	//Stun function that when called will stun the player
@@ -89,13 +96,13 @@ class Player extends FlxSprite
 
 	public function movement():Void
 	{
-		up = FlxG.keys.anyPressed([keys.charAt(0)]);
+		up = FlxG.keys.anyJustPressed([keys.charAt(0)]);
 		left = FlxG.keys.anyPressed([keys.charAt(1)]);
 		down = FlxG.keys.anyPressed([keys.charAt(2)]);
 		right = FlxG.keys.anyPressed([keys.charAt(3)]);
 
-		if (up && down)
-			up = down = false;
+		//if (up && down)
+		//	up = down = false;
 		if (left && right)
 			left = right = false;
 
@@ -103,17 +110,26 @@ class Player extends FlxSprite
 			velocity.x = speed*-1;
 		if (right)
 			velocity.x = speed;
-		if (up)
-			velocity.y = speed*-1;
-		if (down)
-			velocity.y = speed;
+		if (up && hasJump)
+		{
+			hasJump = false;
+			velocity.y = -200;
+		}
+		if (isTouching(FlxObject.DOWN) || isTouching(FlxObject.RIGHT) || isTouching(FlxObject.LEFT))
+			hasJump = true;
+		else
+			hasJump = false;
+		if (down && velocity.y < 0)
+			acceleration.y += 15;
+		if (isTouching(FlxObject.DOWN))
+			acceleration.y = 175;
 
 
 		if (velocity.x != 0 && velocity.y == 0)
 			animation.play("walk");
-		else if (velocity.y > 0)
-			animation.play("jump");
 		else if (velocity.y < 0)
+			animation.play("jump");
+		else if (velocity.y > 0)
 			animation.play("falling");
 		else
 			animation.play("idle");
