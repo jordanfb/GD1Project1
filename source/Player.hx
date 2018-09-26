@@ -38,6 +38,7 @@ class Player extends FlxSprite
 	public var cursor:Cursor;
 	private var prevVelocity:FlxPoint;
 	private var fallingToggle:Bool; // this is for the falling animation just deal with the hack because it's terrible
+	private var isHuman:Bool;
 
 	//Controls should be configured as: Up, Left, Down, Right, TCursor, TCursorMode, Rotate, PlaceBlock
 	public function new(controls:String, artpath:String, x:Int, y:Int, scale:Float)
@@ -65,8 +66,8 @@ class Player extends FlxSprite
 		coolDownTime = 0;
 		filepath = artpath;
 		super(x, y);
-		
-		if (artpath == "assets/images/human.png")
+		isHuman = artpath == "assets/images/human.png";
+		if (isHuman)
 		{
 			loadGraphic(artpath, true, 336, 400);
 			animation.add("walk", [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24], 12, false);
@@ -100,10 +101,17 @@ class Player extends FlxSprite
 		animation.finishCallback = handleNextAnimation;
 		this.scale.set(scale, scale);
 		this.updateHitbox();
+		
+		/*if (isHuman) {
+			// update the hitbox so it's not weird.
+			// this.offset.set(this.offset.x, this.offset.y - 12); // test
+			this.height = this.height -12;
+			// updateHitbox();
+		}*/
 		// this.scale.y = scale;
 		//makeGraphic(16, 16, FlxColor.GREEN);
 		drag.x = 880;
-		acceleration.y = 300;
+		acceleration.y = 0;
 		maxVelocity.y = 500;
 		prevVelocity = new FlxPoint(0, 0);
 	}
