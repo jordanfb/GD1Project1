@@ -170,9 +170,9 @@ class LevelState extends FlxState {
 		screenBoarderWalls = FlxCollision.createCameraWall(FlxG.camera, 10, true);
 
 		// initialize the players
-		player1 = new Player("WASDQERF", "assets/images/godsprite.png", _levelData.player1_x, _levelData.player1_y, _terrain.scale);
+		player1 = new Player("WASDQRFE", "assets/images/godsprite.png", _levelData.player1_x, _levelData.player1_y, _terrain.scale);
 		player1.cursor = new Cursor(player1.xpos, player1.ypos, FlxColor.BLUE, FlxColor.ORANGE, _terrain, "assets/images/outline.png");
-		player2 = new Player("IJKLUOPH", "assets/images/human.png", _levelData.player2_x, _levelData.player2_y, _terrain.scale);
+		player2 = new Player("IJKLUP;O", "assets/images/human.png", _levelData.player2_x, _levelData.player2_y, _terrain.scale);
 		player2.cursor = new Cursor(player2.xpos, player2.ypos, FlxColor.PURPLE, FlxColor.RED, _terrain, "assets/images/outline1.png");
 
 		add(player1);
@@ -233,6 +233,7 @@ class LevelState extends FlxState {
 		super.update(elapsed);
 		_terrain.collide(player1);
 		_terrain.collide(player2);
+		_terrain.collideFlag(flag1);
 		FlxG.collide(screenBoarderWalls, player1);
 		FlxG.collide(screenBoarderWalls, player2);
 		//trace(FlxG.camera.height);
@@ -364,6 +365,8 @@ class LevelState extends FlxState {
 
 	private function endGame() : Void {
 		// someone should win. The person with the highest score
+		_p1Score = Std.int(_p1Score);
+		_p2Score = Std.int(_p2Score);
 		if (_p1Score > _p2Score) {
 			// god wins
 			leaveState(new GodWinState());

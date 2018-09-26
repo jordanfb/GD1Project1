@@ -1,5 +1,5 @@
-LevelName: level3
-Aztec Test
+LevelName:
+Diggin' Deep
 Player1Spawn:
 100
 325
@@ -13,7 +13,7 @@ assets/data/level3.txt
 TerrainMap:
 terrain.file
 LevelScreenshot:
-assets/images/green_box.png
+assets/images/level3.PNG
 Music:
 music.file
 BackgroundArt:

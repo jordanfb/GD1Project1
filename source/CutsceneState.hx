@@ -14,11 +14,9 @@ class CutsceneState extends FlxState {
     var stateInfo:FlxText;
     var levelInfo:String;
     var clock:FlxTimer = new FlxTimer();
-    var clock2:FlxTimer = new FlxTimer();
     var currentText:FlxText;
     var i:Int = 0;
     var j:Int = 0;
-    var k:Int = 0;
     var check:Bool = false;
     var bg:FlxSprite = new FlxSprite();
     var bg2:FlxSprite = new FlxSprite(550, 0);
@@ -41,9 +39,9 @@ class CutsceneState extends FlxState {
         bg.updateHitbox();
 
         // information for players to skip cutscene or play after cutscene ends
-        stateInfo = new FlxText(10, 30, 250); // x, y, width
-        stateInfo.text = "Press 'ESC' to skip and play";
-        stateInfo.setFormat("assets/fonts/Adventure.otf", 18, FlxColor.WHITE, CENTER);
+        stateInfo = new FlxText(10, 30, 300); // x, y, width
+        stateInfo.text = "Press 'SPACE' to skip";
+        stateInfo.setFormat("assets/fonts/Adventure.otf", 28, FlxColor.WHITE, CENTER);
         stateInfo.setBorderStyle(OUTLINE, FlxColor.GREEN, 1);
 
         // add texts to textParts array
@@ -61,7 +59,6 @@ class CutsceneState extends FlxState {
 
         // run the clock and call cutscene function
         clock.start(4, cutsceneText, 5);
-        // clock2.start(15, stopPanning, 1);
 
         add(bg);
         add(bg2);
@@ -72,7 +69,7 @@ class CutsceneState extends FlxState {
 
 	override public function update(elapsed:Float):Void {
         // on key press skips cutscene and creates new level state
-        if(FlxG.keys.pressed.ESCAPE) {
+        if(FlxG.keys.pressed.SPACE) {
             closeSubState();
             var _levelState = new LevelState();
             _levelState.initializeLevel(levelInfo);

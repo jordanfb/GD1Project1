@@ -15,8 +15,8 @@ class Flag extends FlxSprite {
     private var canBePickedUp:Bool;
 
     public function new(X:Float, Y:Float, ?SimpleGraphic:FlxGraphicAsset) {
-        super(X, Y, SimpleGraphic);
-        startingPos = new FlxPoint(X, Y);
+        super(X, Y-1, SimpleGraphic);
+        startingPos = new FlxPoint(X, Y-1);
         // "true" is for if it should be animated and the (x, y) are for where each animation is sliced
         loadGraphic("assets/images/flag.png", true, 200, 200);
         // "name", [frame path], at what fps, should it loop?
@@ -25,6 +25,10 @@ class Flag extends FlxSprite {
         updateHitbox();
         animation.play("flagWave");
         canBePickedUp = true;
+
+        // make it fall
+        acceleration.y = 300;
+        maxVelocity.y = 500;
     }
 
     public function isBeingHeld() : Bool {
@@ -35,11 +39,11 @@ class Flag extends FlxSprite {
     public function pickUp(player:Player, X:Float, Y:Float) {
         // character picks up flag at (X, Y)
         player.hasFlag = true;
-        //player.toggleFlag();
         beenPickedUp();
     }
 
     public function drop(player:Player, X:Float, Y:Float) {
+        player.setHasFlag(false);
         setPosition(X, Y);
         beenDropped();
     }
@@ -61,9 +65,8 @@ class Flag extends FlxSprite {
 
     public function flagSteal(player1:Player, other:Player) {
         // player who had flag gets stunned and flag goes to other
-        player1.hasFlag = false;
+        player1.setHasFlag(false);
         player1.stun();
         other.hasFlag = true;
-        //other.toggleFlag();
     }
 }

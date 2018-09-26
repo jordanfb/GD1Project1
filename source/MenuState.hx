@@ -18,7 +18,6 @@ class MenuState extends FlxState {
     var godWin:FlxButton;
     var creditB:FlxButton;
     var humanWin:FlxButton;
-    var stateInfo:FlxText;
     var startText:FlxText;
     var bg:FlxSprite;
     var levelLoading:FlxButton;
@@ -87,12 +86,6 @@ class MenuState extends FlxState {
         creditB.updateHitbox();
         creditB.label.setFormat("assets/fonts/Adventure.otf", 36, FlxColor.WHITE, LEFT);
 
-        // current state information
-        stateInfo = new FlxText(10, 30, 100); // x, y, width
-        stateInfo.text = "Menu State";
-        stateInfo.setFormat("assets/fonts/Adventure.otf", 20, FlxColor.WHITE, CENTER);
-        stateInfo.setBorderStyle(OUTLINE, FlxColor.RED, 1);
-
         // start text information
         startText = new FlxText(425, 275, 200); // x, y, width
         startText.text = "Start";
@@ -106,7 +99,6 @@ class MenuState extends FlxState {
 		add(playB);
         add(controlsB);
         add(quitB);
-        add(stateInfo);
         add(creditB);
         add(startText);
 		super.create();

@@ -7,6 +7,7 @@ import flixel.util.FlxColor;
 import openfl.Assets;
 import flixel.FlxObject;
 import flixel.math.FlxPoint;
+import Math;
 
 
 //Contains all information about the player and it's functions
@@ -37,6 +38,7 @@ class Player extends FlxSprite
 	public var cursor:Cursor;
 	private var prevVelocity:FlxPoint;
 	private var fallingToggle:Bool; // this is for the falling animation just deal with the hack because it's terrible
+	private var isHuman:Bool;
 
 	//Controls should be configured as: Up, Left, Down, Right, TCursor, TCursorMode, Rotate, PlaceBlock
 	public function new(controls:String, artpath:String, x:Int, y:Int, scale:Float)
@@ -59,13 +61,13 @@ class Player extends FlxSprite
 		hasJump = true;
 		justUsed = false;
 		fallingToggle = false;
-		stunTime = 2;
+		stunTime = 3;
 		coolDown = 1;
 		coolDownTime = 0;
 		filepath = artpath;
 		super(x, y);
-		
-		if (artpath == "assets/images/human.png")
+		isHuman = artpath == "assets/images/human.png";
+		if (isHuman)
 		{
 			loadGraphic(artpath, true, 336, 400);
 			animation.add("walk", [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24], 12, false);
@@ -76,6 +78,7 @@ class Player extends FlxSprite
 			animation.add("idle", [1], 12, true);
 			animation.add("placing", [2, 3, 4, 5, 6, 7, 8, 9], 12, false);
 			animation.add("placing loop", [8, 9], 12, true);
+			animation.add("stun", [26, 16, 18, 17, 23, 27, 24, 1], 12 , true);
 
 		}
 		else
@@ -89,7 +92,7 @@ class Player extends FlxSprite
 			animation.add("idle", [14], 8, true);
 			animation.add("placing", [14, 11, 12, 13], 8, false);
 			animation.add("placing loop", [12, 13], 8, true);
-
+			animation.add("stun", [14, 13, 9, 3, 6], 8, true);
 		}
 		// this.scale.x = scale;
 		// trace("SCALE: " + scale);
@@ -98,17 +101,24 @@ class Player extends FlxSprite
 		animation.finishCallback = handleNextAnimation;
 		this.scale.set(scale, scale);
 		this.updateHitbox();
+		
+		/*if (isHuman) {
+			// update the hitbox so it's not weird.
+			// this.offset.set(this.offset.x, this.offset.y - 12); // test
+			this.height = this.height -12;
+			// updateHitbox();
+		}*/
 		// this.scale.y = scale;
 		//makeGraphic(16, 16, FlxColor.GREEN);
 		drag.x = 880;
-		acceleration.y = 225;
-		maxVelocity.y = 400;
+		acceleration.y = 0;
+		maxVelocity.y = 500;
 		prevVelocity = new FlxPoint(0, 0);
 	}
 
 	private function handleNextAnimation(v:String):Void {
 		// trace(v);
-		if (v != "walk")
+		if (v != "walk" && v != "stun")
 			animation.play(v + " loop");
 		// trace(animation.curAnim.name);
 	}
@@ -118,6 +128,7 @@ class Player extends FlxSprite
 	{
 		this.inStun = true;
 		this.stunnedAtTime = 0;
+		animation.play("stun");
 	}
 
 	public function movement():Void
@@ -143,7 +154,7 @@ class Player extends FlxSprite
 		if (up && hasJump)
 		{
 			hasJump = false;
-			velocity.y = -250;
+			velocity.y = -350;
 		}
 		if (isTouching(FlxObject.DOWN)/* || isTouching(FlxObject.RIGHT) || isTouching(FlxObject.LEFT)*/)
 			hasJump = true;
@@ -152,7 +163,7 @@ class Player extends FlxSprite
 		if (down && velocity.y < 0)
 			acceleration.y += 50;
 		if (isTouching(FlxObject.DOWN))
-			acceleration.y = 225;
+			acceleration.y = 300;
 
 		if (velocity.x != 0 && velocity.y == 0){
 			// trace("walking");
@@ -239,10 +250,19 @@ class Player extends FlxSprite
 	public function toggleFlag():Void
 	{
 		hasFlag = !hasFlag;
-		if (hasFlag)
+		setHasFlag(hasFlag);
+	}
+
+	public function setHasFlag(has:Bool) : Void {
+		hasFlag = has;
+		if (hasFlag) {
 			speed = speed*.7;
-		else 
+			coolDown = 2;
+		}
+		else {
 			speed = 10*speed/7;
+			coolDown = 1;
+		}
 	}
 
 	override public function update(elapsed:Float):Void

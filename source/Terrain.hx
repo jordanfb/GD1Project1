@@ -162,6 +162,11 @@ class Terrain {
         // does collisions with player
         FlxG.collide(p, _tilemap);
     }
+
+    public function collideFlag(p:Flag) : Void {
+        // does collisions with player
+        FlxG.collide(p, _tilemap);
+    }
     
 
     /*public function pickUp(character:Player, X:Float, Y:Float) {
