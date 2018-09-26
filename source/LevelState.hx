@@ -27,6 +27,8 @@ class LevelState extends FlxState {
 	// possesion indicator -- big screen flash -- BLAH HAS THE STATUE
 	// background art. Lets do that now
 
+	// first fix grass then fix background art
+
 	// UI Art:
 	// Background art variables:
 	var _backgroundArtFrame = 0;
