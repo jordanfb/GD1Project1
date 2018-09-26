@@ -9,24 +9,37 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flash.system.System;
 
-class CreditsState extends FlxState {
+class TieStateHuman extends FlxState {
     var menuB:FlxButton;
     var quitB:FlxButton;
     var bg:FlxSprite;
-    var creditText:FlxText;
+    var winText:FlxText;
+    var images:Array<String> = new Array<String>();
+    var i:Int = 0;
 
     override public function create():Void {
+        // add all images to array
+        images.push("assets/images/human wins/player wins0000.png");
+        images.push("assets/images/human wins/player wins0001.png");
+        images.push("assets/images/human wins/player wins0002.png");
+        images.push("assets/images/human wins/player wins0003.png");
+        images.push("assets/images/human wins/player wins0004.png");
+        images.push("assets/images/human wins/player wins0005.png");
+        images.push("assets/images/human wins/player wins0006.png");
+        images.push("assets/images/human wins/player wins0007.png");
+        images.push("assets/images/human wins/player wins0008.png");
+
         // set up background animation
         bg = new FlxSprite();
-        bg.loadGraphic("assets/images/menu background.png");
+        bg.loadGraphic(images[i]);
         bg.setGraphicSize(1080, 720);
         bg.updateHitbox();
 
-        // sets up credits text
-        creditText = new FlxText(75, 40, 900);
-		creditText.text = "Created and Developed by:\nJordan Faas-Bush\nZach Thompson\nNicholas Smith\nAlexander Francoletti\nLeonardo Price\n\nFont Credit:\nhttp://www.pixelsagas.com/?download=adventure\n(Adventure Font Package)\n\nMusic and Sound Credit:\nhttps://www.zapsplat.com/ (Sounds)\nhttps://www.audiohero.com/ (Music)";
-		creditText.setFormat("assets/fonts/Adventure.otf", 32, FlxColor.BLACK, CENTER);
-		creditText.setBorderStyle(OUTLINE, FlxColor.WHITE, 1);
+        // sets up win text
+        winText = new FlxText(75, 40, 900);
+		winText.text = "Though the game was indecisive, Xochipilli was impressed with the Traveler’s mastery.\nAs night fell, the god bid the mortal farewell, gifting him the statue that had once adorned his temple.";
+		winText.setFormat("assets/fonts/Adventure.otf", 32, FlxColor.WHITE, CENTER);
+		winText.setBorderStyle(OUTLINE, FlxColor.PURPLE, 1);
 
         // back to menu button setup
         menuB = new FlxButton(20, 620, "        Back", clickBack);
@@ -42,16 +55,21 @@ class CreditsState extends FlxState {
         quitB.setGraphicSize(250, 60);
         quitB.updateHitbox();
         quitB.label.setFormat("assets/fonts/Adventure.otf", 36, FlxColor.WHITE, LEFT);
-        //quitB.label.setBorderStyle(OUTLINE, FlxColor.RED, 1);
+        //quitB.label.setBorderStyle(OUTLINE, FlxColor.PURPLE, 1);
 
         add(bg);
-        add(creditText);
+        add(winText);
         add(menuB);
         add(quitB);
 		super.create();
 	}
 
 	override public function update(elapsed:Float):Void {
+        if(i >= images.length) { i = 0; }
+        bg.loadGraphic(images[i]);
+        bg.setGraphicSize(1080, 720);
+        bg.updateHitbox();
+        i = i + 1;
 		super.update(elapsed);
 	}
 

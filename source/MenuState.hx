@@ -9,6 +9,7 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flash.system.System;
 import flixel.util.FlxTimer;
+import flixel.system.FlxSound;
 
 class MenuState extends FlxState {
     var playB:FlxButton;
@@ -23,9 +24,13 @@ class MenuState extends FlxState {
     var levelLoading:FlxButton;
     var clock:FlxTimer = new FlxTimer();
     var images:Array<String> = new Array<String>();
+    var music:FlxSound;
     var i:Int = 0;
 
     override public function create():Void {
+        //var snd = new WaudSound("assets/music/menu_music.mp3", { autoplay: true, loop: true, volume: 0.5, onload: playBgSound });
+        //snd.play();
+
         // add all images to array
         images.push("assets/images/fancy button/1.png");
         images.push("assets/images/fancy button/1.png");
@@ -135,6 +140,7 @@ class MenuState extends FlxState {
 	}
 
 	override public function update(elapsed:Float):Void {
+        FlxG.sound.playMusic("assets/music/menu_music.mp3");
 		super.update(elapsed);
 	}
 
