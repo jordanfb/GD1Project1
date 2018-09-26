@@ -27,8 +27,6 @@ class LevelState extends FlxState {
 	// possesion indicator -- big screen flash -- BLAH HAS THE STATUE
 	// background art. Lets do that now
 
-	// first fix grass then fix background art
-
 	// UI Art:
 	// Background art variables:
 	var _backgroundArtFrame = 0;
@@ -72,7 +70,10 @@ class LevelState extends FlxState {
 			}
 			var scale = Math.max(FlxG.width/_backgroundArt[i].width, FlxG.height/_backgroundArt[i].height);
 			var xPos = -(1-scale)*_backgroundArt[0].width/2;
-			var yPos = -(1-scale)*_backgroundArt[0].height/2;
+			// choose to either align the tops or bottoms or middle-ish by comenting out one of these lines:
+			var yPos = -(1-scale)*_backgroundArt[0].height/2; // this aligns the top to the top of the camera.
+			// var yPos = -(1-scale)*_backgroundArt[0].height/2 + FlxG.height - scale*_backgroundArt[0].height; // this aligns the bottom of the background art to the bottom of the camera
+			// var yPos = -(1-scale)*_backgroundArt[0].height/2 + FlxG.height/2 - scale*_backgroundArt[0].height/2; // this aligns the bottom of the background art to the bottom of the camera
 
 			_backgroundArt[i].scale.x = scale;
 			_backgroundArt[i].scale.y = scale;
@@ -82,7 +83,7 @@ class LevelState extends FlxState {
 			// _backgroundArt[i].offset.y = 0;
 			//_backgroundArt[i].centerOffsets(false);
 			_backgroundArt[i].x = xPos;
-			_backgroundArt[i].x = yPos;
+			_backgroundArt[i].y = yPos;
 		}
 		// _backgroundArt.loadGraphics
 		addBackgroundGraphics();
