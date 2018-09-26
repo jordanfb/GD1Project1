@@ -41,6 +41,12 @@ class LevelState extends FlxState {
 	var _countdownTime:Float;
 	var _levelPlayTime = 60; // the time to play the game
 
+	var _p1ScoreDisplay:FlxText;
+	var _p1Score:Float;
+
+	var _p2ScoreDisplay:FlxText;
+	var _p2Score:Float;
+
 	override public function create():Void {
 		stateInfo = new FlxText(10, 30, 150);
         stateInfo.text = "Level/Gameplay\nState";
@@ -173,6 +179,23 @@ class LevelState extends FlxState {
 		} else {
 			trace("LOADED A LEVEL BUT DIDN'T FIND A VALID GAME MODE ERROR");
 		}
+
+		// then load the UI
+		_countdownTimer = new FlxText(1080/2, 50, 200, "Timer");
+		_countdownTimer.setFormat("assets/fonts/Adventure.otf", 20, FlxColor.WHITE, CENTER);
+        _countdownTimer.setBorderStyle(OUTLINE, FlxColor.BLACK, 1);
+
+        _p1ScoreDisplay = new FlxText(1080/3, 50, 200, "P1 Score");
+		_p1ScoreDisplay.setFormat("assets/fonts/Adventure.otf", 16, FlxColor.RED, CENTER);
+        _p1ScoreDisplay.setBorderStyle(OUTLINE, FlxColor.BLACK, 1);
+
+        _p2ScoreDisplay = new FlxText(1080/3*2, 50, 200, "P2 Score");
+		_p2ScoreDisplay.setFormat("assets/fonts/Adventure.otf", 16, FlxColor.BLUE, CENTER);
+        _p2ScoreDisplay.setBorderStyle(OUTLINE, FlxColor.BLACK, 1);
+
+        add(_p1ScoreDisplay);
+        add(_p2ScoreDisplay);
+        add(_countdownTimer);
 	}
 
 	override public function update(elapsed:Float):Void {
