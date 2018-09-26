@@ -15,8 +15,8 @@ class Flag extends FlxSprite {
     private var canBePickedUp:Bool;
 
     public function new(X:Float, Y:Float, ?SimpleGraphic:FlxGraphicAsset) {
-        super(X, Y, SimpleGraphic);
-        startingPos = new FlxPoint(X, Y);
+        super(X, Y-1, SimpleGraphic);
+        startingPos = new FlxPoint(X, Y-1);
         // "true" is for if it should be animated and the (x, y) are for where each animation is sliced
         loadGraphic("assets/images/flag.png", true, 200, 200);
         // "name", [frame path], at what fps, should it loop?
