@@ -16,10 +16,12 @@ class CutsceneState extends FlxState {
     var clock:FlxTimer = new FlxTimer();
     var currentText:FlxText;
     var i:Int = 0;
-    var bg1:FlxSprite = new FlxSprite();
-    var bg2:FlxSprite = new FlxSprite();
-    var bg3:FlxSprite = new FlxSprite();
+    var j:Int = 0;
+    var k:Int = 0;
+    var check:Bool = false;
+    var bg:FlxSprite = new FlxSprite();
 	var textParts:Array<String> = new Array<String>();
+    var images:Array<String> = new Array<String>();
 
     // constructor for cutscene state when a data file is passed in
     public function new(file:String) {
@@ -28,16 +30,19 @@ class CutsceneState extends FlxState {
     }
 
     override public function create():Void {
+        // add images for animation
+        for(j in 0...10) {
+            images.push("assets/images/cutscene000" + j + ".png");
+        }
+        for(j in 10...82) {
+            images.push("assets/images/cutscene/cutscene00" + j + ".png");
+        }
+        j = 0;
+
         // set up background animation
-        bg1.loadGraphic("assets/images/scene1back.png");
-        bg1.setGraphicSize(1080, 720);
-        bg1.updateHitbox();
-        //bg2.loadGraphic("assets/images/scene1next.png");
-        //bg2.setGraphicSize(1080, 720);
-        //bg2.updateHitbox();
-        //bg3.loadGraphic("assets/images/scene1top.png");
-        //bg3.setGraphicSize(1080, 720);
-        //bg3.updateHitbox();
+        bg.loadGraphic(images[j]);
+        bg.setGraphicSize(1080, 720);
+        bg.updateHitbox();
 
         // information for players to skip cutscene or play after cutscene ends
         stateInfo = new FlxText(10, 30, 250); // x, y, width
@@ -55,14 +60,13 @@ class CutsceneState extends FlxState {
         // changing text for the cutscene
         currentText = new FlxText(350, 260, 400);
         currentText.text = textParts[i];
-        currentText.setFormat("assets/fonts/Adventure.otf", 32, FlxColor.WHITE, CENTER);
+        currentText.setFormat("assets/fonts/Adventure.otf", 28, FlxColor.WHITE, CENTER);
+        currentText.setBorderStyle(OUTLINE, FlxColor.BLACK, 1);
 
         // run the clock and call cutscene function
-        clock.start(8, cutsceneText, 5);
+        clock.start(5, cutsceneText, 5);
 
-        add(bg1);
-        //add(bg2);
-        //add(bg3);
+        add(bg);
         add(currentText);
         add(stateInfo);
 		super.create();
@@ -75,6 +79,12 @@ class CutsceneState extends FlxState {
             _levelState.initializeLevel(levelInfo);
             FlxG.switchState(_levelState);
 		}
+        if(j < images.length) {
+            bg.loadGraphic(images[j]);
+            bg.setGraphicSize(1080, 720);
+            bg.updateHitbox();
+            j = j + 1;
+        }
 		super.update(elapsed);
 	}
 
