@@ -7,7 +7,7 @@ Player2Spawn:
 925
 500
 GameMode:
-Hold the Flag
+Hold The Flag
 TileMap:
 assets/data/level1.txt
 TerrainMap:
@@ -17,11 +17,13 @@ assets/images/red_box.png
 Music:
 music.file
 BackgroundArt:
-assets/images/background animation/aztec background000
+assets/images/background animation/aztec
 TileArt:
 assets/images/jungle1.png
 BackgroundFrames:
 9
 Flag1:
-440
-485
+12
+13
+BackgroundFrameTime:
+.1

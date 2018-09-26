@@ -18,6 +18,7 @@ enum Label {
     art;
     tileArt;
     backgroundFrames;
+    backgroundFrameTime;
     flag1;
     flag2;
 }
@@ -40,6 +41,7 @@ class LevelParser {
     public var flag1Y:Int;
     public var flag2X:Int;
     public var flag2Y:Int;
+    public var levelBackgroundArtFrameTime:Float;
 
     // constructor
     public function new() {}
@@ -51,7 +53,7 @@ class LevelParser {
         ["LevelName:" => name, "Player1Spawn:" => player1, "Player2Spawn:" => player2,
         "GameMode:" => mode, "TileMap:" => tileMap, "TerrainMap:" => terrainMap,
         "LevelScreenshot:" => screenshot, "Music:" => music, "BackgroundArt:" => art, "TileArt:" => tileArt, "BackgroundFrames:" => backgroundFrames,
-        "Flag1:" => flag1, "Flag2:" => flag2];
+        "Flag1:" => flag1, "Flag2:" => flag2, "BackgroundFrameTime:" => backgroundFrameTime];
         var _file:String = Assets.getText(filename);
         var lines = _file.split("\n");
         var i:Int = 0;
@@ -102,6 +104,8 @@ class LevelParser {
                         levelTileArt = lines[i];
                     case backgroundFrames:
                         levelBackgroundArtFrameCount = Std.parseInt(lines[i]);
+                    case backgroundFrameTime:
+                        levelBackgroundArtFrameTime = Std.parseFloat(lines[i]);
                 }
             }
             i = i + 1; // increment i for a cycle of the while loop

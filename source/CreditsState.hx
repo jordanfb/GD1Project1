@@ -24,7 +24,7 @@ class CreditsState extends FlxState {
 
         // sets up credits text
         creditText = new FlxText(75, 40, 900);
-		creditText.text = "Created and Developed by:\nJordan Faas-Bush\nZach Thompson\nNicholas Smith\nAlexander Francoletti\nLeonardo Price\n\nFont Credit:\nhttp://www.pixelsagas.com/?download=adventure\n(Adventure Font Package)\n\nMusic and Sound Credit:\nhttps://www.zapsplat.com/ (Sounds & Music)";
+		creditText.text = "Created and Developed by:\nJordan Faas-Bush\nZach Thompson\nNicholas Smith\nAlexander Francoletti\nLeonardo Price\n\nFont Credit:\nhttp://www.pixelsagas.com/?download=adventure\n(Adventure Font Package)\n\nMusic and Sound Credit:\nhttps://www.zapsplat.com/ (Sounds)\nhttps://www.audiohero.com/ (Music)";
 		creditText.setFormat("assets/fonts/Adventure.otf", 32, FlxColor.BLACK, CENTER);
 		creditText.setBorderStyle(OUTLINE, FlxColor.WHITE, 1);
 
@@ -57,6 +57,7 @@ class CreditsState extends FlxState {
 
     // creates new menu state on button click
 	function clickBack():Void {
+        closeSubState();
 		FlxG.switchState(new MenuState());
 	}
 

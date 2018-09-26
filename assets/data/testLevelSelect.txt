@@ -7,7 +7,7 @@ Player2Spawn:
 925
 500
 GameMode:
-Hold the Flag
+Hold The Flag
 TileMap:
 assets/data/test_level.txt
 TerrainMap:
@@ -25,3 +25,5 @@ BackgroundFrames:
 Flag1:
 100
 100
+BackgroundFrameTime:
+.1

@@ -37,7 +37,7 @@ class GodWinState extends FlxState {
 
         // sets up win text
         winText = new FlxText(75, 25, 900);
-		winText.text = "With his victory, Xochipilli ascended to the top of his ancient temple.\nHe looked out over the lands he once oversaw and sighed.";
+		winText.text = "With his victory, Xochipilli ascended to the top of his ancient temple.\nThe god’s eyes were aglow with rekindled passion for art and games.";
 		winText.setFormat("assets/fonts/Adventure.otf", 32, FlxColor.WHITE, CENTER);
 		winText.setBorderStyle(OUTLINE, FlxColor.RED, 1);
 
@@ -75,6 +75,7 @@ class GodWinState extends FlxState {
 
     // creates new menu state on button click
 	function clickBack():Void {
+        closeSubState();
 		FlxG.switchState(new MenuState());
 	}
 

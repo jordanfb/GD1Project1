@@ -9,6 +9,7 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flash.system.System;
 import flixel.util.FlxTimer;
+import flixel.system.FlxSound;
 
 class MenuState extends FlxState {
     var playB:FlxButton;
@@ -23,9 +24,13 @@ class MenuState extends FlxState {
     var levelLoading:FlxButton;
     var clock:FlxTimer = new FlxTimer();
     var images:Array<String> = new Array<String>();
+    var music:FlxSound;
     var i:Int = 0;
 
     override public function create():Void {
+        //var snd = new WaudSound("assets/music/menu_music.mp3", { autoplay: true, loop: true, volume: 0.5, onload: playBgSound });
+        //snd.play();
+
         // add all images to array
         images.push("assets/images/fancy button/1.png");
         images.push("assets/images/fancy button/1.png");
@@ -75,7 +80,7 @@ class MenuState extends FlxState {
         quitB.updateHitbox();
         quitB.label.setFormat("assets/fonts/Adventure.otf", 37, FlxColor.WHITE, LEFT);
 
-        /*// level button setup
+        // level button setup
         levelLoading = new FlxButton(10, 500, "     TestLevel", clickTestLevel);
         levelLoading.loadGraphic("assets/images/button.png", true, 616, 198);
         levelLoading.setGraphicSize(200, 60);
@@ -83,6 +88,7 @@ class MenuState extends FlxState {
         levelLoading.label.setFormat("assets/fonts/Adventure.otf", 30, FlxColor.WHITE, LEFT);
         levelLoading.label.setBorderStyle(OUTLINE, FlxColor.BLUE, 1);
 
+        /*
         // god win button setup
         godWin = new FlxButton(700, 600, "         God Win", clickGod);
         godWin.loadGraphic("assets/images/button.png", true, 616, 198);
@@ -125,7 +131,7 @@ class MenuState extends FlxState {
 		add(playB);
         add(controlsB);
         add(quitB);
-        //add(levelLoading);
+        add(levelLoading);
         add(stateInfo);
         add(creditB);
         //add(humanWin);
@@ -135,21 +141,25 @@ class MenuState extends FlxState {
 	}
 
 	override public function update(elapsed:Float):Void {
+        FlxG.sound.playMusic("assets/music/menu_music.mp3");
 		super.update(elapsed);
 	}
 
     // creates new play state on button click
 	function clickPlay():Void {
+        closeSubState();
 		FlxG.switchState(new PlayState());
 	}
 
     // creates new control state on button click
     function clickControls():Void {
+        closeSubState();
         FlxG.switchState(new ControlsState());
     }
 
     // creates new credits state on button click
     function clickCredits():Void {
+        closeSubState();
         FlxG.switchState(new CreditsState());
     }
 
@@ -161,19 +171,20 @@ class MenuState extends FlxState {
     // creates new human win state on button click
     function clickHuman():Void {
         FlxG.switchState(new HumanWinState());
-    }*/
+    }*/ 
 
     // quits game on button click
     function clickQuit():Void {
         System.exit(0);
     }
 
-    /*// creates new level state on button click
+    // creates new level state on button click
     function clickTestLevel():Void {
+        closeSubState();
         var _levelState = new LevelState();
         _levelState.initializeLevel();
         FlxG.switchState(_levelState);
-    }*/
+    }
 
     // function to change the cutscene text that is currently displayed
     public function nextImage(timer:FlxTimer):Void {

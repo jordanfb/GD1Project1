@@ -8,11 +8,13 @@ import flixel.util.FlxColor;
 import flixel.util.FlxCollision;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
+import flixel.FlxObject;
 
 class LevelState extends FlxState {
 
 	var _levelDataFilename:String;
 	var _levelData:LevelParser;
+	var gameMode:GameMode;
 
 	var stateInfo:FlxText;
 	var timer:FlxText;
@@ -23,11 +25,13 @@ class LevelState extends FlxState {
 	var counter:Float = 1;
 	var _terrain:Terrain;
 	var _backgroundArt:Array<FlxSprite>;
+	var _drawBackgroundArt:Bool;
 
 	// UI needed for game state
 	// Count down timer,
 	// possesion indicator -- big screen flash -- BLAH HAS THE STATUE
 	// background art. Lets do that now
+	// countdown to start the game
 
 	var screenBoarderWalls:FlxGroup;
 	// UI Art:
@@ -37,14 +41,15 @@ class LevelState extends FlxState {
 	var _backgroundArtFrameTime = .1;
 	// Count-down timer
 	var _countdownTimer:FlxText;
-	var _countdownTime:Float;
+	var _countdownTime:Float = 0;
 	var _levelPlayTime = 60; // the time to play the game
+	var scoreMultiplier:Float = 1;
 
 	var _p1ScoreDisplay:FlxText;
-	var _p1Score:Float;
+	var _p1Score:Float = 0;
 
 	var _p2ScoreDisplay:FlxText;
-	var _p2Score:Float;
+	var _p2Score:Float = 0;
 
 	override public function create():Void {
 		stateInfo = new FlxText(10, 30, 150);
@@ -56,6 +61,7 @@ class LevelState extends FlxState {
 		timer.setFormat("assets/fonts/Adventure.otf", 20, FlxColor.WHITE, CENTER);
 		timer.setBorderStyle(OUTLINE, FlxColor.WHITE, 1);
 		add(stateInfo);
+		_drawBackgroundArt = true;
 		add(timer);
 		loadGraphics();
 		super.create();
@@ -133,6 +139,21 @@ class LevelState extends FlxState {
 		_levelDataFilename = levelDataFilename;
 		// then load the level data using the LevelParser
 		_levelData.parse(_levelDataFilename);
+		_backgroundArtFrameTime = _levelData.levelBackgroundArtFrameTime;
+		if (_levelData.gameMode == "Hold The Flag") {
+			gameMode = GameMode.holdFlag; // default hold the flag -- the person with more points at the end of the game wins
+		} else if (_levelData.gameMode == "Hold The Flag Limit") {
+			// hold the flag custom, whoever reaches the score cap first wins
+			gameMode = GameMode.holdFlagScoreLimit;
+		} else if (_levelData.gameMode == "Capture") {
+			// hold the flag custom, whoever reaches the score cap first wins
+			gameMode = GameMode.captureTheFlag;
+		} else if (_levelData.gameMode == "Capture Single") {
+			// hold the flag custom, whoever reaches the score cap first wins
+			gameMode = GameMode.captureTheSingleFlag;
+		} else {
+			gameMode = GameMode.holdFlag;
+		}
 		//_terrain.follow();
 	}
 
@@ -173,18 +194,20 @@ class LevelState extends FlxState {
 		trace(FlxG.camera.height);*/
 
 		// then also set up the flags depending on the game mode and the level spawn information
-		if (_levelData.gameMode == "Hold the Flag") {
+		if (gameMode == GameMode.holdFlag) {
 			// our firstt and likely only game mode
-			flag1 = new Flag(_levelData.flag1X, _levelData.flag1Y);
+			flag1 = new Flag(_levelData.flag1X * _terrain.getTileWidth()*_terrain.scale, _levelData.flag1Y * _terrain.getTileWidth()*_terrain.scale);
 			add(flag1);
-			// flag2 = new Flag(_levelData.flag2X, _levelData.flag2Y);
+			// flag2 = new Flag(_levelData.flag2X * _terrain.getTileWidth()*_terrain.scale, _levelData.flag2Y * _terrain.getTileWidth()*_terrain.scale);
 			// then do whatever else we need to
+			_countdownTime = _levelPlayTime;
 		} else {
 			trace("LOADED A LEVEL BUT DIDN'T FIND A VALID GAME MODE ERROR");
 		}
 
 		// then load the UI
-		_countdownTimer = new FlxText(1080/2, 50, 200, "Timer");
+		var x = Std.int(_countdownTime);
+		_countdownTimer = new FlxText(1080/2, 50, 200, "" + x);
 		_countdownTimer.setFormat("assets/fonts/Adventure.otf", 20, FlxColor.WHITE, CENTER);
         _countdownTimer.setBorderStyle(OUTLINE, FlxColor.BLACK, 1);
 
@@ -203,7 +226,8 @@ class LevelState extends FlxState {
 
 	override public function update(elapsed:Float):Void {
 		if(FlxG.keys.pressed.ESCAPE) {
-            FlxG.switchState(new MenuState());
+			closeSubState();
+			leaveState(new MenuState());
 		}
 		timer.text = "" + elapsed;
 		super.update(elapsed);
@@ -236,6 +260,85 @@ class LevelState extends FlxState {
 		}*/
 		_terrain.updateBuffers();
 		updateBackgroundArt(elapsed);
+		updateFlag();
+		updateScore(elapsed);
+	}
+
+	private function updateFlag() {
+		// this handles the flag/player interactions
+		switch(gameMode) {
+			case GameMode.holdFlag:
+				// this is the default game mode. One person picks it up then it never goes down again, people only swap the flag
+				// only one flag
+				if (!flag1.isBeingHeld()) {
+					// then check collisions to pick up off the ground. If you can't pick it up it's being held
+					if (!player1.inStun) {
+						// then check if you see the flag
+						FlxG.overlap(player1, flag1, player1GetsFlag1);
+					}
+					if (!player2.inStun) {
+						// then check if you see the flag
+						FlxG.overlap(player2, flag1, player2GetsFlag1);
+					}
+				} else {
+					// then check for swapping the flag
+					// add some screen shake man!
+					FlxG.overlap(player1, player2, playersCollideSwapFlag1);
+				}
+			default:
+					// do nothing
+		}
+	}
+
+	private function playersCollideSwapFlag1(object1:FlxObject, object2:FlxObject) : Void {
+		if (player1.hasFlag) {
+			// then give it to p2
+			flag1.flagSteal(player1, player2);
+		} else if (player2.hasFlag) {
+			// then give it to p1
+			flag1.flagSteal(player2, player1);
+		}
+	}
+
+	private function player1GetsFlag1(object1:FlxObject, object2:FlxObject) : Void {
+		flag1.pickUp(player1, player1.x, player1.y);
+	}
+
+	private function player2GetsFlag1(object1:FlxObject, object2:FlxObject) : Void {
+		flag1.pickUp(player2, player2.x, player2.y);
+	}
+
+	private function player1GetsFlag2(object1:FlxObject, object2:FlxObject) : Void {
+		flag2.pickUp(player1, player1.x, player1.y);
+	}
+
+	private function player2GetsFlag2(object1:FlxObject, object2:FlxObject) : Void {
+		flag2.pickUp(player2, player2.x, player2.y);
+	}
+
+	private function updateScore(elapsed:Float) {
+		// updates the score and the score UI;
+		switch(gameMode) {
+			case GameMode.holdFlag:
+				// whoever is holding the flag gets elapsed*scoremultiplier score
+				_countdownTime = _countdownTime - elapsed;
+				if (player1.hasFlag) {
+					_p1Score = _p1Score + elapsed * scoreMultiplier;
+					_p1ScoreDisplay.text = "" + Std.int(_p1Score);
+				}
+				if (player2.hasFlag) {
+					_p2Score = _p2Score + elapsed * scoreMultiplier;
+					_p2ScoreDisplay.text = "" + Std.int(_p2Score);
+				}
+				_countdownTimer.text = "" + Std.int(_countdownTime);
+				if (_countdownTime <= 0) {
+					// then see who wins!
+					endGame();
+					return;
+				}
+			default:
+				trace("OH GOD WE DON'T SUPPORT SCORING THIS GAME MODE");
+		}
 	}
 
 	private function updateBackgroundArt(elapsed:Float) {
@@ -249,9 +352,35 @@ class LevelState extends FlxState {
 			_backgroundArt[_backgroundArtFrame].alpha = 1;
 		}
 	}
+	
+	private function leaveState(otherState:FlxState) : Void {
+		/*for (bg in _backgroundArt) {
+			remove(bg);
+			bg.graphic.destroy();
+		}*/
+		//_drawBackgroundArt = false;
+		FlxG.switchState(otherState);
+	}
+
+	private function endGame() : Void {
+		// someone should win. The person with the highest score
+		if (_p1Score >= _p2Score) {
+			// god wins
+			leaveState(new GodWinState());
+		} else if (_p1Score < _p2Score) {
+			// traveller win
+			leaveState(new HumanWinState());
+		} else if (_p1Score == _p2Score && _p1Score == 0) {
+			// god wins because the traveller has flaunted the game
+			leaveState(new TieStateGod());
+		} else if (_p1Score == _p2Score && _p1Score > 0) {
+			// human wins because everyone tried so yay!
+			leaveState(new TieStateHuman());
+		}
+	}
 }
 
 enum GameMode {
 		// what game mode the game is in
-		holdFlag; captureTheFlag; captureTheSingleFlag;
+		holdFlag; captureTheFlag; captureTheSingleFlag; holdFlagScoreLimit;
 	}
