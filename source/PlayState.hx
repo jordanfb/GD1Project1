@@ -19,9 +19,9 @@ class PlayState extends FlxState {
 	var player2:Player;
 	override public function create():Void {
 		// get screenshot images from each file and push to array
-		var screenshot1:String = parser.getScreenshot("assets/data/testLevelSelect.txt");
-		var screenshot2:String = parser.getScreenshot("assets/data/testScreenshot2.txt");
-		var screenshot3:String = parser.getScreenshot("assets/data/testScreenshot3.txt");
+		var screenshot1:String = parser.getScreenshot("assets/data/level1_Properties.txt");
+		var screenshot2:String = parser.getScreenshot("assets/data/level2_Properties.txt");
+		var screenshot3:String = parser.getScreenshot("assets/data/level3_Properties.txt");
 		levelScreenshots.push(screenshot1);
 		levelScreenshots.push(screenshot2);
 		levelScreenshots.push(screenshot3);
@@ -70,14 +70,14 @@ class PlayState extends FlxState {
 
 	// all create a cutscene state with the specific level data file that was selected
 	function click1():Void {
-		FlxG.switchState(new CutsceneState("assets/data/testLevelSelect.txt"));
+		FlxG.switchState(new CutsceneState("assets/data/level1_Properties.txt"));
 	}
 
 	function click2():Void {
-		FlxG.switchState(new CutsceneState("assets/data/testScreenshot2.txt"));
+		FlxG.switchState(new CutsceneState("assets/data/level2_Properties.txt"));
 	}
 
 	function click3():Void {
-		FlxG.switchState(new CutsceneState("assets/data/testScreenshot3.txt"));
+		FlxG.switchState(new CutsceneState("assets/data/level3_Properties.txt"));
 	}
 }

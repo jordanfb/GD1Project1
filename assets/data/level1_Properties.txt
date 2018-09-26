@@ -1,19 +1,19 @@
-LevelName:
+LevelName:level1
 Aztec Test
 Player1Spawn:
 100
-600
+500
 Player2Spawn:
-600
-600
+925
+500
 GameMode:
 Hold the Flag
 TileMap:
-assets/data/test_level.txt
+assets/data/level1.txt
 TerrainMap:
 terrain.file
 LevelScreenshot:
-assets/images/blue_box.png
+assets/images/red_box.png
 Music:
 music.file
 BackgroundArt:
