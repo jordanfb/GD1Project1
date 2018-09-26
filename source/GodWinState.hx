@@ -47,7 +47,6 @@ class GodWinState extends FlxState {
         menuB.setGraphicSize(250, 60);
         menuB.updateHitbox();
         menuB.label.setFormat("assets/fonts/Adventure.otf", 36, FlxColor.WHITE, LEFT);
-        //menuB.label.setBorderStyle(OUTLINE, FlxColor.BLUE, 1);
 
         // quit button setup
         quitB = new FlxButton(800, 620, "        Quit", clickQuit);
@@ -55,7 +54,6 @@ class GodWinState extends FlxState {
         quitB.setGraphicSize(250, 60);
         quitB.updateHitbox();
         quitB.label.setFormat("assets/fonts/Adventure.otf", 36, FlxColor.WHITE, LEFT);
-        //quitB.label.setBorderStyle(OUTLINE, FlxColor.RED, 1);
 
         add(bg);
         add(winText);

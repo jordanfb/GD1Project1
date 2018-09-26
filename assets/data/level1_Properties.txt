@@ -1,5 +1,5 @@
-LevelName:level1
-Aztec Test
+LevelName:
+Time-worn Temple
 Player1Spawn:
 100
 500
@@ -13,7 +13,7 @@ assets/data/level1.txt
 TerrainMap:
 terrain.file
 LevelScreenshot:
-assets/images/red_box.png
+assets/images/level1.png
 Music:
 music.file
 BackgroundArt:

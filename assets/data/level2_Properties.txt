@@ -1,5 +1,5 @@
-LevelName:level2
-Aztec Test
+LevelName:
+Climb To The Cloud
 Player1Spawn:
 100
 550
@@ -13,7 +13,7 @@ assets/data/level2.txt
 TerrainMap:
 terrain.file
 LevelScreenshot:
-assets/images/blue_box.png
+assets/images/level2.png
 Music:
 music.file
 BackgroundArt:

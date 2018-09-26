@@ -10,7 +10,6 @@ import flixel.util.FlxColor;
 
 class ControlsState extends FlxState {
 	var menuB:FlxButton;
-	var stateInfo:FlxText;
 	var rules:FlxText;
 	var controlsG:FlxText;
 	var controlsH:FlxText;
@@ -32,13 +31,6 @@ class ControlsState extends FlxState {
         menuB.setGraphicSize(250, 60);
         menuB.updateHitbox();
         menuB.label.setFormat("assets/fonts/Adventure.otf", 36, FlxColor.WHITE, LEFT);
-        //menuB.label.setBorderStyle(OUTLINE, FlxColor.BLUE, 1);
-
-		// current state information
-		stateInfo = new FlxText(10, 30, 130);
-        stateInfo.text = "Controls State";
-        stateInfo.setFormat("assets/fonts/Adventure.otf", 20, FlxColor.WHITE, CENTER);
-        stateInfo.setBorderStyle(OUTLINE, FlxColor.GREEN, 1);
 
 		// create flag sprite, god sprite, and human sprite
 		flag = new FlxSprite(425, 0);
@@ -73,7 +65,6 @@ class ControlsState extends FlxState {
 		add(flag);
 		add(god);
 		add(human);
-		add(stateInfo);
 		add(menuB);
 		add(rules);
 		add(controlsG);
