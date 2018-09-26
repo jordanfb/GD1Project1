@@ -51,12 +51,15 @@ class Cursor extends FlxSprite
 	//	makeGraphic(16, 16, cursorColor);
 	//}
 
-	public function setSpriteList(x:Float, y:Float)
+	public function setSpriteList()
 	{
 		spriteList = new Array<FlxSprite>();
 		for (i in 0...offsetList.length)
 		{
-			spriteList[i] = makeGraphic(16, 16, cursorColor);
+			spriteList[i] = new FlxSprite(cursorPoint.x+offsetList[i].x, cursorPoint.y+offsetList[i].y);
+			var tempCoord = new FlxPoint(Math.max(0, Math.min(spriteList[i].x, terrainRef.mapWidth-1)), Math.max(0, Math.min(spriteList[i].y, terrainRef.mapHeight-1)));
+			spriteList[i].setPosition(tempCoord.x*terrainRef.scaledTileSize, tempCoord.y*terrainRef.scaledTileSize);
+			spriteList[i].makeGraphic(16, 16, cursorColor);
 		}
 	}
 
