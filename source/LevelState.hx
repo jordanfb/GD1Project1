@@ -52,7 +52,10 @@ class LevelState extends FlxState {
 		trace(FlxG.camera.x);
 		//FlxG.camera.x = -_terrain.mapWidth * _terrain.getTileWidth() / 2;
 		trace(FlxG.camera.height);*/
-		_terrain.scaleToScreen(FlxG.width, FlxG.height);
+		var cameraOffset = _terrain.scaleToScreen(FlxG.width, FlxG.height);
+		//FlxG.camera.x = cameraOffset.x;
+		//FlxG.camera.y = cameraOffset.y;
+		_terrain.updateBuffers();
 	}
 
 	public function initializeLevel( ?levelDataFilename:String = "assets/data/testLevelSelect.txt" ): Void {

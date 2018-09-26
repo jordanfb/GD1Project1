@@ -20,6 +20,7 @@ class Terrain {
     var _artFilename:String;
 
     var scale:Float; // this is the tile scale
+    var cameraOffset:FlxPoint; // this is the camera offset when it's scaled so that we can correctly align tiles etc to the correct positions.
 
 	public var mapWidth : Int;
 	public var mapHeight : Int;
@@ -70,15 +71,32 @@ class Terrain {
         state.remove(_tilemap);
     }
 
-    public function scaleToScreen(x:Int, y:Int) : Void {
-        this.scaleTilemap(x / (mapWidth * getTileWidth()), y / (mapHeight * getTileHeight()));
+    public function scaleToScreen(x:Int, y:Int) : FlxPoint {
+        return this.scaleTilemap(x / (mapWidth * getTileWidth()), y / (mapHeight * getTileHeight()));
     }
 
-    public function scaleTilemap(x:Float, y:Float) : Void {
+    public function scaleTilemap(x:Float, y:Float) : FlxPoint {
         scale = Math.max(x, y);
         _tilemap.scale.x = scale;
         _tilemap.scale.y = scale;
-        trace("Tilemap scale " + _tilemap.scale);
+        //trace("Tilemap scale " + _tilemap.scale);
+        // it returns the camera offset to get the bottom left nicely centered I guess
+        if (scale != x) {
+            // we have to center the offset because the x is incorrect
+            var pixelWidth = mapWidth * getTileWidth() * scale;
+            cameraOffset = new FlxPoint(FlxG.width - pixelWidth/2, 0);
+        } else if (scale != y) {
+            // we have to allign to the bottom of the map because the y is incorrect
+            // get the pixel height of the world using scale
+            var pixelHeight = mapHeight * getTileHeight() * scale;
+            cameraOffset = new FlxPoint(0, FlxG.height - pixelHeight);
+        } else {
+            cameraOffset = new FlxPoint(0, 0);
+        }
+        // _tilemap.updateHitbox();
+        _tilemap.offset.x = -cameraOffset.x;
+        _tilemap.offset.y = -cameraOffset.y;
+        return cameraOffset;
     }
 
     public function getTileWidth() : Int {
