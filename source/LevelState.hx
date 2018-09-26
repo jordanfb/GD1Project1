@@ -5,7 +5,9 @@ import flixel.ui.FlxButton;
 import flixel.FlxG;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import flixel.util.FlxCollision;
 import flixel.FlxSprite;
+import flixel.group.FlxGroup;
 
 class LevelState extends FlxState {
 
@@ -27,6 +29,7 @@ class LevelState extends FlxState {
 	// possesion indicator -- big screen flash -- BLAH HAS THE STATUE
 	// background art. Lets do that now
 
+	var screenBoarderWalls:FlxGroup;
 	// UI Art:
 	// Background art variables:
 	var _backgroundArtFrame = 0;
@@ -36,6 +39,12 @@ class LevelState extends FlxState {
 	var _countdownTimer:FlxText;
 	var _countdownTime:Float;
 	var _levelPlayTime = 60; // the time to play the game
+
+	var _p1ScoreDisplay:FlxText;
+	var _p1Score:Float;
+
+	var _p2ScoreDisplay:FlxText;
+	var _p2Score:Float;
 
 	override public function create():Void {
 		stateInfo = new FlxText(10, 30, 150);
@@ -136,6 +145,8 @@ class LevelState extends FlxState {
 		addBackgroundGraphics();
 		_terrain.add(this);
 		initializeCamera();
+		// FlxG.worldBounds.set(0, 0, _terrain.mapWidth*_terrain.getTileWidth()*_terrain.scale, _terrain.mapHeight*_terrain.getTileHeight()*_terrain.scale);
+		screenBoarderWalls = FlxCollision.createCameraWall(FlxG.camera, 10, true);
 
 		// initialize the players
 		player1 = new Player("WASDQERF", "assets/images/godsprite.png", _levelData.player1_x, _levelData.player1_y, _terrain.scale);
@@ -167,6 +178,23 @@ class LevelState extends FlxState {
 		} else {
 			trace("LOADED A LEVEL BUT DIDN'T FIND A VALID GAME MODE ERROR");
 		}
+
+		// then load the UI
+		_countdownTimer = new FlxText(1080/2, 50, 200, "Timer");
+		_countdownTimer.setFormat("assets/fonts/Adventure.otf", 20, FlxColor.WHITE, CENTER);
+        _countdownTimer.setBorderStyle(OUTLINE, FlxColor.BLACK, 1);
+
+        _p1ScoreDisplay = new FlxText(1080/3, 50, 200, "P1 Score");
+		_p1ScoreDisplay.setFormat("assets/fonts/Adventure.otf", 16, FlxColor.RED, CENTER);
+        _p1ScoreDisplay.setBorderStyle(OUTLINE, FlxColor.BLACK, 1);
+
+        _p2ScoreDisplay = new FlxText(1080/3*2, 50, 200, "P2 Score");
+		_p2ScoreDisplay.setFormat("assets/fonts/Adventure.otf", 16, FlxColor.BLUE, CENTER);
+        _p2ScoreDisplay.setBorderStyle(OUTLINE, FlxColor.BLACK, 1);
+
+        add(_p1ScoreDisplay);
+        add(_p2ScoreDisplay);
+        add(_countdownTimer);
 	}
 
 	override public function update(elapsed:Float):Void {
@@ -177,6 +205,8 @@ class LevelState extends FlxState {
 		super.update(elapsed);
 		_terrain.collide(player1);
 		_terrain.collide(player2);
+		FlxG.collide(screenBoarderWalls, player1);
+		FlxG.collide(screenBoarderWalls, player2);
 		//trace(FlxG.camera.height);
 
 		/*if (FlxG.keys.pressed.L) {
