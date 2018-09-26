@@ -23,6 +23,9 @@ class CutsceneState extends FlxState {
 	var textParts:Array<String> = new Array<String>();
     var images:Array<String> = new Array<String>();
 
+    var zoomFinalScene = 1;
+    var zoomFinalSceneRate = 1; // times elapsed
+
     // constructor for cutscene state when a data file is passed in
     public function new(file:String) {
         super();
@@ -85,6 +88,9 @@ class CutsceneState extends FlxState {
                 finalScene();
                 check = true;
             }
+        } else if (i >= 3 && check) {
+            // zoom the camera out?
+            FlxG.camera.zoom = zoomFinalScene + zoomFinalSceneRate * elapsed;
         }
 		super.update(elapsed);
 	}
@@ -104,12 +110,14 @@ class CutsceneState extends FlxState {
 
     public function finalScene():Void {
         bg.loadGraphic("assets/images/faceoff.png");
-        bg.setGraphicSize(550, 720);
+        bg.setGraphicSize(550, 1161); // 720height
+        bg.y = -200; //441
         bg.updateHitbox();
         bg2.loadGraphic("assets/images/faceoff.png");
-        bg2.setGraphicSize(550, 720);
+        bg2.setGraphicSize(550, 1161); // 720height
         bg2.flipX = true;
         bg2.x = 550;
+        bg2.y = -200;
         bg2.updateHitbox();
     }
 }
