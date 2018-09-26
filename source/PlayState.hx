@@ -40,9 +40,6 @@ class PlayState extends FlxState {
 		level3 = new FlxButton(750, 100, "", click3);
 		level3.loadGraphic(levelScreenshots[2], true, 260, 160);
 
-		flag = new Flag(100, 400);
-		add(flag);
-
 		add(level1);
 		add(level2);
 		add(level3);

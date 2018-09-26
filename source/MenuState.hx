@@ -75,3 +75,13 @@ class MenuState extends FlxState {
         FlxG.switchState(_levelState);
     }
 }
+
+/* Game over state
+        Who won
+        Button to level select
+        Button to menu
+        Button to quit
+    Controls screen information
+    Cutscene information
+        With text fading after time and then appearing
+*/

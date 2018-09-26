@@ -19,6 +19,7 @@ class Terrain {
 	var _filename:String;
     var _artFilename:String;
 
+    var scale:Float; // this is the tile scale
 
 	public var mapWidth : Int;
 	public var mapHeight : Int;
@@ -26,6 +27,7 @@ class Terrain {
     // "?X:Float=0" means that it is optional to pass this and if its not passed then it defaults to 0s
     public function new(?tile_width:Int = 16, ?tile_height:Int = 16 ) {
         _tilemap = new FlxTilemap();
+        _tilemap.useScaleHack = true;
     	//_filename = filename;
         _tileWidth = tile_width;
         _tileHeight = tile_height;
@@ -34,6 +36,10 @@ class Terrain {
 
     public function reloadLevel() : Void {
     	loadMapFromText();
+    }
+
+    public function updateBuffers() : Void {
+        _tilemap.updateBuffers();
     }
 
     public function follow() : Void {
@@ -62,6 +68,17 @@ class Terrain {
     public function remove(state:FlxState) :Void {
         // load the tilemap into the scene
         state.remove(_tilemap);
+    }
+
+    public function scaleToScreen(x:Int, y:Int) : Void {
+        this.scaleTilemap(x / (mapWidth * getTileWidth()), y / (mapHeight * getTileHeight()));
+    }
+
+    public function scaleTilemap(x:Float, y:Float) : Void {
+        scale = Math.max(x, y);
+        _tilemap.scale.x = scale;
+        _tilemap.scale.y = scale;
+        trace("Tilemap scale " + _tilemap.scale);
     }
 
     public function getTileWidth() : Int {
