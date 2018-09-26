@@ -7,6 +7,7 @@ import flixel.util.FlxColor;
 import openfl.Assets;
 import flixel.FlxObject;
 import flixel.math.FlxPoint;
+import Math;
 
 
 //Contains all information about the player and it's functions
@@ -76,6 +77,7 @@ class Player extends FlxSprite
 			animation.add("idle", [1], 12, true);
 			animation.add("placing", [2, 3, 4, 5, 6, 7, 8, 9], 12, false);
 			animation.add("placing loop", [8, 9], 12, true);
+			animation.add("stun", [26, 16, 18, 17, 23, 27, 24, 1], 12 , true);
 
 		}
 		else
@@ -89,7 +91,7 @@ class Player extends FlxSprite
 			animation.add("idle", [14], 8, true);
 			animation.add("placing", [14, 11, 12, 13], 8, false);
 			animation.add("placing loop", [12, 13], 8, true);
-
+			animation.add("stun", [14, 13, 9, 3, 6], 8, true);
 		}
 		// this.scale.x = scale;
 		// trace("SCALE: " + scale);
@@ -101,14 +103,14 @@ class Player extends FlxSprite
 		// this.scale.y = scale;
 		//makeGraphic(16, 16, FlxColor.GREEN);
 		drag.x = 880;
-		acceleration.y = 225;
-		maxVelocity.y = 400;
+		acceleration.y = 300;
+		maxVelocity.y = 500;
 		prevVelocity = new FlxPoint(0, 0);
 	}
 
 	private function handleNextAnimation(v:String):Void {
 		// trace(v);
-		if (v != "walk")
+		if (v != "walk" && v != "stun")
 			animation.play(v + " loop");
 		// trace(animation.curAnim.name);
 	}
@@ -118,6 +120,7 @@ class Player extends FlxSprite
 	{
 		this.inStun = true;
 		this.stunnedAtTime = 0;
+		animation.play("stun");
 	}
 
 	public function movement():Void
@@ -143,7 +146,7 @@ class Player extends FlxSprite
 		if (up && hasJump)
 		{
 			hasJump = false;
-			velocity.y = -250;
+			velocity.y = -350;
 		}
 		if (isTouching(FlxObject.DOWN)/* || isTouching(FlxObject.RIGHT) || isTouching(FlxObject.LEFT)*/)
 			hasJump = true;
@@ -152,7 +155,7 @@ class Player extends FlxSprite
 		if (down && velocity.y < 0)
 			acceleration.y += 50;
 		if (isTouching(FlxObject.DOWN))
-			acceleration.y = 225;
+			acceleration.y = 300;
 
 		if (velocity.x != 0 && velocity.y == 0){
 			// trace("walking");
