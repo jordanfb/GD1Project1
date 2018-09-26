@@ -36,11 +36,11 @@ class LevelState extends FlxState {
 	override public function create():Void {
 		stateInfo = new FlxText(10, 30, 150);
         stateInfo.text = "Level/Gameplay\nState";
-        stateInfo.setFormat("assets/font.ttf", 20, FlxColor.WHITE, CENTER);
+        stateInfo.setFormat("assets/fonts/Adventure.otf", 20, FlxColor.WHITE, CENTER);
         stateInfo.setBorderStyle(OUTLINE, FlxColor.BLUE, 1);
 		timer = new FlxText(0, 0, 200);
 		timer.text = "";
-		timer.setFormat("assets/font.ttf", 20, FlxColor.WHITE, CENTER);
+		timer.setFormat("assets/fonts/Adventure.otf", 20, FlxColor.WHITE, CENTER);
 		timer.setBorderStyle(OUTLINE, FlxColor.WHITE, 1);
 		add(stateInfo);
 		add(timer);
