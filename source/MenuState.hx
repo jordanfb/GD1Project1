@@ -8,6 +8,7 @@ import flixel.FlxG;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flash.system.System;
+import flixel.util.FlxTimer;
 
 class MenuState extends FlxState {
     var playB:FlxButton;
@@ -20,11 +21,19 @@ class MenuState extends FlxState {
     var startText:FlxText;
     var bg:FlxSprite;
     var levelLoading:FlxButton;
+    var clock:FlxTimer = new FlxTimer();
     var images:Array<String> = new Array<String>();
     var i:Int = 0;
 
     override public function create():Void {
         // add all images to array
+        images.push("assets/images/fancy button/1.png");
+        images.push("assets/images/fancy button/1.png");
+        images.push("assets/images/fancy button/1.png");
+        images.push("assets/images/fancy button/1.png");
+        images.push("assets/images/fancy button/1.png");
+        images.push("assets/images/fancy button/1.png");
+        images.push("assets/images/fancy button/1.png");
         images.push("assets/images/fancy button/1.png");
         images.push("assets/images/fancy button/2.png");
         images.push("assets/images/fancy button/3.png");
@@ -35,6 +44,8 @@ class MenuState extends FlxState {
         images.push("assets/images/fancy button/8.png");
         images.push("assets/images/fancy button/9.png");
         images.push("assets/images/fancy button/10.png");
+        images.push("assets/images/fancy button/11.png");
+        images.push("assets/images/fancy button/11.png");
         images.push("assets/images/fancy button/11.png");
 
         // set up background
@@ -107,6 +118,9 @@ class MenuState extends FlxState {
         startText.setFormat("assets/fonts/Adventure.otf", 40, FlxColor.WHITE, CENTER);
         startText.setBorderStyle(OUTLINE, FlxColor.RED, 1);
 
+        // run the clock and call cutscene function
+        clock.start(.04, nextImage, 0);
+
         add(bg);
 		add(playB);
         add(controlsB);
@@ -121,11 +135,6 @@ class MenuState extends FlxState {
 	}
 
 	override public function update(elapsed:Float):Void {
-        if(i >= images.length) { i = 0; }
-        playB.loadGraphic(images[i]);
-        playB.setGraphicSize(550, 250);
-        playB.updateHitbox();
-        i = i + 1;
 		super.update(elapsed);
 	}
 
@@ -165,4 +174,16 @@ class MenuState extends FlxState {
         _levelState.initializeLevel();
         FlxG.switchState(_levelState);
     }*/
+
+    // function to change the cutscene text that is currently displayed
+    public function nextImage(timer:FlxTimer):Void {
+        i = i + 1;
+        if(i < images.length) {
+            playB.loadGraphic(images[i]);
+            playB.setGraphicSize(550, 250);
+            playB.updateHitbox();
+        } else {
+            i = 0;
+        }
+    }
 }
