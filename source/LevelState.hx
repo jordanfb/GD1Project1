@@ -207,16 +207,16 @@ class LevelState extends FlxState {
 
 		// then load the UI
 		var x = Std.int(_countdownTime);
-		_countdownTimer = new FlxText(1080/2, 50, 200, "" + x);
-		_countdownTimer.setFormat("assets/fonts/Adventure.otf", 20, FlxColor.WHITE, CENTER);
+		_countdownTimer = new FlxText(1080/2-100, 50, 200, "" + x);
+		_countdownTimer.setFormat("assets/fonts/Adventure.otf", 48, FlxColor.WHITE, CENTER);
         _countdownTimer.setBorderStyle(OUTLINE, FlxColor.BLACK, 1);
 
-        _p1ScoreDisplay = new FlxText(1080/3, 50, 200, "P1 Score");
-		_p1ScoreDisplay.setFormat("assets/fonts/Adventure.otf", 16, FlxColor.RED, CENTER);
+        _p1ScoreDisplay = new FlxText(1080/3-100, 50, 200, "P1: 0");
+		_p1ScoreDisplay.setFormat("assets/fonts/Adventure.otf", 36, FlxColor.fromRGB(229, 80, 80), CENTER);
         _p1ScoreDisplay.setBorderStyle(OUTLINE, FlxColor.BLACK, 1);
 
-        _p2ScoreDisplay = new FlxText(1080/3*2, 50, 200, "P2 Score");
-		_p2ScoreDisplay.setFormat("assets/fonts/Adventure.otf", 16, FlxColor.BLUE, CENTER);
+        _p2ScoreDisplay = new FlxText(1080/3*2-100, 50, 200, "P2: 0");
+		_p2ScoreDisplay.setFormat("assets/fonts/Adventure.otf", 36, FlxColor.fromRGB(65, 118, 197), CENTER);
         _p2ScoreDisplay.setBorderStyle(OUTLINE, FlxColor.BLACK, 1);
 
         add(_p1ScoreDisplay);
@@ -291,10 +291,10 @@ class LevelState extends FlxState {
 	}
 
 	private function playersCollideSwapFlag1(object1:FlxObject, object2:FlxObject) : Void {
-		if (player1.hasFlag) {
+		if (player1.hasFlag && !player2.inStun) {
 			// then give it to p2
 			flag1.flagSteal(player1, player2);
-		} else if (player2.hasFlag) {
+		} else if (player2.hasFlag && !player1.inStun) {
 			// then give it to p1
 			flag1.flagSteal(player2, player1);
 		}
@@ -364,13 +364,13 @@ class LevelState extends FlxState {
 
 	private function endGame() : Void {
 		// someone should win. The person with the highest score
-		if (_p1Score >= _p2Score) {
+		if (_p1Score > _p2Score) {
 			// god wins
 			leaveState(new GodWinState());
 		} else if (_p1Score < _p2Score) {
 			// traveller win
 			leaveState(new HumanWinState());
-		} else if (_p1Score == _p2Score && _p1Score == 0) {
+		} else if (_p2Score == 0 && _p1Score == 0) {
 			// god wins because the traveller has flaunted the game
 			leaveState(new TieStateGod());
 		} else if (_p1Score == _p2Score && _p1Score > 0) {
