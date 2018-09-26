@@ -19,6 +19,7 @@ class MenuState extends FlxState {
     var creditB:FlxButton;
     var humanWin:FlxButton;
     var startText:FlxText;
+    var title:FlxText;
     var bg:FlxSprite;
     var levelLoading:FlxButton;
     var clock:FlxTimer = new FlxTimer();
@@ -92,6 +93,12 @@ class MenuState extends FlxState {
         startText.setFormat("assets/fonts/Adventure.otf", 40, FlxColor.WHITE, CENTER);
         startText.setBorderStyle(OUTLINE, FlxColor.RED, 1);
 
+        // game title
+        title = new FlxText(50, 100, 800); // x, y, width
+        title.text = "Xochipilli's Showdown";
+        title.setFormat("assets/fonts/Adventure.otf", 70, FlxColor.ORANGE, CENTER);
+        title.setBorderStyle(OUTLINE, FlxColor.WHITE, 1);
+
         // run the clock and call cutscene function
         clock.start(.04, nextImage, 0);
 
@@ -101,6 +108,7 @@ class MenuState extends FlxState {
         add(quitB);
         add(creditB);
         add(startText);
+        add(title);
 		super.create();
 	}
 
