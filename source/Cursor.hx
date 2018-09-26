@@ -222,6 +222,6 @@ class Cursor extends FlxSprite
 
 	public function destroyBlock():Void
 	{
-		terrainRef.removeShape(cursorPoint, generateShape(blocktype));
+		terrainRef.removeShape(cursorPoint, generateShape(blockType));
 	}
 }
