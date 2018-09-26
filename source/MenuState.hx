@@ -14,6 +14,7 @@ class MenuState extends FlxState {
     var controlsB:FlxButton;
     var quitB:FlxButton;
     var godWin:FlxButton;
+    var creditB:FlxButton;
     var humanWin:FlxButton;
     var stateInfo:FlxText;
     var startText:FlxText;
@@ -44,7 +45,7 @@ class MenuState extends FlxState {
 
         // play button setup
 		playB = new FlxButton(255, 200, "", clickPlay);
-        playB.loadGraphic(images[i], false);
+        playB.loadGraphic(images[i]);
         playB.setGraphicSize(600, 300);
         playB.updateHitbox();
         playB.label.setFormat("assets/fonts/Adventure.otf", 40, FlxColor.WHITE, LEFT);
@@ -63,7 +64,7 @@ class MenuState extends FlxState {
         quitB.updateHitbox();
         quitB.label.setFormat("assets/fonts/Adventure.otf", 37, FlxColor.WHITE, LEFT);
 
-        // level button setup
+        /*// level button setup
         levelLoading = new FlxButton(10, 500, "     TestLevel", clickTestLevel);
         levelLoading.loadGraphic("assets/images/button.png", true, 616, 198);
         levelLoading.setGraphicSize(200, 60);
@@ -85,7 +86,14 @@ class MenuState extends FlxState {
         humanWin.setGraphicSize(250, 60);
         humanWin.updateHitbox();
         humanWin.label.setFormat("assets/fonts/Adventure.otf", 30, FlxColor.WHITE, LEFT);
-        humanWin.label.setBorderStyle(OUTLINE, FlxColor.PURPLE, 1);
+        humanWin.label.setBorderStyle(OUTLINE, FlxColor.PURPLE, 1);*/
+
+        // credits button setup
+        creditB = new FlxButton(675, 650, "      Credits", clickCredits);
+        creditB.loadGraphic("assets/images/button.png", true, 616, 198);
+        creditB.setGraphicSize(250, 60);
+        creditB.updateHitbox();
+        creditB.label.setFormat("assets/fonts/Adventure.otf", 36, FlxColor.WHITE, LEFT);
 
         // current state information
         stateInfo = new FlxText(10, 30, 100); // x, y, width
@@ -103,17 +111,18 @@ class MenuState extends FlxState {
 		add(playB);
         add(controlsB);
         add(quitB);
-        add(levelLoading);
+        //add(levelLoading);
         add(stateInfo);
-        add(humanWin);
-        add(godWin);
+        add(creditB);
+        //add(humanWin);
+        //add(godWin);
         add(startText);
 		super.create();
 	}
 
 	override public function update(elapsed:Float):Void {
         if(i >= images.length) { i = 0; }
-        playB.loadGraphic(images[i], false);
+        playB.loadGraphic(images[i]);
         playB.setGraphicSize(550, 250);
         playB.updateHitbox();
         i = i + 1;
@@ -130,7 +139,12 @@ class MenuState extends FlxState {
         FlxG.switchState(new ControlsState());
     }
 
-    // creates new god win state on button click
+    // creates new credits state on button click
+    function clickCredits():Void {
+        FlxG.switchState(new CreditsState());
+    }
+
+    /*// creates new god win state on button click
     function clickGod():Void {
         FlxG.switchState(new GodWinState());
     }
@@ -138,24 +152,17 @@ class MenuState extends FlxState {
     // creates new human win state on button click
     function clickHuman():Void {
         FlxG.switchState(new HumanWinState());
-    }
+    }*/
 
     // quits game on button click
     function clickQuit():Void {
         System.exit(0);
     }
 
-    // creates new level state on button click
+    /*// creates new level state on button click
     function clickTestLevel():Void {
         var _levelState = new LevelState();
         _levelState.initializeLevel();
         FlxG.switchState(_levelState);
-    }
+    }*/
 }
-
-/* Game over state
-        Who won
-        Button to level select
-        Button to menu
-        Button to quit
-*/
