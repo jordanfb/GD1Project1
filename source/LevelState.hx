@@ -16,7 +16,6 @@ class LevelState extends FlxState {
 	var _levelData:LevelParser;
 	var gameMode:GameMode;
 
-
 	var stateInfo:FlxText;
 	var timer:FlxText;
 	var flag1:Flag;
@@ -172,16 +171,20 @@ class LevelState extends FlxState {
 
 		// initialize the players
 		player1 = new Player("WASDQERF", "assets/images/godsprite.png", _levelData.player1_x, _levelData.player1_y, _terrain.scale);
-		player1.cursor = new Cursor(player1.xpos, player1.ypos, FlxColor.BLUE);
-		player2 = new Player("IJKLUOP;", "assets/images/human.png", _levelData.player2_x, _levelData.player2_y, _terrain.scale);
-		player2.cursor = new Cursor(player2.xpos, player2.ypos, FlxColor.PURPLE);
+		player1.cursor = new Cursor(player1.xpos, player1.ypos, FlxColor.BLUE, FlxColor.ORANGE, _terrain, "assets/images/outline.png");
+		player2 = new Player("IJKLUOPH", "assets/images/human.png", _levelData.player2_x, _levelData.player2_y, _terrain.scale);
+		player2.cursor = new Cursor(player2.xpos, player2.ypos, FlxColor.PURPLE, FlxColor.RED, _terrain, "assets/images/outline1.png");
 
 		add(player1);
-		add(player1.cursor);
-		player1.cursor.kill();
 		add(player2);
+		add(player1.cursor);
 		add(player2.cursor);
+		player1.cursor.addSpriteList(this);
+		player2.cursor.addSpriteList(this);
+		player1.cursor.kill();
+		player1.cursor.killSpriteList();
 		player2.cursor.kill();
+		player2.cursor.killSpriteList();
 		/*trace(_terrain.mapHeight * _terrain.getTileHeight());
 		FlxG.camera.setSize(FlxG.camera.width, _terrain.mapHeight * _terrain.getTileHeight());
 		trace("Width " + FlxG.camera.scaleY);

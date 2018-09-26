@@ -13,7 +13,7 @@ import flixel.math.FlxPoint;
 class Player extends FlxSprite
 {
 	public var score:Int;
-	public var speed:Int;
+	public var speed:Float;
 	public var hasFlag:Bool;
 	public var usingCursor:Bool; //True = Cursor on False = Cursor off
 	public var destroyOrCreate:Bool; //True = Create mode False = Destroy modes
@@ -32,9 +32,7 @@ class Player extends FlxSprite
 	private var sprite:FlxGraphicAsset;
 	private var hasJump:Bool;
 	public var cursor:Cursor;
-
 	private var prevVelocity:FlxPoint;
-
 	private var fallingToggle:Bool; // this is for the falling animation just deal with the hack because it's terrible
 
 	//Controls should be configured as: Up, Left, Down, Right, TCursor, TCursorMode, Rotate, PlaceBlock
@@ -97,8 +95,8 @@ class Player extends FlxSprite
 		// this.scale.y = scale;
 		//makeGraphic(16, 16, FlxColor.GREEN);
 		drag.x = 880;
-		acceleration.y = 175;
-		maxVelocity.y = 250;
+		acceleration.y = 225;
+		maxVelocity.y = 400;
 		prevVelocity = new FlxPoint(0, 0);
 	}
 
@@ -139,16 +137,16 @@ class Player extends FlxSprite
 		if (up && hasJump)
 		{
 			hasJump = false;
-			velocity.y = -200;
+			velocity.y = -250;
 		}
 		if (isTouching(FlxObject.DOWN) || isTouching(FlxObject.RIGHT) || isTouching(FlxObject.LEFT))
 			hasJump = true;
 		else
 			hasJump = false;
 		if (down && velocity.y < 0)
-			acceleration.y += 15;
+			acceleration.y += 50;
 		if (isTouching(FlxObject.DOWN))
-			acceleration.y = 175;
+			acceleration.y = 225;
 
 		if (velocity.x != 0 && velocity.y == 0){
 			// trace("walking");
@@ -178,17 +176,19 @@ class Player extends FlxSprite
 			if (usingCursor)
 			{
 				animation.play("placing");
-				cursor.setPosition(this.getPosition().x, this.getPosition().y);
+				cursor.setTotalPosition(this.getPosition().x, this.getPosition().y);
 				cursor.revive();
+				cursor.reviveSpriteList();
 			}
 			else 
 			{
 				cursor.kill();
+				cursor.killSpriteList();
 				animation.play("idle");
 				if (!destroyOrCreate)
 				{
 					destroyOrCreate = true;
-					cursor.replaceColor(FlxColor.RED, FlxColor.BLUE);
+					cursor.swapColor(true, filepath);
 				}
 			}
 		}
@@ -199,10 +199,7 @@ class Player extends FlxSprite
 		if (FlxG.keys.anyJustPressed([keys.charAt(5)]))
 		{
 			destroyOrCreate = !destroyOrCreate;
-			if (destroyOrCreate)
-				cursor.replaceColor(FlxColor.RED, FlxColor.BLUE);
-			else
-				cursor.replaceColor(FlxColor.BLUE, FlxColor.RED);
+			cursor.swapColor(destroyOrCreate, filepath);
 		}
 	}
 
@@ -222,11 +219,11 @@ class Player extends FlxSprite
 		{
 			if (mode)	//Create on button press
 			{
-
+				cursor.createBlock();
 			}
 			else //Destroy on button press
 			{
-
+				cursor.destroyBlock();
 			}
 		}
 	}
@@ -234,6 +231,10 @@ class Player extends FlxSprite
 	public function toggleFlag():Void
 	{
 		hasFlag = !hasFlag;
+		if (hasFlag)
+			speed = speed*.7;
+		else 
+			speed = 10*speed/7;
 	}
 
 	override public function update(elapsed:Float):Void

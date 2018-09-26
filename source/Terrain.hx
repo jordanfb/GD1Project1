@@ -26,6 +26,8 @@ class Terrain {
 	public var mapWidth : Int;
 	public var mapHeight : Int;
 
+    public var scaledTileSize : Float;
+
     // "?X:Float=0" means that it is optional to pass this and if its not passed then it defaults to 0s
     public function new(?tile_width:Int = 16, ?tile_height:Int = 16 ) {
         _tilemap = new FlxTilemap();
@@ -88,6 +90,7 @@ class Terrain {
 
     public function scaleTilemap(x:Float, y:Float) : FlxPoint {
         scale = Math.max(x, y);
+        scaledTileSize = scale*getTileWidth();
         _tilemap.scale.x = scale;
         _tilemap.scale.y = scale;
         //trace("Tilemap scale " + _tilemap.scale);
