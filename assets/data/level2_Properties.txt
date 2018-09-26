@@ -2,10 +2,10 @@ LevelName:level2
 Aztec Test
 Player1Spawn:
 100
-600
+550
 Player2Spawn:
 925
-600
+550
 GameMode:
 Hold the Flag
 TileMap:
@@ -23,5 +23,5 @@ assets/images/jungle1.png
 BackgroundFrames:
 9
 Flag1:
-100
-100
+440
+10
