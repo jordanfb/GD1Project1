@@ -26,7 +26,7 @@ class ControlsState extends FlxState {
         bg.updateHitbox();
 
 		// back to menu button setup
-        menuB = new FlxButton(10, 650, "       Back", clickBack);
+        menuB = new FlxButton(10, 650, "       Back ", clickBack);
         menuB.loadGraphic("assets/images/button.png", true, 616, 198);
         menuB.setGraphicSize(250, 60);
         menuB.updateHitbox();

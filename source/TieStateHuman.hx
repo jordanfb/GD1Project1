@@ -37,12 +37,12 @@ class TieStateHuman extends FlxState {
 
         // sets up win text
         winText = new FlxText(75, 40, 900);
-		winText.text = "Though the game was indecisive, Xochipilli was impressed with the Traveler’s mastery.\nAs night fell, the god bid the mortal farewell, gifting him the statue that had once adorned his temple.";
+		winText.text = "Though the game was indecisive, Xochipilli was impressed with the Traveler’s mastery. \nAs night fell, the god bid the mortal farewell, gifting him the statue that had once adorned his temple. ";
 		winText.setFormat("assets/fonts/Adventure.otf", 32, FlxColor.WHITE, CENTER);
 		winText.setBorderStyle(OUTLINE, FlxColor.PURPLE, 1);
 
         // back to menu button setup
-        menuB = new FlxButton(20, 620, "        Back", clickBack);
+        menuB = new FlxButton(20, 620, "        Back ", clickBack);
         menuB.loadGraphic("assets/images/button.png", true, 616, 198);
         menuB.setGraphicSize(250, 60);
         menuB.updateHitbox();
@@ -50,7 +50,7 @@ class TieStateHuman extends FlxState {
         //menuB.label.setBorderStyle(OUTLINE, FlxColor.BLUE, 1);
 
         // quit button setup
-        quitB = new FlxButton(800, 620, "        Quit", clickQuit);
+        quitB = new FlxButton(800, 620, "        Quit ", clickQuit);
         quitB.loadGraphic("assets/images/button.png", true, 616, 198);
         quitB.setGraphicSize(250, 60);
         quitB.updateHitbox();

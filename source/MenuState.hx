@@ -67,21 +67,21 @@ class MenuState extends FlxState {
         playB.label.setFormat("assets/fonts/Adventure.otf", 40, FlxColor.WHITE, LEFT);
         
         // controls button setup
-        controlsB = new FlxButton(400, 400, " How To Play", clickControls);
+        controlsB = new FlxButton(400, 400, " How To Play ", clickControls);
         controlsB.loadGraphic("assets/images/button.png", true, 616, 198);
         controlsB.setGraphicSize(250, 60);
         controlsB.updateHitbox();
         controlsB.label.setFormat("assets/fonts/Adventure.otf", 37, FlxColor.WHITE, LEFT);
 
         // quit button setup
-        quitB = new FlxButton(400, 500, "       Quit", clickQuit);
+        quitB = new FlxButton(400, 500, "       Quit ", clickQuit);
         quitB.loadGraphic("assets/images/button.png", true, 616, 198);
         quitB.setGraphicSize(250, 60);
         quitB.updateHitbox();
         quitB.label.setFormat("assets/fonts/Adventure.otf", 37, FlxColor.WHITE, LEFT);
 
         // credits button setup
-        creditB = new FlxButton(675, 650, "      Credits", clickCredits);
+        creditB = new FlxButton(675, 650, "      Credits ", clickCredits);
         creditB.loadGraphic("assets/images/button.png", true, 616, 198);
         creditB.setGraphicSize(250, 60);
         creditB.updateHitbox();
@@ -89,13 +89,13 @@ class MenuState extends FlxState {
 
         // start text information
         startText = new FlxText(425, 275, 200); // x, y, width
-        startText.text = "Start";
+        startText.text = " Start ";
         startText.setFormat("assets/fonts/Adventure.otf", 40, FlxColor.WHITE, CENTER);
         startText.setBorderStyle(OUTLINE, FlxColor.RED, 1);
 
         // game title
         title = new FlxText(35, 100, 1000); // x, y, width
-        title.text = "Xochipilli's Showdown";
+        title.text = "  Xochipilli's Showdown  ";
         title.setFormat("assets/fonts/Adventure.otf", 90, FlxColor.ORANGE, CENTER);
         title.setBorderStyle(OUTLINE, FlxColor.BLACK, 1);
 

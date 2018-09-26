@@ -41,7 +41,7 @@ class Player extends FlxSprite
 	private var isHuman:Bool;
 
 	//Controls should be configured as: Up, Left, Down, Right, TCursor, TCursorMode, Rotate, PlaceBlock
-	public function new(controls:String, artpath:String, x:Int, y:Int, scale:Float)
+	public function new(controls:String, artpath:String, x:Int, y:Int, characterScale:Float)
 	{
 		//Set visible data
 		score = 0;
@@ -99,15 +99,19 @@ class Player extends FlxSprite
 		setFacingFlip(FlxObject.LEFT, false, false);
 		setFacingFlip(FlxObject.RIGHT, true, false);
 		animation.finishCallback = handleNextAnimation;
-		this.scale.set(scale, scale);
+		this.scale.set(characterScale, characterScale);
 		this.updateHitbox();
+		var oldWidth = this.width;
+		// trace(scale);
+		this.width = this.width/3; // halve your width probably if not more
+		this.offset.x = this.offset.x+24; // (this.width - oldWidth)/2 * characterScale; // -characterScale; // this.width/2*characterScale; //
 		
-		/*if (isHuman) {
+		if (isHuman) {
 			// update the hitbox so it's not weird.
-			// this.offset.set(this.offset.x, this.offset.y - 12); // test
-			this.height = this.height -12;
+			this.height = this.height -100;
+			this.offset.set(this.offset.x, this.offset.y - 12); // test
 			// updateHitbox();
-		}*/
+		}
 		// this.scale.y = scale;
 		//makeGraphic(16, 16, FlxColor.GREEN);
 		drag.x = 880;

@@ -37,19 +37,19 @@ class GodWinState extends FlxState {
 
         // sets up win text
         winText = new FlxText(75, 25, 900);
-		winText.text = "With his victory, Xochipilli ascended to the top of his ancient temple.\nThe god’s eyes were aglow with rekindled passion for art and games.";
+		winText.text = "With his victory, Xochipilli ascended to the top of his ancient temple. \nThe god’s eyes were aglow with rekindled passion for art and games. ";
 		winText.setFormat("assets/fonts/Adventure.otf", 32, FlxColor.WHITE, CENTER);
 		winText.setBorderStyle(OUTLINE, FlxColor.RED, 1);
 
         // back to menu button setup
-        menuB = new FlxButton(20, 620, "        Back", clickBack);
+        menuB = new FlxButton(20, 620, "        Back ", clickBack);
         menuB.loadGraphic("assets/images/button.png", true, 616, 198);
         menuB.setGraphicSize(250, 60);
         menuB.updateHitbox();
         menuB.label.setFormat("assets/fonts/Adventure.otf", 36, FlxColor.WHITE, LEFT);
 
         // quit button setup
-        quitB = new FlxButton(800, 620, "        Quit", clickQuit);
+        quitB = new FlxButton(800, 620, "        Quit ", clickQuit);
         quitB.loadGraphic("assets/images/button.png", true, 616, 198);
         quitB.setGraphicSize(250, 60);
         quitB.updateHitbox();

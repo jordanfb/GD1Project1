@@ -46,22 +46,22 @@ class PlayState extends FlxState {
         level3.updateHitbox();
 
 		info = new FlxText(380, 25, 300);
-        info.text = "Select A Level!";
+        info.text = " Select A Level! ";
         info.setFormat("assets/fonts/Adventure.otf", 40, FlxColor.WHITE, CENTER);
         info.setBorderStyle(OUTLINE, FlxColor.BLACK, 1);
 
 		name1 = new FlxText(30, 310, 300);
-        name1.text = "Time-worn Temple";
+        name1.text = "Time-worn Temple ";
         name1.setFormat("assets/fonts/Adventure.otf", 32, FlxColor.BLACK, CENTER);
         name1.setBorderStyle(OUTLINE, FlxColor.WHITE, 1);
 
 		name2 = new FlxText(250, 615, 300);
-        name2.text = "Climb To The Cloud";
+        name2.text = "Climb To The Cloud ";
         name2.setFormat("assets/fonts/Adventure.otf", 32, FlxColor.BLACK, CENTER);
         name2.setBorderStyle(OUTLINE, FlxColor.WHITE, 1);
 
 		name3 = new FlxText(515, 310, 300);
-        name3.text = "Diggin' Deep";
+        name3.text = "Diggin' Deep ";
         name3.setFormat("assets/fonts/Adventure.otf", 32, FlxColor.BLACK, CENTER);
         name3.setBorderStyle(OUTLINE, FlxColor.WHITE, 1);
 

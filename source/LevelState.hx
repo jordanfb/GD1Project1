@@ -211,11 +211,11 @@ class LevelState extends FlxState {
 		_countdownTimer.setFormat("assets/fonts/Adventure.otf", 48, FlxColor.WHITE, CENTER);
         _countdownTimer.setBorderStyle(OUTLINE, FlxColor.BLACK, 1);
 
-        _p1ScoreDisplay = new FlxText(1080/3-100, 50, 200, "P1: 0");
+        _p1ScoreDisplay = new FlxText(1080/3-100, 50, 200, "P1 : 0 ");
 		_p1ScoreDisplay.setFormat("assets/fonts/Adventure.otf", 36, FlxColor.fromRGB(229, 80, 80), CENTER);
         _p1ScoreDisplay.setBorderStyle(OUTLINE, FlxColor.BLACK, 1);
 
-        _p2ScoreDisplay = new FlxText(1080/3*2-100, 50, 200, "P2: 0");
+        _p2ScoreDisplay = new FlxText(1080/3*2-100, 50, 200, "P2 : 0 ");
 		_p2ScoreDisplay.setFormat("assets/fonts/Adventure.otf", 36, FlxColor.fromRGB(65, 118, 197), CENTER);
         _p2ScoreDisplay.setBorderStyle(OUTLINE, FlxColor.BLACK, 1);
 
@@ -325,13 +325,13 @@ class LevelState extends FlxState {
 				_countdownTime = _countdownTime - elapsed;
 				if (player1.hasFlag) {
 					_p1Score = _p1Score + elapsed * scoreMultiplier;
-					_p1ScoreDisplay.text = "" + Std.int(_p1Score);
+					_p1ScoreDisplay.text = "P1 : " + Std.int(_p1Score) + " ";
 				}
 				if (player2.hasFlag) {
 					_p2Score = _p2Score + elapsed * scoreMultiplier;
-					_p2ScoreDisplay.text = "" + Std.int(_p2Score);
+					_p2ScoreDisplay.text = "P2 : " + Std.int(_p2Score) + " ";
 				}
-				_countdownTimer.text = "" + Std.int(_countdownTime);
+				_countdownTimer.text = "" + Std.int(_countdownTime) + " ";
 				if (_countdownTime <= 0) {
 					// then see who wins!
 					endGame();

@@ -31,7 +31,7 @@ class CutsceneState extends FlxState {
 
     override public function create():Void {
         for(j in 0...10) { images.push("assets/images/cutscene/cutscene000"+ j +".png"); }
-        for(j in 10...82) { images.push("assets/images/cutscene/cutscene00"+ j +".png"); }
+        for(j in 10...81) { images.push("assets/images/cutscene/cutscene00"+ j +".png"); }
 
         // set up background animation
         bg.loadGraphic("assets/images/ruins.png");
@@ -40,16 +40,16 @@ class CutsceneState extends FlxState {
 
         // information for players to skip cutscene or play after cutscene ends
         stateInfo = new FlxText(10, 30, 300); // x, y, width
-        stateInfo.text = "Press 'SPACE' to skip";
+        stateInfo.text = "Press 'SPACE' to skip ";
         stateInfo.setFormat("assets/fonts/Adventure.otf", 28, FlxColor.WHITE, CENTER);
         stateInfo.setBorderStyle(OUTLINE, FlxColor.GREEN, 1);
 
         // add texts to textParts array
-        textParts.push("Many eons ago, the Aztec people thrived. They were a creative people, building great temples and composing colorful murals to honor their many gods.");
-        textParts.push("Today, their civilization is no more, and their gods lie dormant.");
-        textParts.push("That is, until one unfortunate soul happened upon the long-lost temple of Xochipilli, god of art and games.");
-        textParts.push("The ancient god was furious, but not unfair. To him, simply destroying a mere mortal was in poor taste.");
-        textParts.push("So he challenged the strange traveler to a game of wits and wizardry.");
+        textParts.push("Many eons ago, the Aztec people thrived. They were a creative people, building great temples and composing colorful murals to honor their many gods. ");
+        textParts.push("Today, their civilization is no more, and their gods lie dormant. ");
+        textParts.push("That is, until one unfortunate soul happened upon the long-lost temple of Xochipilli, god of art and games. ");
+        textParts.push("The ancient god was furious, but not unfair. To him, simply destroying a mere mortal was in poor taste.  ");
+        textParts.push("So he challenged the strange traveler to a game of wits and \nwizardry. ");
 
         // changing text for the cutscene
         currentText = new FlxText(340, 275, 400);

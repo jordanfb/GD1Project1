@@ -37,12 +37,12 @@ class TieStateGod extends FlxState {
 
         // sets up win text
         winText = new FlxText(75, 25, 900);
-		winText.text = "Insulted by the Traveler’s disrespect, Xochipilli turned the mortal into a statue before ascending to the top of his temple and reclaiming his place as the god of art and games.";
+		winText.text = "Insulted by the Traveler’s disrespect, Xochipilli turned the mortal into a statue before ascending to the top of his temple and reclaiming his place as the god of art and games. ";
 		winText.setFormat("assets/fonts/Adventure.otf", 32, FlxColor.WHITE, CENTER);
 		winText.setBorderStyle(OUTLINE, FlxColor.RED, 1);
 
         // back to menu button setup
-        menuB = new FlxButton(20, 620, "        Back", clickBack);
+        menuB = new FlxButton(20, 620, "        Back ", clickBack);
         menuB.loadGraphic("assets/images/button.png", true, 616, 198);
         menuB.setGraphicSize(250, 60);
         menuB.updateHitbox();
@@ -50,7 +50,7 @@ class TieStateGod extends FlxState {
         //menuB.label.setBorderStyle(OUTLINE, FlxColor.BLUE, 1);
 
         // quit button setup
-        quitB = new FlxButton(800, 620, "        Quit", clickQuit);
+        quitB = new FlxButton(800, 620, "        Quit ", clickQuit);
         quitB.loadGraphic("assets/images/button.png", true, 616, 198);
         quitB.setGraphicSize(250, 60);
         quitB.updateHitbox();
