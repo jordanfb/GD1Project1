@@ -51,10 +51,18 @@ class Cursor extends FlxSprite
 	//	makeGraphic(16, 16, cursorColor);
 	//}
 
+	public function setSpriteList(x:Float, y:Float)
+	{
+		spriteList = new Array<FlxSprite>();
+		for (i in 0...offsetList.length)
+		{
+			spriteList[i] = makeGraphic(16, 16, cursorColor);
+		}
+	}
 
 	public function generateShape():Array<FlxPoint>
 	{
-		blockType = blockList[cast(Math.random()*8, Int)];
+		blockType = blockList[Std.int(Math.random()*8)];
 		offsetList = new Array<FlxPoint>();
 		if (blockType == 1)		//L
 		{
@@ -209,38 +217,38 @@ class Cursor extends FlxSprite
 		if (left)
 		{
 			cursorPoint.x--;
-			if (cursorPoint.x >= 0)
-				for (i in 0...offsetList.length)
-				{
-					offsetList[i].x--;
-				}
+			//if (cursorPoint.x >= 0)
+			//	for (i in 0...offsetList.length)
+			//	{
+			//		offsetList[i].x--;
+			//	}
 		}
 		if (right)
 		{
 			cursorPoint.x++;
-			if (cursorPoint.x <= terrainRef.mapWidth-1)
-				for (i in 0...offsetList.length)
-				{
-					offsetList[i].x++;
-				}
+			//if (cursorPoint.x <= terrainRef.mapWidth-1)
+			//	for (i in 0...offsetList.length)
+			//	{
+			//		offsetList[i].x++;
+			//	}
 		}
 		if (up)
 		{
 			cursorPoint.y--;
-			if (cursorPoint.y >= 0)
-				for (i in 0...offsetList.length)
-				{
-					offsetList[i].y--;
-				}
+			//if (cursorPoint.y >= 0)
+			//	for (i in 0...offsetList.length)
+			//	{
+			//		offsetList[i].y--;
+			//	}
 		}
 		if (down)
 		{
 			cursorPoint.y++;
-			if (cursorPoint.y <= terrainRef.mapHeight-1)
-				for (i in 0...offsetList.length)
-				{
-					offsetList[i].y++;
-				}
+			//if (cursorPoint.y <= terrainRef.mapHeight-1)
+			//	for (i in 0...offsetList.length)
+			//	{
+			//		offsetList[i].y++;
+			//	}
 		}
 		cursorPoint.set(Math.max(0, Math.min(cursorPoint.x, terrainRef.mapWidth-1)), Math.max(0, Math.min(cursorPoint.y, terrainRef.mapHeight-1)));
 		setPosition(cursorPoint.x * terrainRef.scaledTileSize, cursorPoint.y * terrainRef.scaledTileSize);

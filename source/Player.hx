@@ -26,7 +26,7 @@ class Player extends FlxSprite
 	private var right:Bool;
 	private var down:Bool;
 	private var stunTime:Int;
-	private var inStun:Bool;
+	public var inStun:Bool;
 	private var stunnedAtTime:Float;
 	private var filepath:String;
 	private var sprite:FlxGraphicAsset;
@@ -220,11 +220,11 @@ class Player extends FlxSprite
 		{
 			if (mode)	//Create on button press
 			{
-
+				cursor.createBlock();
 			}
 			else //Destroy on button press
 			{
-
+				cursor.destroyBlock();
 			}
 		}
 	}
