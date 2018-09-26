@@ -70,21 +70,21 @@ class Player extends FlxSprite
 			animation.add("falling", [28, 29, 30, 31, 32, 33, 34], 12, false);
 			animation.add("falling loop", [34], 12, true);
 			animation.add("idle", [1], 12, true);
-			animation.add("placing", [2, 3, 4, 5, 6, 7, 8, 9, 10], 12, false);
-			animation.add("placing loop", [9, 10], 12, true);
+			animation.add("placing", [2, 3, 4, 5, 6, 7, 8, 9], 12, false);
+			animation.add("placing loop", [8, 9], 12, true);
 
 		}
 		else
 		{
 			loadGraphic(artpath, true, 310, 400);
 			animation.add("walk", [2, 3, 4, 5], 8, false);
-			animation.add("falling", [9, 10, 11, 12, 13, 14], 8, false);
-			animation.add("falling loop", [14], 8, true);
+			animation.add("falling", [9, 10, 11, 12, 13], 8, false);
+			animation.add("falling loop", [13], 8, true);
 			animation.add("jump", [6, 7, 8], 8, false);
 			animation.add("jump loop", [8], 8, true);
-			animation.add("idle", [1], 8, true);
-			animation.add("placing", [15], 8, false);
-			animation.add("placing loop", [15], 8, true);
+			animation.add("idle", [14], 8, true);
+			animation.add("placing", [14, 11, 12, 13], 8, false);
+			animation.add("placing loop", [12, 13], 8, true);
 
 		}
 		// this.scale.x = scale;
@@ -162,7 +162,7 @@ class Player extends FlxSprite
 			animation.play("falling");
 			fallingToggle = true;
 		}
-		else if (velocity.x == 0 && velocity.y == 0) {
+		else if (velocity.x == 0 && velocity.y == 0 && !usingCursor) {
 			// trace("idle");
 			animation.play("idle");
 			fallingToggle = false;
@@ -177,7 +177,6 @@ class Player extends FlxSprite
 			if (usingCursor)
 			{
 				animation.play("placing");
-				animation.play("placing loop");
 				cursor.setPosition(this.getPosition().x, this.getPosition().y);
 				cursor.revive();
 			}
