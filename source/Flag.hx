@@ -25,6 +25,10 @@ class Flag extends FlxSprite {
         updateHitbox();
         animation.play("flagWave");
         canBePickedUp = true;
+
+        // make it fall
+        acceleration.y = 300;
+        maxVelocity.y = 500;
     }
 
     public function isBeingHeld() : Bool {
