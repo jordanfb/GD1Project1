@@ -191,9 +191,9 @@ class LevelState extends FlxState {
 		// then also set up the flags depending on the game mode and the level spawn information
 		if (gameMode == GameMode.holdFlag) {
 			// our firstt and likely only game mode
-			flag1 = new Flag(_levelData.flag1X, _levelData.flag1Y);
+			flag1 = new Flag(_levelData.flag1X * _terrain.getTileWidth()*_terrain.scale, _levelData.flag1Y * _terrain.getTileWidth()*_terrain.scale);
 			add(flag1);
-			// flag2 = new Flag(_levelData.flag2X, _levelData.flag2Y);
+			// flag2 = new Flag(_levelData.flag2X * _terrain.getTileWidth()*_terrain.scale, _levelData.flag2Y * _terrain.getTileWidth()*_terrain.scale);
 			// then do whatever else we need to
 			_countdownTime = _levelPlayTime;
 		} else {
