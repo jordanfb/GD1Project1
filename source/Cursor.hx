@@ -251,7 +251,7 @@ class Cursor extends FlxSprite
 			if (isHuman) {
 				tileIndexList = [14, 34, 35, 15, 54, 74, 55, 75, 33, 13, 32, 12, 16, 36, 17, 37];
 			} else {
-				tileIndexList = [88, 108, 109, 89, 82, 102, 83, 103, 175, 155, 174, 154, 91, 111, 92, 112];
+				tileIndexList = [88, 108, 109, 89, 82, 102, 83, 103, 155, 135, 154, 134, 90, 110, 91, 111];
 			}
 		}
 		else if (blockType == 6) //Line
@@ -275,7 +275,7 @@ class Cursor extends FlxSprite
 			if (isHuman) {
 				tileIndexList = [204, 224, 225, 205, 12, 182, 163, 183, 162, 182, 163, 183, 200, 220, 201, 221];
 			} else {
-				tileIndexList = [86, 106, 107, 87, 86, 106, 87, 107, 86, 106, 87, 107, 93, 113, 94, 114];
+				tileIndexList = [86, 106, 107, 87, 86, 106, 87, 107, 86, 106, 87, 107, 92, 112, 93, 113];
 			}
 		}
 		else if (blockType == 7) //Big Box
