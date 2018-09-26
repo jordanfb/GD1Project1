@@ -31,6 +31,9 @@ class Player extends FlxSprite
 	private var filepath:String;
 	private var sprite:FlxGraphicAsset;
 	private var hasJump:Bool;
+	private var justUsed:Bool;
+	private var coolDown:Int;
+	private var coolDownTime:Float;
 	public var cursor:Cursor;
 	private var prevVelocity:FlxPoint;
 	private var fallingToggle:Bool; // this is for the falling animation just deal with the hack because it's terrible
@@ -54,8 +57,11 @@ class Player extends FlxSprite
 		down = false;
 		inStun = false;
 		hasJump = true;
+		justUsed = false;
 		fallingToggle = false;
 		stunTime = 2;
+		coolDown = 1;
+		coolDownTime = 0;
 		filepath = artpath;
 		super(x, y);
 		
@@ -139,7 +145,7 @@ class Player extends FlxSprite
 			hasJump = false;
 			velocity.y = -250;
 		}
-		if (isTouching(FlxObject.DOWN) || isTouching(FlxObject.RIGHT) || isTouching(FlxObject.LEFT))
+		if (isTouching(FlxObject.DOWN)/* || isTouching(FlxObject.RIGHT) || isTouching(FlxObject.LEFT)*/)
 			hasJump = true;
 		else
 			hasJump = false;
@@ -225,6 +231,8 @@ class Player extends FlxSprite
 			{
 				cursor.destroyBlock();
 			}
+			coolDownTime = 0;
+			justUsed = true;
 		}
 	}
 
@@ -253,7 +261,14 @@ class Player extends FlxSprite
 				toggleCreate();
 				rotateCursor();
 				cursor.cursorMovement(keys);
-				placement(destroyOrCreate);
+				if (justUsed)
+				{
+					coolDownTime+=elapsed;
+					if (coolDownTime >= coolDown)
+						justUsed = false;
+				}
+				else
+					placement(destroyOrCreate);
 			}
 			else
 			{
