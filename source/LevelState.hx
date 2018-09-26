@@ -5,7 +5,9 @@ import flixel.ui.FlxButton;
 import flixel.FlxG;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import flixel.util.FlxCollision;
 import flixel.FlxSprite;
+import flixel.group.FlxGroup;
 
 class LevelState extends FlxState {
 
@@ -15,7 +17,8 @@ class LevelState extends FlxState {
 
 	var stateInfo:FlxText;
 	var timer:FlxText;
-	var flag:Flag;
+	var flag1:Flag;
+	var flag2:Flag;
 	var player1:Player;
 	var player2:Player;
 	var counter:Float = 1;
@@ -27,11 +30,16 @@ class LevelState extends FlxState {
 	// possesion indicator -- big screen flash -- BLAH HAS THE STATUE
 	// background art. Lets do that now
 
+	var screenBoarderWalls:FlxGroup;
 	// UI Art:
 	// Background art variables:
 	var _backgroundArtFrame = 0;
 	var _backgroundArtFrameTimer = 0.0;
 	var _backgroundArtFrameTime = .1;
+	// Count-down timer
+	var _countdownTimer:FlxText;
+	var _countdownTime:Float;
+	var _levelPlayTime = 60; // the time to play the game
 
 	override public function create():Void {
 		stateInfo = new FlxText(10, 30, 150);
@@ -58,7 +66,7 @@ class LevelState extends FlxState {
 
 	private function loadGraphics() : Void {
 		// this loads the background art
-		var numFrames = 9;
+		var numFrames = _levelData.levelBackgroundArtFrameCount;
 		_backgroundArt = new Array<FlxSprite>();
 		for (i in 0...numFrames) {
 			_backgroundArt.insert(0, new FlxSprite());
@@ -132,7 +140,10 @@ class LevelState extends FlxState {
 		addBackgroundGraphics();
 		_terrain.add(this);
 		initializeCamera();
+		// FlxG.worldBounds.set(0, 0, _terrain.mapWidth*_terrain.getTileWidth()*_terrain.scale, _terrain.mapHeight*_terrain.getTileHeight()*_terrain.scale);
+		screenBoarderWalls = FlxCollision.createCameraWall(FlxG.camera, 10, true);
 
+		// initialize the players
 		player1 = new Player("WASDQERF", "assets/images/godsprite.png", _levelData.player1_x, _levelData.player1_y, _terrain.scale);
 		player1.cursor = new Cursor(player1.xpos, player1.ypos, FlxColor.BLUE);
 		player2 = new Player("IJKLUOP;", "assets/images/human.png", _levelData.player2_x, _levelData.player2_y, _terrain.scale);
@@ -151,7 +162,17 @@ class LevelState extends FlxState {
 		trace("Width2 " + FlxG.camera.scaleY);
 		trace(FlxG.cameras.list.length);
 		trace(FlxG.camera.height);*/
+
 		// then also set up the flags depending on the game mode and the level spawn information
+		if (_levelData.gameMode == "Hold the Flag") {
+			// our firstt and likely only game mode
+			flag1 = new Flag(_levelData.flag1X, _levelData.flag1Y);
+			add(flag1);
+			// flag2 = new Flag(_levelData.flag2X, _levelData.flag2Y);
+			// then do whatever else we need to
+		} else {
+			trace("LOADED A LEVEL BUT DIDN'T FIND A VALID GAME MODE ERROR");
+		}
 	}
 
 	override public function update(elapsed:Float):Void {
@@ -162,6 +183,8 @@ class LevelState extends FlxState {
 		super.update(elapsed);
 		_terrain.collide(player1);
 		_terrain.collide(player2);
+		FlxG.collide(screenBoarderWalls, player1);
+		FlxG.collide(screenBoarderWalls, player2);
 		//trace(FlxG.camera.height);
 
 		/*if (FlxG.keys.pressed.L) {

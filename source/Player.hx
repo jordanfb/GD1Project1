@@ -104,7 +104,8 @@ class Player extends FlxSprite
 
 	private function handleNextAnimation(v:String):Void {
 		// trace(v);
-		animation.play(v + " loop");
+		if (v != "walk")
+			animation.play(v + " loop");
 		// trace(animation.curAnim.name);
 	}
 
