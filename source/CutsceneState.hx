@@ -30,17 +30,17 @@ class CutsceneState extends FlxState {
     }
 
     override public function create():Void {
-        // add images for animation
+        /*// add images for animation
         for(j in 0...10) {
             images.push("assets/images/cutscene000" + j + ".png");
         }
         for(j in 10...82) {
             images.push("assets/images/cutscene/cutscene00" + j + ".png");
         }
-        j = 0;
+        j = 0;*/
 
         // set up background animation
-        bg.loadGraphic(images[j]);
+        bg.loadGraphic("assets/images/temp background");
         bg.setGraphicSize(1080, 720);
         bg.updateHitbox();
 
@@ -79,12 +79,12 @@ class CutsceneState extends FlxState {
             _levelState.initializeLevel(levelInfo);
             FlxG.switchState(_levelState);
 		}
-        if(j < images.length) {
+        /*if(j < images.length) {
             bg.loadGraphic(images[j]);
             bg.setGraphicSize(1080, 720);
             bg.updateHitbox();
             j = j + 1;
-        }
+        }*/
 		super.update(elapsed);
 	}
 
