@@ -37,7 +37,7 @@ class TieStateGod extends FlxState {
 
         // sets up win text
         winText = new FlxText(75, 25, 900);
-		winText.text = "Insulted with the Traveler’s disrespect, Xochipilli turned the mortal into a statue before ascending to the top of his temple and reclaiming his place as the god of art and games.";
+		winText.text = "Insulted by the Traveler’s disrespect, Xochipilli turned the mortal into a statue before ascending to the top of his temple and reclaiming his place as the god of art and games.";
 		winText.setFormat("assets/fonts/Adventure.otf", 32, FlxColor.WHITE, CENTER);
 		winText.setBorderStyle(OUTLINE, FlxColor.RED, 1);
 
