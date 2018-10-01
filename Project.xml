@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Xochipilli's Showdown" file="Xochipilli's Showdown" main="Main" version="0.0.1" company="HaxeFlixel" />
+	<app title="Xochipilli's Showdown" file="Xochipilli's Showdown" main="Main" version="0.0.1" company="Group4" />
 
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->
@@ -79,4 +79,5 @@
 	<!-- _________________________________ Custom _______________________________ -->
 
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
+	<icon path="assets/images/icon.svg" />
 </project>
