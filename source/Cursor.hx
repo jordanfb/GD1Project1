@@ -140,14 +140,17 @@ class Cursor extends FlxSprite
 			offsetList.push(new FlxPoint(0, 1));
 			offsetList.push(new FlxPoint(1, 1));
 			offsetList.push(new FlxPoint(1, 0));
+
 			offsetList.push(new FlxPoint(0, 2));
 			offsetList.push(new FlxPoint(0, 3));
 			offsetList.push(new FlxPoint(1, 2));
 			offsetList.push(new FlxPoint(1, 3));
+
 			offsetList.push(new FlxPoint(0, 4));
 			offsetList.push(new FlxPoint(0, 5));
 			offsetList.push(new FlxPoint(1, 4));
 			offsetList.push(new FlxPoint(1, 5));
+
 			offsetList.push(new FlxPoint(2, 4));
 			offsetList.push(new FlxPoint(2, 5));
 			offsetList.push(new FlxPoint(3, 4));
@@ -155,7 +158,7 @@ class Cursor extends FlxSprite
 			if (isHuman) {
 				tileIndexList = [204, 224, 225, 205, 162, 182, 163, 183, 176, 196, 177, 197, 16, 36, 17, 37];
 			} else {
-				tileIndexList = [92, 112, 113, 93, 86, 106, 87, 107, 136, 156, 137, 157, 126, 146, 127, 147];
+				tileIndexList = [132, 152, 153, 133, 86, 106, 87, 107, 136, 156, 137, 157, 126, 146, 127, 147];
 			}
 		}
 		else if (blockType == 2)	//Backwards L
@@ -164,14 +167,17 @@ class Cursor extends FlxSprite
 			offsetList.push(new FlxPoint(0, 1));
 			offsetList.push(new FlxPoint(1, 1));
 			offsetList.push(new FlxPoint(1, 0));
+
 			offsetList.push(new FlxPoint(0, 2));
 			offsetList.push(new FlxPoint(0, 3));
 			offsetList.push(new FlxPoint(1, 2));
 			offsetList.push(new FlxPoint(1, 3));
+
 			offsetList.push(new FlxPoint(0, 4));
 			offsetList.push(new FlxPoint(0, 5));
 			offsetList.push(new FlxPoint(1, 4));
 			offsetList.push(new FlxPoint(1, 5));
+
 			offsetList.push(new FlxPoint(-2, 4));
 			offsetList.push(new FlxPoint(-2, 5));
 			offsetList.push(new FlxPoint(-1, 4));
@@ -179,7 +185,7 @@ class Cursor extends FlxSprite
 			if (isHuman) {
 				tileIndexList = [204, 224, 225, 205, 162, 182, 163, 183, 178, 198, 179, 199, 12, 32, 13, 33];
 			} else {
-				tileIndexList = [92, 112, 113, 93, 86, 106, 87, 107, 138, 158, 139, 159, 126, 146, 127, 147];
+				tileIndexList = [132, 152, 153, 133, 86, 106, 87, 107, 138, 158, 139, 159, 126, 146, 127, 147];
 			}
 		}
 		else if (blockType == 3) //Z
@@ -188,14 +194,17 @@ class Cursor extends FlxSprite
 			offsetList.push(new FlxPoint(0, 1));
 			offsetList.push(new FlxPoint(1, 1));
 			offsetList.push(new FlxPoint(1, 0));
+
 			offsetList.push(new FlxPoint(0, 2));
 			offsetList.push(new FlxPoint(0, 3));
 			offsetList.push(new FlxPoint(1, 2));
 			offsetList.push(new FlxPoint(1, 3));
+
 			offsetList.push(new FlxPoint(2, 2));
 			offsetList.push(new FlxPoint(2, 3));
 			offsetList.push(new FlxPoint(3, 2));
 			offsetList.push(new FlxPoint(3, 3));
+
 			offsetList.push(new FlxPoint(2, 4));
 			offsetList.push(new FlxPoint(2, 5));
 			offsetList.push(new FlxPoint(3, 4));
@@ -203,7 +212,7 @@ class Cursor extends FlxSprite
 			if (isHuman) {
 				tileIndexList = [204, 224, 225, 205, 176, 196, 177, 197, 58, 78, 59, 79, 200, 220, 201, 221];
 			} else {
-				tileIndexList = [87, 107, 108, 88, 126, 146, 127, 147, 88, 108, 89, 109, 92, 112, 93, 113];
+				tileIndexList = [86, 106, 107, 87, 136, 156, 137, 157, 98, 118, 99, 119, 92, 112, 93, 113];
 			}
 		}
 		else if (blockType == 4) //Backwards Z
@@ -212,14 +221,17 @@ class Cursor extends FlxSprite
 			offsetList.push(new FlxPoint(0, 1));
 			offsetList.push(new FlxPoint(1, 1));
 			offsetList.push(new FlxPoint(1, 0));
+
 			offsetList.push(new FlxPoint(0, 2));
 			offsetList.push(new FlxPoint(0, 3));
 			offsetList.push(new FlxPoint(1, 2));
 			offsetList.push(new FlxPoint(1, 3));
+
 			offsetList.push(new FlxPoint(-1, 2));
 			offsetList.push(new FlxPoint(-1, 3));
 			offsetList.push(new FlxPoint(-2, 2));
 			offsetList.push(new FlxPoint(-2, 3));
+
 			offsetList.push(new FlxPoint(-1, 4));
 			offsetList.push(new FlxPoint(-1, 5));
 			offsetList.push(new FlxPoint(-2, 4));
@@ -227,7 +239,7 @@ class Cursor extends FlxSprite
 			if (isHuman) {
 				tileIndexList = [204, 224, 225, 205, 178, 198, 179, 199, 57, 77, 56, 76, 201, 221, 200, 220];
 			} else {
-				tileIndexList = [132, 152, 153, 133, 128, 148, 129, 149, 97, 107, 96, 106, 87, 107, 86, 106];
+				tileIndexList = [132, 152, 153, 133, 138, 158, 139, 159, 97, 117, 96, 116, 87, 107, 86, 106];
 			}
 		}
 		else if (blockType == 5) //T
@@ -273,7 +285,7 @@ class Cursor extends FlxSprite
 			offsetList.push(new FlxPoint(1, 6));
 			offsetList.push(new FlxPoint(1, 7));
 			if (isHuman) {
-				tileIndexList = [204, 224, 225, 205, 12, 182, 163, 183, 162, 182, 163, 183, 200, 220, 201, 221];
+				tileIndexList = [204, 224, 225, 205, 162, 182, 163, 183, 162, 182, 163, 183, 200, 220, 201, 221];
 			} else {
 				tileIndexList = [86, 106, 107, 87, 86, 106, 87, 107, 86, 106, 87, 107, 92, 112, 93, 113];
 			}
@@ -284,6 +296,7 @@ class Cursor extends FlxSprite
 			offsetList.push(new FlxPoint(0, 1));
 			offsetList.push(new FlxPoint(1, 1));
 			offsetList.push(new FlxPoint(1, 0));
+
 			offsetList.push(new FlxPoint(0, 2));
 			offsetList.push(new FlxPoint(0, 3));
 			offsetList.push(new FlxPoint(1, 2));
@@ -292,6 +305,7 @@ class Cursor extends FlxSprite
 			offsetList.push(new FlxPoint(2, 3));
 			offsetList.push(new FlxPoint(3, 2));
 			offsetList.push(new FlxPoint(3, 3));
+
 			offsetList.push(new FlxPoint(2, 0));
 			offsetList.push(new FlxPoint(2, 1));
 			offsetList.push(new FlxPoint(3, 0));
@@ -299,7 +313,7 @@ class Cursor extends FlxSprite
 			if (isHuman) {
 				tileIndexList = [56, 76, 77, 57, 176, 196, 177, 197, 178, 198, 179, 199, 58, 78, 59, 79];
 			} else {
-				tileIndexList = [96, 116, 117, 97, 136, 156, 137, 157, 138, 158, 139, 159, 98, 118, 99, 119];
+				tileIndexList = [96, 116, 117, 97, 92, 112, 93, 113, 86, 106, 87, 107, 98, 118, 99, 119];
 			}
 		}
 		else 				//Single box
