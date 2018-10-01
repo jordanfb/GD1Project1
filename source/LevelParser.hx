@@ -126,4 +126,18 @@ class LevelParser {
         }
         return ""; // return an empty string if there was no image there
     }
+
+    public function getLevelName(filename:String):String {
+        var _file:String = Assets.getText(filename);
+        var lines = _file.split("\n");
+        var i:Int = 0;
+        for(i in 0...lines.length) {
+            // strip line for perfect comparisons
+            lines[i] = lines[i].replace("\r", "").replace("\n", "").trim();
+            if(lines[i] == "LevelName:") {
+                return lines[i+1].replace("\r", "").replace("\n", "").trim();
+            }
+        }
+        return ""; // return an empty string if there was no image there
+    }
 }
