@@ -290,6 +290,8 @@ class Player extends FlxSprite
 					coolDownTime+=elapsed;
 					if (coolDownTime >= coolDown)
 						justUsed = false;
+					var a = (coolDownTime / coolDown);
+					cursor.setAlpha(a*a*.7 + .3); // so that it fades into existence when it's ready to use
 				}
 				else
 					placement(destroyOrCreate);

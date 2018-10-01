@@ -65,16 +65,16 @@ class Cursor extends FlxSprite
 		if (filename == "assets/images/godsprite.png")
 		{		
 			if (!mode)
-				spriteList[0].replaceColor(FlxColor.BLUE, FlxColor.ORANGE);
+				spriteList[0].replaceColor(cursorColor, destroyColor);
 			else
-				spriteList[0].replaceColor(FlxColor.ORANGE, FlxColor.BLUE);
+				spriteList[0].replaceColor(destroyColor, cursorColor);
 		}
 		else
 		{
 			if (!mode)
-				spriteList[0].replaceColor(FlxColor.PURPLE, FlxColor.RED);
+				spriteList[0].replaceColor(cursorColor, destroyColor);
 			else
-				spriteList[0].replaceColor(FlxColor.RED, FlxColor.PURPLE);	
+				spriteList[0].replaceColor(destroyColor, cursorColor);
 		}	
 	}
 
@@ -107,6 +107,14 @@ class Cursor extends FlxSprite
 		}
 		for (i in offsetList.length...spriteList.length) {
 			spriteList[i].alpha = 0;
+		}
+	}
+
+	public function setAlpha(a:Float) {
+		// this is for showing the player when they're able to place things
+		for (i in 0...offsetList.length) {
+			// this only sets the alpha of those postions that are currently being placed (i.e. they have an offset). This is because the other ones have to be 0 alpha
+			spriteList[i].alpha = a;
 		}
 	}
 
