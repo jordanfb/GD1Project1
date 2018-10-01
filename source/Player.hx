@@ -41,7 +41,7 @@ class Player extends FlxSprite
 	private var isHuman:Bool;
 
 	//Controls should be configured as: Up, Left, Down, Right, TCursor, TCursorMode, Rotate, PlaceBlock
-	public function new(controls:String, artpath:String, x:Int, y:Int, characterScale:Float)
+	public function new(controls:String, artpath:String, x:Int, y:Int, characterScale:Float, startFacingRight:Bool)
 	{
 		//Set visible data
 		score = 0;
@@ -98,6 +98,11 @@ class Player extends FlxSprite
 		// trace("SCALE: " + scale);
 		setFacingFlip(FlxObject.LEFT, false, false);
 		setFacingFlip(FlxObject.RIGHT, true, false);
+		if (startFacingRight) {
+			facing = FlxObject.RIGHT;
+		} else {
+			facing = FlxObject.LEFT;
+		}
 		animation.finishCallback = handleNextAnimation;
 		this.scale.set(characterScale, characterScale);
 		this.updateHitbox();
