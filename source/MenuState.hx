@@ -15,9 +15,8 @@ class MenuState extends FlxState {
     var playB:FlxButton;
     var controlsB:FlxButton;
     var quitB:FlxButton;
-    var godWin:FlxButton;
     var creditB:FlxButton;
-    var humanWin:FlxButton;
+    var volume:FlxButton;
     var startText:FlxText;
     var title:FlxText;
     var bg:FlxSprite;
@@ -27,9 +26,14 @@ class MenuState extends FlxState {
     var music:FlxSound;
     var i:Int = 0;
 
+    var volumeLevel:Float = 1;
+    var currentVolumeSetting = 1; // 1 is full, 2 is half, 3 is none?
+
     override public function create():Void {
-        FlxG.sound.playMusic("assets/music/tribal.wav");
-        FlxG.sound.changeVolume(1);
+        if (FlxG.sound.music == null) {
+            FlxG.sound.playMusic("assets/music/tribal.wav");
+            // FlxG.sound.changeVolume(1);
+        }
 
         // add all images to array
         images.push("assets/images/fancy button/1.png");
@@ -99,10 +103,38 @@ class MenuState extends FlxState {
         title.setFormat("assets/fonts/Adventure.otf", 90, FlxColor.ORANGE, CENTER);
         title.setBorderStyle(OUTLINE, FlxColor.BLACK, 1);
 
+        // volume button setup
+        volume = new FlxButton(675-600, 650, " Volume: 100% ", clickVolume);
+        volume.loadGraphic("assets/images/button.png", true, 616, 198);
+        volume.setGraphicSize(250, 60);
+        volume.updateHitbox();
+        volume.label.setFormat("assets/fonts/Adventure.otf", 36, FlxColor.WHITE, LEFT);
+        if (FlxG.sound.music.volume == 1) {
+            currentVolumeSetting = 1;
+            volumeLevel = 1;
+            volume.text = "  Volume: 100% ";
+        }
+        else if (FlxG.sound.music.volume == .50) {
+            currentVolumeSetting = 2;
+            volumeLevel = .5;
+            volume.text = "  Volume: 50% ";
+        }
+        else if (FlxG.sound.music.volume == .25) {
+            currentVolumeSetting = 3;
+            volumeLevel = .25;
+            volume.text = "  Volume: 25% ";
+        }
+        else if (FlxG.sound.music.volume == 0) {
+            currentVolumeSetting = 4;
+            volumeLevel = 0;
+            volume.text = "  Volume: 0% ";
+        }
+
         // run the clock and call cutscene function
         clock.start(.04, nextImage, 0);
 
         add(bg);
+        add(volume);
 		add(playB);
         add(controlsB);
         add(quitB);
@@ -133,7 +165,7 @@ class MenuState extends FlxState {
     // creates new credits state on button click
     function clickCredits():Void {
         FlxG.sound.play("assets/sounds/button press.wav");
-        FlxG.sound.changeVolume(1);
+        // FlxG.sound.changeVolume(1);
         closeSubState();
         FlxG.switchState(new CreditsState());
     }
@@ -151,6 +183,33 @@ class MenuState extends FlxState {
         var _levelState = new LevelState();
         _levelState.initializeLevel();
         FlxG.switchState(_levelState);
+    }
+
+    function clickVolume() {
+        if (currentVolumeSetting == 1) {
+            currentVolumeSetting += 1;
+            // then set the volume of the music
+            FlxG.sound.music.volume = .5;
+            volume.text = "  Volume: 50% ";
+        }
+        else if (currentVolumeSetting == 2) {
+            currentVolumeSetting += 1;
+            // then set the volume of the music
+            FlxG.sound.music.volume = .25;
+            volume.text = "  Volume: 25% ";
+        }
+        else if (currentVolumeSetting == 3) {
+            currentVolumeSetting += 1;
+            // then set the volume of the music
+            FlxG.sound.music.volume = 0;
+            volume.text = "  Volume: 0% ";
+        }
+        else if (currentVolumeSetting == 4) {
+            currentVolumeSetting = 1;
+            // then set the volume of the music
+            FlxG.sound.music.volume = 1;
+            volume.text = "  Volume: 100% ";
+        }
     }
 
     // function to change the cutscene text that is currently displayed

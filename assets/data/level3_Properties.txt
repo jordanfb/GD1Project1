@@ -17,7 +17,7 @@ assets/images/level3.PNG
 Music:
 music.file
 BackgroundArt:
-assets/images/cavern/cave
+assets/images/cavern/cavern
 TileArt:
 assets/images/jungle1.png
 BackgroundFrames:
