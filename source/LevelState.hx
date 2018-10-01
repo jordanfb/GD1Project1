@@ -39,6 +39,7 @@ class LevelState extends FlxState {
 	var _backgroundArtFrame = 0;
 	var _backgroundArtFrameTimer = 0.0;
 	var _backgroundArtFrameTime = .1;
+	var _backgroundArtHighestLoadedFrame = 0; // if frame is above this we need to load the current frame
 	// Count-down timer
 	var _countdownTimer:FlxText;
 	var _countdownTime:Float = 0;
@@ -50,6 +51,9 @@ class LevelState extends FlxState {
 
 	var _p2ScoreDisplay:FlxText;
 	var _p2Score:Float = 0;
+
+	// var _performanceTimer:Float = 0; // for reducing the loading time
+	// var _initialTime:Float = 0;
 
 	override public function create():Void {
 		stateInfo = new FlxText(10, 30, 150);
@@ -82,8 +86,42 @@ class LevelState extends FlxState {
 		for (i in 0...numFrames) {
 			_backgroundArt.insert(0, new FlxSprite());
 		}
-		for (i in 0...numFrames) {
-			_backgroundArt[i].loadGraphic(_levelData.levelBackgroundArt + i + ".png");
+		// as a terrible optimization technique I've delayed loading the graphics until the frame they're needed.
+		// we'll have a slight stutter (maybe?) when we swap to that background frame but only for less than the first second and I prefer
+		// that over a long load time.
+
+		// for (i in 0...numFrames) {
+		// 	_backgroundArt[i].loadGraphic(_levelData.levelBackgroundArt + i + ".png");
+		// 	if (i != _backgroundArtFrame) {
+		// 		_backgroundArt[i].alpha = 0;
+		// 	}
+		// 	var scale = Math.max(FlxG.width/_backgroundArt[i].width, FlxG.height/_backgroundArt[i].height);
+		// 	var xPos = -(1-scale)*_backgroundArt[0].width/2;
+		// 	// choose to either align the tops or bottoms or middle-ish by comenting out one of these lines:
+		// 	var yPos = -(1-scale)*_backgroundArt[0].height/2; // this aligns the top to the top of the camera.
+		// 	// var yPos = -(1-scale)*_backgroundArt[0].height/2 + FlxG.height - scale*_backgroundArt[0].height; // this aligns the bottom of the background art to the bottom of the camera
+		// 	// var yPos = -(1-scale)*_backgroundArt[0].height/2 + FlxG.height/2 - scale*_backgroundArt[0].height/2; // this aligns the bottom of the background art to the bottom of the camera
+
+		// 	_backgroundArt[i].scale.x = scale;
+		// 	_backgroundArt[i].scale.y = scale;
+		// 	// _backgroundArt[i].x = 0;
+		// 	// _backgroundArt[i].y = 0;
+		// 	// _backgroundArt[i].offset.x = 0;
+		// 	// _backgroundArt[i].offset.y = 0;
+		// 	//_backgroundArt[i].centerOffsets(false);
+		// 	_backgroundArt[i].x = xPos;
+		// 	_backgroundArt[i].y = yPos;
+		// }
+		// _backgroundArtHighestLoadedFrame = 1000;
+		loadBackgroundGraphicsFrame(0); // load only the first frame, we'll load the others once we're in the scene
+		// _backgroundArt.loadGraphics
+	}
+
+	private function loadBackgroundGraphicsFrame(i:Int) {
+		// this is to delay loading all of the frames at once to see if it's slightly more performant this way...
+		// this loads them right before we need them the first time... ewww.
+		_backgroundArtHighestLoadedFrame = i;
+		_backgroundArt[i].loadGraphic(_levelData.levelBackgroundArt + i + ".png");
 			if (i != _backgroundArtFrame) {
 				_backgroundArt[i].alpha = 0;
 			}
@@ -91,21 +129,10 @@ class LevelState extends FlxState {
 			var xPos = -(1-scale)*_backgroundArt[0].width/2;
 			// choose to either align the tops or bottoms or middle-ish by comenting out one of these lines:
 			var yPos = -(1-scale)*_backgroundArt[0].height/2; // this aligns the top to the top of the camera.
-			// var yPos = -(1-scale)*_backgroundArt[0].height/2 + FlxG.height - scale*_backgroundArt[0].height; // this aligns the bottom of the background art to the bottom of the camera
-			// var yPos = -(1-scale)*_backgroundArt[0].height/2 + FlxG.height/2 - scale*_backgroundArt[0].height/2; // this aligns the bottom of the background art to the bottom of the camera
-
 			_backgroundArt[i].scale.x = scale;
 			_backgroundArt[i].scale.y = scale;
-			// _backgroundArt[i].x = 0;
-			// _backgroundArt[i].y = 0;
-			// _backgroundArt[i].offset.x = 0;
-			// _backgroundArt[i].offset.y = 0;
-			//_backgroundArt[i].centerOffsets(false);
 			_backgroundArt[i].x = xPos;
 			_backgroundArt[i].y = yPos;
-		}
-		// _backgroundArt.loadGraphics
-		addBackgroundGraphics();
 	}
 
 	private function addBackgroundGraphics() : Void {
@@ -157,23 +184,37 @@ class LevelState extends FlxState {
 		//_terrain.follow();
 	}
 
+	// private function timerFunction(displayText:String) {
+	// 	// this is for testing loading things
+	// 	trace(displayText + " " + (Sys.time() - _performanceTimer));
+	// 	_performanceTimer = Sys.time();
+	// }
+
 	public function loadLevel() : Void {
 		// this resets/loads a level
+		// _initialTime = Sys.time();
+		// timerFunction("Started loading level");
 		_terrain = new Terrain(200, 200);
+		// timerFunction("Finished creating terrain");
 		_terrain.setLevelFile(_levelData.tileMapFile, _levelData.levelTileArt); // also set art file with this function
-		_terrain.reloadLevel();
+		// timerFunction("Finished loading terrain");
 
 		addBackgroundGraphics();
 		_terrain.add(this);
 		initializeCamera();
 		// FlxG.worldBounds.set(0, 0, _terrain.mapWidth*_terrain.getTileWidth()*_terrain.scale, _terrain.mapHeight*_terrain.getTileHeight()*_terrain.scale);
 		screenBoarderWalls = FlxCollision.createCameraWall(FlxG.camera, 10, true);
+		// timerFunction("Finished adding booring stuff");
 
 		// initialize the players
 		player1 = new Player("WASDQRFE", "assets/images/godsprite.png", _levelData.player1_x, _levelData.player1_y, _terrain.scale, true);
-		player1.cursor = new Cursor(player1.xpos, player1.ypos, FlxColor.BLUE, FlxColor.ORANGE, _terrain, "assets/images/outline.png", false);
 		player2 = new Player("IJKLUP;O", "assets/images/human.png", _levelData.player2_x, _levelData.player2_y, _terrain.scale, false);
+		// timerFunction("Done loading players");
+
+		player1.cursor = new Cursor(player1.xpos, player1.ypos, FlxColor.BLUE, FlxColor.ORANGE, _terrain, "assets/images/outline.png", false);
 		player2.cursor = new Cursor(player2.xpos, player2.ypos, FlxColor.PURPLE, FlxColor.RED, _terrain, "assets/images/outline1.png", true);
+
+		// timerFunction("Done loading cursors");
 
 		add(player1);
 		add(player2);
@@ -194,6 +235,7 @@ class LevelState extends FlxState {
 		trace(FlxG.camera.height);*/
 
 		// then also set up the flags depending on the game mode and the level spawn information
+		// timerFunction("Creating flag");
 		if (gameMode == GameMode.holdFlag) {
 			// our firstt and likely only game mode
 			flag1 = new Flag(_levelData.flag1X * _terrain.getTileWidth()*_terrain.scale, _levelData.flag1Y * _terrain.getTileWidth()*_terrain.scale);
@@ -204,6 +246,8 @@ class LevelState extends FlxState {
 		} else {
 			trace("LOADED A LEVEL BUT DIDN'T FIND A VALID GAME MODE ERROR");
 		}
+
+		// timerFunction("Starting level UI");
 
 		// then load the UI
 		var x = Std.int(_countdownTime);
@@ -222,6 +266,9 @@ class LevelState extends FlxState {
         add(_p1ScoreDisplay);
         add(_p2ScoreDisplay);
         add(_countdownTimer);
+
+        // timerFunction("Done loading level");
+        // trace("Total Time: " + (Sys.time() - _initialTime));
 	}
 
 	override public function update(elapsed:Float):Void {
@@ -350,6 +397,10 @@ class LevelState extends FlxState {
 			_backgroundArt[_backgroundArtFrame].alpha = 0;
 			_backgroundArtFrame++;
 			_backgroundArtFrame %= _backgroundArt.length;
+			if (_backgroundArtHighestLoadedFrame < _backgroundArtFrame) {
+				// load the frame
+				loadBackgroundGraphicsFrame(_backgroundArtFrame);
+			}
 			_backgroundArt[_backgroundArtFrame].alpha = 1;
 		}
 	}

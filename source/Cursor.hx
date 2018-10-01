@@ -81,16 +81,21 @@ class Cursor extends FlxSprite
 	public function setSpriteList(filepath:String)
 	{
 		spriteList = new Array<FlxSprite>();
+		spriteList[0] = new FlxSprite(0, 0);
+		spriteList[0].loadGraphic(filepath, false, 200, 200);
+		spriteList[0].replaceColor(FlxColor.WHITE, cursorColor);
 		for (i in 0...16)
 		{
 			// spriteList[i] = new FlxSprite(cursorPoint.x+offsetList[i].x, cursorPoint.y+offsetList[i].y);
-			spriteList[i] = new FlxSprite(0, 0);
 
 			// var tempCoord = new FlxPoint(Math.max(0, Math.min(spriteList[i].x, terrainRef.mapWidth-1)), Math.max(0, Math.min(spriteList[i].y, terrainRef.mapHeight-1)));
 			// spriteList[i].setPosition(tempCoord.x*terrainRef.scaledTileSize, tempCoord.y*terrainRef.scaledTileSize);
 			//spriteList[i].makeGraphic(16, 16, cursorColor);
-			spriteList[i].loadGraphic(filepath, false, 200, 200);
-			spriteList[i].replaceColor(FlxColor.WHITE, cursorColor);
+			if (i > 0) {
+				// the 0th sprite already is loaded
+				spriteList[i] = new FlxSprite(0, 0);
+				spriteList[i].loadGraphicFromSprite(spriteList[0]);
+			}
 			spriteList[i].scale.set(terrainRef.scale, terrainRef.scale);
 			var xPos = (1-terrainRef.scale)*200/2;
 			spriteList[i].offset.set(xPos, xPos);
