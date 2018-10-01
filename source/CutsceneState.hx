@@ -31,7 +31,7 @@ class CutsceneState extends FlxState {
     var middleSceneFrameTimer:Float = 0; // frame timer for the frame by frame animation in the middle
     var middleSceneFrameTime = .025; // the time per frame
     var sceneTimer:Float = 0; // the timer that keeps track of transitioning between cutscene scenes
-    var timePerScene = [10, 1000000, 8]; // the middle scene length is defined based on the framerate
+    var timePerScene = [15, 1000000, 10]; // the middle scene length is defined based on the framerate
 
     var flag:Flag; // this is for the final scene animation because why not, right?
 
@@ -72,7 +72,7 @@ class CutsceneState extends FlxState {
         currentText.setBorderStyle(OUTLINE, FlxColor.BLACK, 1);
 
         // run the clock and call cutscene function
-        clock.start(4, cutsceneText, 5);
+        clock.start(6, cutsceneText, 5);
 
         flag = new Flag(1080/2-15, 720);
         flag.scale.set(1, 1); // to make it larger than life
@@ -146,13 +146,13 @@ class CutsceneState extends FlxState {
             bg.setGraphicSize(Std.int(550*zoom)+2, Std.int(1161*zoom));
             // bg.y = -200 - (1161 - 1161*zoom)/2; // so it remains centered?
             bg.x = Std.int((550 - 550*zoom)/2);
-            bg.y = -200 + zoomTimer * 80;
+            bg.y = -200 + zoomTimer * 70;
 
             bg2.setGraphicSize(Std.int(550*zoom), Std.int(1161*zoom));
             bg2.x = 550 + Std.int((550*zoom - 550)/2);
-            bg2.y = -200 + zoomTimer * 80;
+            bg2.y = -200 + zoomTimer * 70;
 
-            flag.y = -250 + zoomTimer * 50;
+            flag.y = -250 + zoomTimer * 40;
         }
 		super.update(elapsed);
 	}
